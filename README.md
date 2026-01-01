@@ -51,7 +51,7 @@ http://localhost:5173
 
 (The port number may vary depending on your local setup.)
 
-Design Assets
+### Design Assets
 
 All design mockups and visual references used for this project are stored in:
 
@@ -61,10 +61,11 @@ All design mockups and visual references used for this project are stored in:
 This folder contains layout drafts, visual references, and early design explorations created for the research prototype.
 
 Project Structure (Simplified)
+```bash
 .
 ├── src/                # Vue source code
 ├── public/             # Static assets
 ├── design/             # Design mockups and references
 ├── package.json
 └── README.md
-
+```
