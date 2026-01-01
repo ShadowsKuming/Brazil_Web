@@ -32,16 +32,18 @@ Node.js (recommended version: ≥ 16)
 npm or yarn
 
 2. Install Dependencies
-
+```bash
 npm install
 or
 yarn install
+```
 
 3. Run the Development Server
+```bash
 npm run dev
 or
 yarn dev
-
+```
 After running the command, open your browser and visit:
 
 http://localhost:5173
