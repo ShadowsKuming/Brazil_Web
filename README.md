@@ -1,38 +1,68 @@
-# Brazil_Web
+# Brazil Research Website (Vue Prototype)
+### Overview
+This repository contains a prototype web implementation developed for a Brazil-related research project.
+The website serves as an early-stage research-oriented frontend prototype, focusing on layout structure, information presentation, and interaction design.
+The project is built using Vue and is intended for demonstration, iteration, and research discussion, rather than production deployment.
 
-This template should help get you started developing with Vue 3 in Vite.
+### Team & Responsibilities
 
-## Recommended IDE Setup
+- Developer: Jiacheng
+- Web Designer: Marci
+- Project Manager: Dr. Shi
+### Project Scope
+- Research-focused website prototype
+- Frontend implementation based on Vue
+- Early-stage design and interaction exploration
+- Not intended for commercial or production use
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Tech Stack
+Framework: Vue (Vue 3)
+Language: JavaScript
+Styling: CSS
 
-## Recommended Browser Setup
+### Build Tool: Vite (if applicable, remove if not used)
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+### How to View / Run the Project
+1. Prerequisites
 
-## Customize configuration
+Make sure you have the following installed:
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Node.js (recommended version: ≥ 16)
 
-## Project Setup
+npm or yarn
 
-```sh
+2. Install Dependencies
+
 npm install
-```
+or
+yarn install
 
-### Compile and Hot-Reload for Development
-
-```sh
+3. Run the Development Server
 npm run dev
-```
+or
+yarn dev
 
-### Compile and Minify for Production
+After running the command, open your browser and visit:
 
-```sh
-npm run build
-```
+http://localhost:5173
+
+
+(The port number may vary depending on your local setup.)
+
+Design Assets
+
+All design mockups and visual references used for this project are stored in:
+
+/design
+
+
+This folder contains layout drafts, visual references, and early design explorations created for the research prototype.
+
+Project Structure (Simplified)
+.
+├── src/                # Vue source code
+├── public/             # Static assets
+├── design/             # Design mockups and references
+├── package.json
+└── README.md
+
