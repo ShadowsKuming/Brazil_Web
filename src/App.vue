@@ -9,7 +9,7 @@ const open = ref(false)
 const selection = ref(1)
 
 const options = [
-  { value: 1, label: 'NEWS & EVENTS' },
+  { value: 5, label: 'NEWS & EVENTS' },
   { value: 2, label: 'PROTOTYPES' },
   { value: 3, label: 'PEOPLE' },
 ]
@@ -23,6 +23,10 @@ function choose(v) {
     router.push('/prototypes')
   } else if (v === 3) {
     router.push('/people')
+  } else if (v === 4) {
+    router.push('/contact')
+  } else if (v === 5) {
+    router.push('/news')
   }
 }
 
@@ -47,7 +51,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
       <img alt = "hai_lab_logo" class="logo" src="@/assets/icons/logo1.png" width="146" height="116" @click="choose(1)"/>
 
       <nav>
-        <div class="mask-contact" :class="{active: open}"></div>
+        <div class="mask-contact" :class="{active: open}" @click="choose(4)"></div>
         <div class="mask-menu" :class="{ active: open }" @click.stop="toggle"></div>
         <!-- <RouterLink to="/about"><div class="mask-menu"></div></RouterLink> -->
       </nav>
@@ -59,6 +63,17 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
       </div>
     </div>
     <RouterView/>
+    <footer>
+      <div class="footer-getintouch" alt="Get in Touch">
+        <div id = "getintouch-title">
+          <img  src="@/assets/special_fonts/homepages/getintouch-title.png" />
+        </div>
+        <div id = "getintouch-content">
+          <img  src="@/assets/special_fonts/homepages/getintouch-content.png" />
+        </div>
+        <div id = "getintouch-text"></div>
+      </div>
+    </footer>
   </div>  
   <!-- <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
@@ -197,4 +212,53 @@ header nav {
 }
 
 .chev { margin-left: 8px; }
+
+
+
+.footer-getintouch {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4.95vw 6.88vw;
+  gap: 2.2vw;
+  background-color: black;
+}
+
+.footer-getintouch #getintouch-title {
+  width: auto;
+  height: 8.22vw;
+  aspect-ratio: 675/164;
+  color: white;
+}
+
+.footer-getintouch #getintouch-content {
+  width: auto;
+  height: 1.18vw;
+  aspect-ratio: 618/30;
+  color: white;
+}
+.footer-getintouch #getintouch-title img, .footer-getintouch #getintouch-content img {
+  height: 100%;
+}
+.footer-getintouch #getintouch-text {
+  width: 7.54vw;
+  height: 1.09vw;
+  background-color: white;
+  transition: background-color 0.3s ease;
+
+  mask-image: url('@/assets/special_fonts/homepages/getintouch-text.png');
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+}
+
+.footer-getintouch #getintouch-text:hover {
+  cursor: pointer;
+  background-color: #DD3528;
+  transform: scale(1.02);
+}
+
+
 </style>
