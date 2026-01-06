@@ -9,8 +9,8 @@ const open = ref(false)
 const selection = ref(1)
 
 const options = [
-  { value: 5, label: 'NEWS & EVENTS' },
-  { value: 2, label: 'PROTOTYPES' },
+  // { value: 5, label: 'NEWS & EVENTS' },
+  // { value: 2, label: 'PROTOTYPES' },
   { value: 3, label: 'PEOPLE' },
   { value: 6, label: 'PROJECTS' },
 ]
