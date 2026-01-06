@@ -30,6 +30,8 @@ function choose(v) {
     router.push('/news')
   } else if (v === 6) {
     router.push('/projects')
+  } else if (v === 0) {
+    window.open('https://shilei.me/', '_blank')
   }
 }
 
@@ -68,14 +70,28 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
     </div>
     <RouterView/>
     <footer>
-      <div class="footer-getintouch" alt="Get in Touch">
-        <div id = "getintouch-title">
-          <img  src="@/assets/special_fonts/homepages/getintouch-title.png" />
+      <div class = "footer-title">
+        <img src="@/assets/special_fonts/footer content.png" alt=""></img>
+      </div>
+      <div class = "footer-contents">
+        <div class = "footer-more-info">
+          <img src="@/assets/special_fonts/More ways to explore.png" alt=""></img>
+          <hr> 
+          <img src="@/assets/special_fonts/about.png" alt="" @click="choose(0)"></img>
+          <img src="@/assets/special_fonts/project proposal.png" alt="" @click="choose(6)"></img>
+          <img src="@/assets/special_fonts/news+events.png" alt="" @click="choose(5)"></img>
+          <img src="@/assets/special_fonts/prototypes-go.png" alt="" @click="choose(2)"></img>
+          <img src="@/assets/special_fonts/people-go.png" alt="" @click="choose(3)"></img>
+          <img src="@/assets/special_fonts/contact-go.png" alt="" @click="choose(4)"></img>
         </div>
-        <div id = "getintouch-content">
-          <img  src="@/assets/special_fonts/homepages/getintouch-content.png" />
+        <div class = "footer-logos">
+          <img src="@/assets/special_fonts/HAII LAB.png" alt="" class="footer-logo-haii"></img>
+          <div Class = "footer-learn-about">
+            <img class="footer-learn-more" src ="@/assets/special_fonts/Learn more.png" alt=""></img>
+            <div class="footer-about-the-lab" @click="choose(0)"></div>
+          </div>
+          
         </div>
-        <div id = "getintouch-text"></div>
       </div>
     </footer>
   </div>  
@@ -237,51 +253,101 @@ header nav {
 .chev { margin-left: 8px; }
 
 
-
-.footer-getintouch {
-  width: 100%;
-  height: auto;
+footer {
+  margin-top: auto;
+  background-color: #1a1a1a;
+  color: white;
+  padding: 4vw 8vw;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 4.95vw 6.88vw;
-  gap: 2.2vw;
-  background-color: black;
 }
 
-.footer-getintouch #getintouch-title {
-  width: auto;
-  height: 8.22vw;
-  aspect-ratio: 675/164;
-  color: white;
+.footer-title img {
+  width: 90vw;
+  height: auto;
+  
 }
 
-.footer-getintouch #getintouch-content {
+.footer-contents {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100vw;
+  padding: 5vw 5.5vw;
+  padding-bottom: 0.4vw;
+}
+
+.footer-more-info{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 1.5vw;
+}
+
+.footer-more-info img {
   width: auto;
-  height: 1.18vw;
-  aspect-ratio: 618/30;
-  color: white;
+  height: 1.129vw;
 }
-.footer-getintouch #getintouch-title img, .footer-getintouch #getintouch-content img {
-  height: 100%;
+
+.footer-more-info img:hover {
+  cursor: pointer;
+  filter: brightness(150%);
+  transform: scale(1.02);
 }
-.footer-getintouch #getintouch-text {
-  width: 7.54vw;
-  height: 1.09vw;
-  background-color: white;
+
+hr{
+  width: 320px;
+  border: 0.1vw solid #555555;
+}
+
+.footer-logos{
+  padding-top: 13vw;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 2vw;
+}
+
+.footer-logo-haii {
+  width: 16vw;
+  height: auto;
+}
+
+.footer-learn-about{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3vw;
+}
+
+
+.footer-learn-more {
+  
+  width: auto;
+  height: 0.924vw;
+}
+
+.footer-about-the-lab {
+  background-color: #ffffff;
   transition: background-color 0.3s ease;
-
-  mask-image: url('@/assets/special_fonts/homepages/getintouch-text.png');
+  mask-image: url("@/assets/special_fonts/about_the_lab.png");
+  width: 8vw;
+  height: 1.2vw;
+  margin-bottom: 0.1vw;
   mask-repeat: no-repeat;
   mask-size: contain;
   mask-position: center;
 }
 
-.footer-getintouch #getintouch-text:hover {
-  cursor: pointer;
-  background-color: #DD3528;
-  transform: scale(1.02);
-}
 
+.footer-about-the-lab:hover{
+  background-color: #DD3528;
+  cursor: pointer;
+}
 
 </style>

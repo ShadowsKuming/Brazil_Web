@@ -40,6 +40,7 @@ function go(id) {
   flex-direction: column;
 }
 .homepages-first {
+  background-color: white;
   width: 100%;
   height: auto;
   display: flex;
