@@ -1,50 +1,125 @@
 <script setup>
-// Prototypes page (List -> Details) with Markdown rendering.
-// Engineering notes:
-// - Avoid storing detail text in multiple refs; use a single "selected" object.
-// - Render Markdown safely: html:false disables raw HTML injection.
-// - Use :deep() selectors because v-html bypasses scoped CSS scoping.
+// Prototypes page (List -> Details) using runtime JSON + Markdown.
+// After build, you can update content by editing files in:
+// - dist/content/prototypes.json
+// - dist/content/prototypes/*.md
+// without rebuilding the app.
 
-import { ref, computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import MarkdownIt from 'markdown-it'
-import { prototypes } from '@/content/prototypes'
 
-// Markdown renderer
+// Markdown renderer (safe: no raw HTML)
 const md = new MarkdownIt({
-  html: false,     // Safer: disallow raw HTML in markdown
-  linkify: true,   // Auto-detect links
-  breaks: true,    // Treat line breaks as <br> (helps with quick formatting)
+  html: false,
+  linkify: true,
+  breaks: true,
 })
 
-// Selected prototype (null => list view)
-const selected = ref(null)
+/** Deployment base (supports GitHub Pages subpath) */
+const BASE = import.meta.env.BASE_URL || '/'
 
-function goDetails(p) {
-  selected.value = p
+function withBase(path) {
+  // Accept both "content/xx" and "/content/xx"
+  const cleaned = String(path || '').replace(/^\//, '')
+  return BASE.replace(/\/?$/, '/') + cleaned
 }
+
+async function fetchJson(path) {
+  const url = withBase(path)
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Failed to load JSON: ${url} (${res.status})`)
+
+  // Helpful guard: if server returned HTML fallback, catch early
+  const ct = res.headers.get('content-type') || ''
+  if (!ct.includes('application/json')) {
+    const text = await res.text()
+    throw new Error(`Expected JSON but got "${ct}". First chars: ${text.slice(0, 60)}`)
+  }
+  return await res.json()
+}
+
+async function fetchText(path) {
+  const url = withBase(path)
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Failed to load Markdown: ${url} (${res.status})`)
+  return await res.text()
+}
+
+/** State */
+const loading = ref(true)
+const errorMsg = ref('')
+const prototypes = ref([])        // list loaded from JSON
+const selected = ref(null)        // selected prototype object
+const mdCache = ref(new Map())    // key: detailsMdPath, value: markdown text
+const detailsHtml = ref('')       // rendered HTML
+
+function resolveAsset(path) {
+  // images stored in public/ => runtime URL
+  return withBase(path)
+}
+
+async function ensureMarkdownLoaded(p) {
+  if (!p?.detailsMdPath) return ''
+  if (mdCache.value.has(p.detailsMdPath)) return mdCache.value.get(p.detailsMdPath)
+
+  const text = await fetchText(p.detailsMdPath)
+  mdCache.value.set(p.detailsMdPath, text)
+  return text
+}
+
+async function goDetails(p) {
+  try {
+    errorMsg.value = ''
+    selected.value = p
+    console.log('[details] id=', p.id, 'mdPath=', p.detailsMdPath)
+    const raw = await ensureMarkdownLoaded(p)
+    console.log('[details] md length=', raw?.length)
+    detailsHtml.value = md.render(raw || '')
+    // optional: scroll to top when entering details
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  } catch (e) {
+    console.error(e)
+    errorMsg.value = e?.message || String(e)
+  }
+}
+
+
 
 function goBack() {
   selected.value = null
+  detailsHtml.value = ''
 }
 
-// Render selected markdown -> HTML
-const detailsHtml = computed(() => {
-  if (!selected.value) return ''
-  return md.render(selected.value.detailsMd || '')
+/** Load list on mount */
+onMounted(async () => {
+  try {
+    loading.value = true
+    errorMsg.value = ''
+
+    const data = await fetchJson('content/prototypes.json')
+    prototypes.value = Array.isArray(data) ? data : []
+  } catch (e) {
+    errorMsg.value = e?.message || String(e)
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 
 <template>
   <div class="prototypes">
+    <div v-if="loading" class="state">Loading…</div>
+    <div v-else-if="errorMsg" class="state error">{{ errorMsg }}</div>
+
     <!-- LIST VIEW -->
-    <section v-if="!selected" class="prototypes-list">
+    <section v-else-if="!selected" class="prototypes-list">
       <div class="prototypes-title">
         <img src="@/assets/special_fonts/prototypes/prototypes.png" alt="Prototypes" />
       </div>
 
       <div class="prototypes-content">
         <article v-for="p in prototypes" :key="p.id" class="prototype-item">
-          <img class="prototype-item-image" :src="p.image" :alt="p.name" />
+          <img class="prototype-item-image" :src="resolveAsset(p.image)" :alt="p.name" />
 
           <div class="prototype-item-title">
             <div class="proto-date">{{ p.date }}</div>
@@ -70,7 +145,7 @@ const detailsHtml = computed(() => {
         <div class="prototype-details-back" @click="goBack">← Back to Prototypes</div>
       </div>
 
-      <img class="prototype-details-image" :src="selected.image" :alt="selected.name" />
+      <img class="prototype-details-image" :src="resolveAsset(selected.image)" :alt="selected.name" />
 
       <!-- Markdown output -->
       <div class="prototype-details-content markdown" v-html="detailsHtml"></div>
@@ -85,6 +160,19 @@ const detailsHtml = computed(() => {
   flex-direction: column;
   align-items: center;
   width: 100%;
+}
+
+.state {
+  width: 100%;
+  max-width: 1100px;
+  padding: 18px;
+  box-sizing: border-box;
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 14px;
+  color: rgba(0,0,0,0.65);
+}
+.state.error {
+  color: #dd3528;
 }
 
 /* ===== List title ===== */
@@ -213,7 +301,7 @@ const detailsHtml = computed(() => {
   font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
 }
 .prototype-details-back:hover {
-  color: red;
+  color: #dd3528;
 }
 
 .prototype-details-image {
@@ -226,7 +314,6 @@ const detailsHtml = computed(() => {
 }
 
 /* ===== Markdown typography ===== */
-/* Because v-html injects plain HTML nodes, use :deep() under scoped CSS. */
 .markdown {
   width: 100%;
   max-width: 1100px;

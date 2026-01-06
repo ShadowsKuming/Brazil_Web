@@ -1,55 +1,117 @@
 <script setup>
-// News & Events: "hero carousel" style
-// Requirements implemented:
-// - One large centered card (focus)
-// - Left/right cards partially visible as "ghost" (opacity/scale/blur)
-// - Autoplay looping forever (seamless via clones)
-// - Click card -> details (Markdown)
-// - Pause on hover/touch; supports reduced motion
+// News & Events: premium hero carousel
+// - One focused center card
+// - Ghost neighbors (blur + dim + scale + edge mask)
+// - Smooth continuous autoplay (RAF), seamless loop via clones + no-flash index reset
+// - Subtle parallax on cover image (desktop)
+// - Click -> details (markdown fetched at runtime)
+// - Pause on hover/touch; respects reduced motion
 
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import MarkdownIt from 'markdown-it'
-import { newsItems } from '@/content/news'
 
 const md = new MarkdownIt({ html: false, linkify: true, breaks: true })
 
-// Detail view
-const selected = ref(null)
-const detailsHtml = computed(() => (selected.value ? md.render(selected.value.detailsMd || '') : ''))
+/* -----------------------------
+   Runtime data (JSON + MD)
+-------------------------------- */
+const loading = ref(true)
+const errorMsg = ref('')
+const newsItems = ref([])
+const mdCache = ref(new Map())
 
-function openItem(item) {
-  selected.value = item
-  pause()
+const BASE = import.meta.env.BASE_URL || '/'
+
+function withBase(path) {
+  const cleaned = String(path || '').replace(/^\//, '')
+  return BASE.replace(/\/?$/, '/') + cleaned
+}
+function resolveAsset(path) {
+  return withBase(path)
+}
+async function fetchJson(path) {
+  const url = withBase(path)
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Failed to load JSON: ${url} (${res.status})`)
+  const ct = res.headers.get('content-type') || ''
+  if (!ct.includes('application/json')) {
+    const text = await res.text()
+    throw new Error(`Expected JSON but got "${ct}". First chars: ${text.slice(0, 60)}`)
+  }
+  return await res.json()
+}
+async function fetchText(path) {
+  const url = withBase(path)
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Failed to load Markdown: ${url} (${res.status})`)
+  return await res.text()
+}
+async function ensureDetailsLoaded(item) {
+  if (!item?.detailsMdPath) return ''
+  if (mdCache.value.has(item.detailsMdPath)) return mdCache.value.get(item.detailsMdPath)
+  const text = await fetchText(item.detailsMdPath)
+  mdCache.value.set(item.detailsMdPath, text)
+  return text
+}
+
+/* -----------------------------
+   Detail view
+-------------------------------- */
+const selected = ref(null)
+const detailsHtml = ref('')
+
+async function openItem(item) {
+  try {
+    // never open clones
+    if (item?._isClone) return
+
+    pause()
+    selected.value = item
+    const raw = await ensureDetailsLoaded(item)
+    detailsHtml.value = md.render(raw || '')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  } catch (e) {
+    errorMsg.value = e?.message || String(e)
+  }
 }
 function goBack() {
   selected.value = null
+  detailsHtml.value = ''
   resume()
 }
 
-// Carousel setup
+/* -----------------------------
+   Carousel (continuous autoplay)
+-------------------------------- */
 const track = ref(null)
-const isPaused = ref(false)
+const viewport = ref(null)
 
-// Autoplay config
-const AUTOPLAY_MS = 3200
-const TRANSITION_MS = 620
-
-// We use clones for seamless looping: [last, ...items, first]
+// clones: [lastClone, ...real, firstClone]
 const itemsWithClones = computed(() => {
-  if (newsItems.length === 0) return []
-  const first = newsItems[0]
-  const last = newsItems[newsItems.length - 1]
-  return [last, ...newsItems, first]
+  const items = newsItems.value
+  if (!items?.length) return []
+  const first = { ...items[0], _isClone: true }
+  const last = { ...items[items.length - 1], _isClone: true }
+  return [last, ...items, first]
 })
 
-// Index in the "withClones" array.
-// Start at 1 => first real item.
-const idx = ref(1)
+// We keep a float position for continuous motion.
+// pos = 1 means first real item aligned.
+const pos = ref(1)            // float
+const idx = computed(() => Math.round(pos.value)) // nearest integer for class styling
 
-// Motion preference
-const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
+// transition control
+const TRANSITION_MS = 680
 
-let timer = null
+// autoplay speed (cards per second). 0.18 => ~5.5s per card.
+const SPEED = 0.18
+
+const isPaused = ref(false)
+const reduceMotion =
+  window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
+
+let rafId = null
+let lastTs = 0
 
 function pause() {
   isPaused.value = true
@@ -59,82 +121,187 @@ function resume() {
   isPaused.value = false
 }
 
-function stopAutoplay() {
-  if (timer) clearInterval(timer)
-  timer = null
-}
-
-function startAutoplay() {
-  if (reduceMotion) return
-  stopAutoplay()
-  timer = setInterval(() => {
-    if (!isPaused.value && !selected.value) next()
-  }, AUTOPLAY_MS)
-}
-
-function setTransform(animate = true) {
+// Apply transform based on float pos.
+// We DO NOT rely on CSS transition for autoplay; we just update every frame.
+function applyTransform() {
   const el = track.value
   if (!el) return
-  el.style.transition = animate ? `transform ${TRANSITION_MS}ms ease` : 'none'
-  el.style.transform = `translateX(${-idx.value * 100}%)`
+  el.style.transition = 'none'
+  el.style.transform = `translateX(${-pos.value * 100}%)`
 }
 
-// Move
+// Seamless loop reset for continuous motion
+function normalizeIfNeeded() {
+  const n = newsItems.value.length
+  if (!n) return
+
+  // pos moves in [0, n+1] because of clones
+  // if beyond end clone, wrap back
+  if (pos.value > n + 1) {
+    pos.value = 1 + (pos.value - (n + 1))
+    applyTransform()
+  }
+  // if beyond start clone, wrap forward
+  if (pos.value < 0) {
+    pos.value = n + (pos.value - 0)
+    applyTransform()
+  }
+}
+
+function tick(ts) {
+  if (!lastTs) lastTs = ts
+  const dt = (ts - lastTs) / 1000
+  lastTs = ts
+
+  if (!reduceMotion && !isPaused.value && !selected.value) {
+    pos.value += SPEED * dt
+    applyTransform()
+    normalizeIfNeeded()
+  }
+
+  rafId = requestAnimationFrame(tick)
+}
+
+function stopRAF() {
+  if (rafId) cancelAnimationFrame(rafId)
+  rafId = null
+  lastTs = 0
+}
+
+function startRAF() {
+  if (reduceMotion) return
+  stopRAF()
+  rafId = requestAnimationFrame(tick)
+}
+
+// Manual nav: snap to next/prev using a short transition (feels premium)
+function snapTo(target) {
+  const el = track.value
+  if (!el) return
+  el.style.transition = `transform ${TRANSITION_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
+  pos.value = target
+  el.style.transform = `translateX(${-pos.value * 100}%)`
+
+  // After snap, remove transition for smooth continuous motion.
+  // Also normalize if landed on clone.
+  window.setTimeout(() => {
+    const n = newsItems.value.length
+    if (!n) return
+
+    // if snapped onto end clone (n+1), jump to 1
+    if (Math.round(pos.value) === n + 1) {
+      pos.value = 1
+      applyTransform()
+    }
+    // if snapped onto start clone (0), jump to n
+    if (Math.round(pos.value) === 0) {
+      pos.value = n
+      applyTransform()
+    }
+  }, TRANSITION_MS + 10)
+}
+
 function next() {
-  idx.value += 1
-  setTransform(true)
+  const n = newsItems.value.length
+  if (!n) return
+  pause()
+  snapTo(Math.round(pos.value) + 1)
+  // resume after snap
+  window.setTimeout(() => resume(), TRANSITION_MS + 120)
 }
 
 function prev() {
-  idx.value -= 1
-  setTransform(true)
+  const n = newsItems.value.length
+  if (!n) return
+  pause()
+  snapTo(Math.round(pos.value) - 1)
+  window.setTimeout(() => resume(), TRANSITION_MS + 120)
 }
 
-// After transition ends, if we are on clones, jump to corresponding real index without animation.
-function onTransitionEnd() {
-  const n = newsItems.length
-  if (n === 0) return
-
-  // If moved to the last clone (at end), jump to first real
-  if (idx.value === n + 1) {
-    idx.value = 1
-    setTransform(false)
-  }
-
-  // If moved to the first clone (at start), jump to last real
-  if (idx.value === 0) {
-    idx.value = n
-    setTransform(false)
-  }
+/* -----------------------------
+   Premium parallax (desktop)
+-------------------------------- */
+const mouseX = ref(0)
+const mouseY = ref(0)
+function onMouseMove(e) {
+  const el = viewport.value
+  if (!el) return
+  const r = el.getBoundingClientRect()
+  const nx = (e.clientX - r.left) / r.width   // 0..1
+  const ny = (e.clientY - r.top) / r.height   // 0..1
+  mouseX.value = nx * 2 - 1                   // -1..1
+  mouseY.value = ny * 2 - 1
 }
-
-onMounted(() => {
-  // Initial position
-  setTransform(false)
-  startAutoplay()
-
-  // Keyboard (optional, nice for desktop)
-  const onKey = (e) => {
-    if (selected.value) return
-    if (e.key === 'ArrowRight') next()
-    if (e.key === 'ArrowLeft') prev()
+const parallaxStyle = computed(() => {
+  // very subtle
+  const tx = mouseX.value * 10
+  const ty = mouseY.value * 6
+  return {
+    transform: `translate3d(${tx}px, ${ty}px, 0)`
   }
-  window.addEventListener('keydown', onKey)
+})
 
-  onBeforeUnmount(() => {
-    window.removeEventListener('keydown', onKey)
-  })
+/* -----------------------------
+   Lifecycle
+-------------------------------- */
+onMounted(async () => {
+  try {
+    loading.value = true
+    errorMsg.value = ''
+
+    const data = await fetchJson('content/news.json')
+    newsItems.value = Array.isArray(data) ? data : []
+
+    await nextTick()
+
+    // init at first real
+    pos.value = 1
+    applyTransform()
+    startRAF()
+
+    // keyboard
+    const onKey = (e) => {
+      if (selected.value) return
+      if (e.key === 'ArrowRight') next()
+      if (e.key === 'ArrowLeft') prev()
+    }
+    window.addEventListener('keydown', onKey)
+
+    onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
+  } catch (e) {
+    errorMsg.value = e?.message || String(e)
+  } finally {
+    loading.value = false
+  }
 })
 
 onBeforeUnmount(() => {
-  stopAutoplay()
+  stopRAF()
+})
+
+// Touch pause/resume (avoid stuck)
+let touchResumeTimer = null
+function onTouchStart() {
+  pause()
+  if (touchResumeTimer) clearTimeout(touchResumeTimer)
+  touchResumeTimer = null
+}
+function onTouchEnd() {
+  if (touchResumeTimer) clearTimeout(touchResumeTimer)
+  touchResumeTimer = setTimeout(() => resume(), 600)
+}
+onBeforeUnmount(() => {
+  if (touchResumeTimer) clearTimeout(touchResumeTimer)
 })
 </script>
 
 <template>
   <div class="news-page">
-    <!-- LIST / CAROUSEL -->
-    <section v-if="!selected" class="hero">
+    <div v-if="loading" class="state">Loading…</div>
+    <div v-else-if="errorMsg" class="state error">{{ errorMsg }}</div>
+
+    <!-- CAROUSEL -->
+    <section v-else-if="!selected" class="hero">
       <div class="hero-head">
         <h1 class="hero-title">NEWS & EVENTS</h1>
         <p class="hero-sub">Featured updates, announcements, and events.</p>
@@ -144,15 +311,16 @@ onBeforeUnmount(() => {
         class="carousel"
         @mouseenter="pause"
         @mouseleave="resume"
-        @touchstart="pause"
-        @touchend="resume"
+        @mousemove="onMouseMove"
+        @touchstart.passive="onTouchStart"
+        @touchend.passive="onTouchEnd"
       >
-        <!-- Fade edges to make side cards feel like "ghost" -->
-        <div class="edge-fade left"></div>
-        <div class="edge-fade right"></div>
+        <!-- soft edge mask -->
+        <div class="edge left"></div>
+        <div class="edge right"></div>
 
-        <div class="viewport">
-          <div ref="track" class="track" @transitionend="onTransitionEnd">
+        <div ref="viewport" class="viewport">
+          <div ref="track" class="track">
             <article
               v-for="(item, i) in itemsWithClones"
               :key="`${item.id}-${i}`"
@@ -165,7 +333,12 @@ onBeforeUnmount(() => {
               @click="openItem(item)"
             >
               <div class="card">
-                <img class="cover" :src="item.cover" :alt="item.title" />
+                <div class="cover-wrap">
+                  <!-- parallax only affects the image, not the card -->
+                  <img class="cover" :style="parallaxStyle" :src="resolveAsset(item.cover)" :alt="item.title" />
+                  <div class="cover-glow"></div>
+                </div>
+
                 <div class="meta">
                   <div class="topline">
                     <span class="source">{{ item.source }}</span>
@@ -180,12 +353,11 @@ onBeforeUnmount(() => {
           </div>
         </div>
 
-        <!-- Controls (optional; remove if you don't want) -->
         <button class="nav prev" type="button" aria-label="Previous" @click="prev">‹</button>
         <button class="nav next" type="button" aria-label="Next" @click="next">›</button>
       </div>
 
-      <div class="hint">Auto-loops. Hover/touch to pause. Click to read details.</div>
+      <div class="hint">Continuous loop. Hover/touch to pause. Click to read details.</div>
     </section>
 
     <!-- DETAILS -->
@@ -195,7 +367,7 @@ onBeforeUnmount(() => {
       </div>
 
       <div class="details-hero">
-        <img class="details-cover" :src="selected.cover" :alt="selected.title" />
+        <img class="details-cover" :src="resolveAsset(selected.cover)" :alt="selected.title" />
         <div class="details-meta">
           <div class="details-topline">
             <span class="source">{{ selected.source }}</span>
@@ -220,40 +392,44 @@ onBeforeUnmount(() => {
   padding: clamp(18px, 5vw, 56px) clamp(14px, 3.85vw, 56px);
 }
 
+.state {
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 14px;
+  color: rgba(0,0,0,0.65);
+}
+.state.error { color: #dd3528; }
+
 .hero-head {
-  max-width: 1100px;
+  max-width: 1180px;
   margin: 0 auto 18px auto;
 }
 .hero-title {
   font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-  font-size: clamp(22px, 3vw, 34px);
-  font-weight: 800;
+  font-size: clamp(22px, 3vw, 36px);
+  font-weight: 900;
   margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
 }
 .hero-sub {
   font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   margin: 0;
   opacity: 0.7;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 /* ===== Carousel ===== */
 .carousel {
   position: relative;
-  max-width: 1100px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 8px 0 10px 0;
+  padding: 10px 0 10px 0;
 }
 
 .viewport {
   overflow: hidden;
+  border-radius: 28px; /* helps the “premium” feel */
 }
 
-/*
-We make each slide take 100% of the viewport width,
-but the "card" inside is narrower (e.g. 78%),
-so left/right slides become partially visible ("ghost").
-*/
 .track {
   display: flex;
   transform: translateX(-100%);
@@ -264,49 +440,74 @@ so left/right slides become partially visible ("ghost").
   flex: 0 0 100%;
   display: flex;
   justify-content: center;
-  pointer-events: auto;
 }
 
-/* Card sizing: main big, side ghost by class */
+/* Card */
 .card {
-  width: min(78%, 860px);
+  width: min(76%, 900px);
   background: #f7f7f7;
   cursor: pointer;
-  transition: transform 420ms ease, opacity 420ms ease, filter 420ms ease;
+  border-radius: 22px;
+  overflow: hidden;
+  /* premium shadow */
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.10),
+    0 2px 10px rgba(0,0,0,0.06);
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+              filter 520ms cubic-bezier(0.22, 1, 0.36, 1);
   transform-origin: center;
 }
 
-/* Main active card */
+/* Active / ghost */
 .slide.active .card {
   transform: scale(1);
   opacity: 1;
-  filter: blur(0px);
+  filter: blur(0px) saturate(1);
 }
-
-/* Ghost cards: only the immediate neighbors look ghosty */
 .slide.leftGhost .card,
 .slide.rightGhost .card {
-  transform: scale(0.94);
-  opacity: 0.35;
-  filter: blur(1.2px);
+  transform: scale(0.93);
+  opacity: 0.28;
+  filter: blur(2.2px) saturate(0.85);
 }
-
-/* Non-neighbor slides: keep invisible to avoid weird flashes */
+/* hide others */
 .slide:not(.active):not(.leftGhost):not(.rightGhost) .card {
   opacity: 0;
-  filter: blur(2px);
+  filter: blur(3px);
   transform: scale(0.92);
 }
 
-.cover {
+/* Cover */
+.cover-wrap {
+  position: relative;
   width: 100%;
-  height: clamp(260px, 36vw, 430px); /* big image */
+  height: clamp(300px, 38vw, 460px);
+  overflow: hidden;
+  background: #eaeaea;
+}
+
+.cover {
+  width: 102%;
+  height: 102%;
   object-fit: cover;
   display: block;
+  /* smooth parallax */
+  transition: transform 200ms ease;
+}
+
+/* subtle glow vignette on image */
+.cover-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1200px 500px at 50% 10%, rgba(255,255,255,0.25), rgba(255,255,255,0) 60%),
+    linear-gradient(to bottom, rgba(0,0,0,0.00), rgba(0,0,0,0.10));
+  pointer-events: none;
 }
 
 .meta {
-  padding: 16px 18px 20px 18px;
+  padding: 18px 20px 22px 20px;
 }
 
 .topline {
@@ -320,33 +521,34 @@ so left/right slides become partially visible ("ghost").
 }
 .title {
   font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-  font-weight: 800;
-  font-size: clamp(16px, 1.6vw, 22px);
-  line-height: 1.2;
+  font-weight: 900;
+  font-size: clamp(18px, 1.7vw, 24px);
+  line-height: 1.15;
   margin-bottom: 10px;
+  letter-spacing: -0.01em;
 }
 .excerpt {
   font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.75;
   opacity: 0.75;
-  max-width: 60ch;
+  max-width: 62ch;
 }
 
-/* Edge fade (gives "virtual ghost" feeling even nicer) */
-.edge-fade {
+/* Premium edge mask: stronger than simple fade */
+.edge {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 16%;
+  width: 18%;
   pointer-events: none;
-  z-index: 3;
+  z-index: 4;
 }
-.edge-fade.left {
+.edge.left {
   left: 0;
   background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
 }
-.edge-fade.right {
+.edge.right {
   right: 0;
   background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0));
 }
@@ -356,24 +558,26 @@ so left/right slides become partially visible ("ghost").
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border: none;
   background: rgba(0,0,0,0.08);
   cursor: pointer;
-  z-index: 5;
-  font-size: 26px;
-  line-height: 42px;
+  z-index: 6;
+  font-size: 28px;
+  line-height: 44px;
   border-radius: 999px;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 .nav:hover {
   background: rgba(0,0,0,0.14);
+  transform: translateY(-50%) scale(1.03);
 }
-.nav.prev { left: 8px; }
-.nav.next { right: 8px; }
+.nav.prev { left: 10px; }
+.nav.next { right: 10px; }
 
 .hint {
-  max-width: 1100px;
+  max-width: 1180px;
   margin: 12px auto 0 auto;
   font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   font-size: 12px;
@@ -385,9 +589,7 @@ so left/right slides become partially visible ("ghost").
   max-width: 1100px;
   margin: 0 auto;
 }
-.details-header {
-  margin-bottom: 14px;
-}
+.details-header { margin-bottom: 14px; }
 .back {
   cursor: pointer;
   color: #dd3528;
@@ -408,6 +610,7 @@ so left/right slides become partially visible ("ghost").
   height: auto;
   display: block;
   object-fit: cover;
+  border-radius: 14px;
 }
 .details-meta {
   display: flex;
@@ -467,8 +670,9 @@ so left/right slides become partially visible ("ghost").
 
 /* Responsive */
 @media (max-width: 900px) {
-  .card { width: 90%; }
+  .card { width: 92%; border-radius: 18px; }
+  .viewport { border-radius: 18px; }
+  .nav { display: none; }
   .details-hero { grid-template-columns: 1fr; }
-  .nav { display: none; } /* optional */
 }
 </style>

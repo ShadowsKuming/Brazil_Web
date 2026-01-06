@@ -1,0 +1,11 @@
+[
+  {
+    "id": "bbc-1",
+    "source": "BBC News",
+    "date": "2025-11-05",
+    "title": "Example headline",
+    "excerpt": "Short summary shown on the card…",
+    "cover": "md-assets/news/sample_cover.png",
+    "detailsMdPath": "content/news/bbc-1.md"
+  }
+]

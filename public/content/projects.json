@@ -1,0 +1,37 @@
+[
+  {
+    "id": "p1",
+    "provisionalTitle": "Proposal Title Proposal Title Proposal Title Proposal Title",
+    "name": "Fadel Adib",
+    "keywords": ["HCI", "GAMIFIED EDUCATION", "INCLUSIVE AI", "CHILD-CENTRED DESIGN"],
+    "detailsMdPath": "content/projects/p1.md"
+  },
+  {
+    "id": "p2",
+    "provisionalTitle": "Proposal Title 2",
+    "name": "Person 2",
+    "keywords": ["AI", "INTERACTION"],
+    "detailsMdPath": "content/projects/p2.md"
+  },
+  {
+    "id": "p3",
+    "provisionalTitle": "Proposal Title 3",
+    "name": "Person 3",
+    "keywords": ["SYSTEMS", "UX"],
+    "detailsMdPath": "content/projects/p3.md"
+  },
+  {
+    "id": "p4",
+    "provisionalTitle": "Proposal Title 4",
+    "name": "Person 4",
+    "keywords": ["DATA", "EDUCATION"],
+    "detailsMdPath": "content/projects/p4.md"
+  },
+  {
+    "id": "p5",
+    "provisionalTitle": "Proposal Title 5",
+    "name": "Person 5",
+    "keywords": ["AGENTS", "ROBOTICS"],
+    "detailsMdPath": "content/projects/p5.md"
+  }
+]

@@ -12,6 +12,7 @@ const options = [
   { value: 5, label: 'NEWS & EVENTS' },
   { value: 2, label: 'PROTOTYPES' },
   { value: 3, label: 'PEOPLE' },
+  { value: 6, label: 'PROJECTS' },
 ]
 
 function choose(v) {
@@ -27,6 +28,8 @@ function choose(v) {
     router.push('/contact')
   } else if (v === 5) {
     router.push('/news')
+  } else if (v === 6) {
+    router.push('/projects')
   }
 }
 
@@ -48,7 +51,8 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
 <template>
   <div class= "app-root">
     <header>
-      <img alt = "hai_lab_logo" class="logo" src="@/assets/icons/logo1.png" width="146" height="116" @click="choose(1)"/>
+      <!-- <img alt = "hai_lab_logo" class="logo" src="@/assets/icons/logo1.png" width="146" height="116" @click="choose(1)"/> -->
+      <div alt = "home_logo" class="home-icon" @click="choose(1)"></div>
 
       <nav>
         <div class="mask-contact" :class="{active: open}" @click="choose(4)"></div>
@@ -119,6 +123,25 @@ header {
 .logo:hover {
   transform: scale(1.05) rotate(1deg);
 }
+
+.home-icon {
+  width: 6.88vw;
+  height: 1.64vw;
+  background-color: #000000;
+  transition: background-color 0.3s ease;
+  mask-image: url('@/assets/special_fonts/home.png');
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.home-icon:hover {
+  background-color: #DD3528;
+  transform: scale(1.02);
+}
+
 .mask-contact {
   width: 10.2vw;
   height: 1.64vw;

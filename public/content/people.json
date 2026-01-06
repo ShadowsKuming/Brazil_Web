@@ -1,0 +1,30 @@
+[
+  {
+    "id": "lead-1",
+    "name": "Dr. John Doe",
+    "group": "Project Lead",
+    "title": "Project Lead",
+    "affiliation": "Newcastle University",
+    "image": "md-assets/people/sample_name.png",
+    "bioMdPath": "content/people/lead-1.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "lei.shi@newcastle.ac.uk"
+    }
+  },
+  {
+    "id": "phd-1",
+    "name": "Jiacheng",
+    "group": "PhD Student",
+    "title": "PhD Student",
+    "affiliation": "Newcastle University",
+    "image": "md-assets/people/sample_name.png",
+    "bioMdPath": "content/people/phd-1.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "lei.shi@newcastle.ac.uk"
+    }
+  }
+]

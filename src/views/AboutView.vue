@@ -1,13 +1,12 @@
 <script setup>
-// People page (List -> Details) with category filter + Markdown bios.
-// Engineering notes:
-// - Use a single selected object instead of multiple refs.
-// - Render Markdown safely: html:false.
-// - Use :deep() for styling v-html content under scoped CSS.
+// People page (List -> Details) using runtime JSON + Markdown bios.
+// After build, update these without rebuilding:
+// - dist/content/people.json
+// - dist/content/people/*.md
+// - dist/md-assets/people/*.png
 
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import MarkdownIt from 'markdown-it'
-import { people } from '@/content/people'
 
 const md = new MarkdownIt({
   html: false,
@@ -18,25 +17,102 @@ const md = new MarkdownIt({
 // 1 = Project Leads, 2 = PhD Students
 const selection = ref(1)
 
-// Current selected person (null => list view)
+// data
+const loading = ref(true)
+const errorMsg = ref('')
+const people = ref([])
+
+// selected person (null => list view)
 const selected = ref(null)
+const bioHtml = ref('')
+
+// cache markdown by path
+const mdCache = ref(new Map())
+
+// base path (supports GitHub Pages subpath)
+const BASE = import.meta.env.BASE_URL || '/'
+
+function withBase(path) {
+  const cleaned = String(path || '').replace(/^\//, '')
+  return BASE.replace(/\/?$/, '/') + cleaned
+}
+
+function resolveAsset(path) {
+  // for images stored in public/
+  return withBase(path)
+}
+
+async function fetchJson(path) {
+  const url = withBase(path)
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Failed to load JSON: ${url} (${res.status})`)
+
+  const ct = res.headers.get('content-type') || ''
+  if (!ct.includes('application/json')) {
+    const text = await res.text()
+    throw new Error(`Expected JSON but got "${ct}". First chars: ${text.slice(0, 60)}`)
+  }
+  return await res.json()
+}
+
+async function fetchText(path) {
+  const url = withBase(path)
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Failed to load Markdown: ${url} (${res.status})`)
+  return await res.text()
+}
 
 const filteredPeople = computed(() => {
   const group = selection.value === 1 ? 'Project Lead' : 'PhD Student'
-  return people.filter((p) => p.group === group)
+  return people.value.filter((p) => p.group === group)
 })
 
-function openPerson(p) {
-  selected.value = p
+async function ensureBioLoaded(p) {
+  if (!p?.bioMdPath) return ''
+  if (mdCache.value.has(p.bioMdPath)) return mdCache.value.get(p.bioMdPath)
+
+  const text = await fetchText(p.bioMdPath)
+  mdCache.value.set(p.bioMdPath, text)
+  return text
+}
+
+async function openPerson(p) {
+  try {
+    errorMsg.value = ''
+    selected.value = p
+
+    const raw = await ensureBioLoaded(p)
+    bioHtml.value = md.render(raw || '')
+
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  } catch (e) {
+    errorMsg.value = e?.message || String(e)
+  }
 }
 
 function goBack() {
   selected.value = null
+  bioHtml.value = ''
 }
 
-const bioHtml = computed(() => {
-  if (!selected.value) return ''
-  return md.render(selected.value.bioMd || '')
+function switchGroup(v) {
+  selection.value = v
+  selected.value = null
+  bioHtml.value = ''
+}
+
+onMounted(async () => {
+  try {
+    loading.value = true
+    errorMsg.value = ''
+
+    const data = await fetchJson('content/people.json')
+    people.value = Array.isArray(data) ? data : []
+  } catch (e) {
+    errorMsg.value = e?.message || String(e)
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 
@@ -49,27 +125,30 @@ const bioHtml = computed(() => {
       <div
         class="people-menu menu-leads"
         :class="{ active: selection === 1 }"
-        @click="selection = 1; selected = null"
+        @click="switchGroup(1)"
       ></div>
 
       <div
         class="people-menu menu-phd"
         :class="{ active: selection === 2 }"
-        @click="selection = 2; selected = null"
+        @click="switchGroup(2)"
       ></div>
     </aside>
 
     <!-- RIGHT CONTENT -->
     <main class="people-content">
+      <div v-if="loading" class="state">Loading…</div>
+      <div v-else-if="errorMsg" class="state error">{{ errorMsg }}</div>
+
       <!-- LIST VIEW -->
-      <section v-if="!selected" class="people-grid">
+      <section v-else-if="!selected" class="people-grid">
         <article
           v-for="p in filteredPeople"
           :key="p.id"
           class="person-card"
           @click="openPerson(p)"
         >
-          <img class="person-photo" :src="p.image" :alt="p.name" />
+          <img class="person-photo" :src="resolveAsset(p.image)" :alt="p.name" />
 
           <div class="person-meta">
             <div class="person-name">{{ p.name }}</div>
@@ -89,7 +168,7 @@ const bioHtml = computed(() => {
         </div>
 
         <div class="details-top">
-          <img class="details-photo" :src="selected.image" :alt="selected.name" />
+          <img class="details-photo" :src="resolveAsset(selected.image)" :alt="selected.name" />
 
           <div class="details-titleblock">
             <div class="details-name">{{ selected.name }}</div>
@@ -153,7 +232,7 @@ const bioHtml = computed(() => {
 /* ===== Left nav ===== */
 .people-nav {
   position: sticky;
-  top: 110px; /* plays nicely with your sticky header */
+  top: 110px;
   align-self: start;
 }
 
@@ -197,6 +276,15 @@ const bioHtml = computed(() => {
 /* ===== Right content ===== */
 .people-content {
   width: 100%;
+}
+
+.state {
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 14px;
+  color: rgba(0,0,0,0.65);
+}
+.state.error {
+  color: #dd3528;
 }
 
 /* ===== Grid cards ===== */
@@ -267,7 +355,7 @@ const bioHtml = computed(() => {
 
 .details-back {
   cursor: pointer;
-  color: #ffffff;
+  color: #111;
   font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
 }
 .details-back:hover {
@@ -292,12 +380,6 @@ const bioHtml = computed(() => {
   background: #eee;
 }
 
-.details-titleblock {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .details-name {
   font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   font-weight: 700;
@@ -312,42 +394,37 @@ const bioHtml = computed(() => {
   line-height: 1.5;
 }
 
-/* Markdown typography */
+/* Markdown */
 .markdown {
   font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   color: #111;
 }
-
 .markdown :deep(h1),
 .markdown :deep(h2),
 .markdown :deep(h3) {
   margin: 16px 0 10px;
   line-height: 1.2;
 }
-
 .markdown :deep(p) {
   margin: 0 0 12px 0;
   line-height: 1.75;
 }
-
 .markdown :deep(ul),
 .markdown :deep(ol) {
   margin: 0 0 12px 0;
   padding-left: 18px;
 }
-
 .markdown :deep(li) {
   margin: 6px 0;
   line-height: 1.7;
 }
-
 .markdown :deep(a) {
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-/* Details footer links (like your screenshot) */
+/* Footer */
 .details-footer {
   margin-top: 18px;
   padding-top: 14px;
@@ -382,35 +459,29 @@ const bioHtml = computed(() => {
   color: rgba(0, 0, 0, 0.65);
   text-decoration: none;
 }
-
 .details-email:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-/* ===== Responsive ===== */
+/* Responsive */
 @media (max-width: 980px) {
   .people-page {
     grid-template-columns: 1fr;
   }
-
   .people-nav {
     position: static;
   }
-
   .people-grid {
     grid-template-columns: 1fr;
   }
-
   .details-top {
     grid-template-columns: 1fr;
   }
-
   .details-photo {
     width: 220px;
     height: 220px;
   }
-
   .details-footer {
     flex-direction: column;
     align-items: flex-start;
