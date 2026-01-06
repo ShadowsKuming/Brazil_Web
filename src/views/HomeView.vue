@@ -84,6 +84,7 @@ function go(id) {
 
 
 .homepages-layouts {
+  background-color: white;
   width: 100%;
   height: auto;
   padding: 5vw;
