@@ -312,7 +312,7 @@ footer {
 }
 
 .footer-title img {
-  width: clamp(280px, 80vw, 1200px); /* Responsive with min/max */
+  width: clamp(240px, 55vw, 800px); /* Smaller on desktop/tablet */
   height: auto;
 }
 
@@ -506,6 +506,8 @@ footer {
 
   .footer-title {
     margin-bottom: var(--space-5); /* Reduced margin */
+    display: flex;
+    justify-content: center; /* Center only on mobile */
   }
 
   /* Mobile: simplified footer */
