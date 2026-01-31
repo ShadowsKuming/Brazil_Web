@@ -9,9 +9,11 @@ const open = ref(false)
 const selection = ref(1)
 
 const options = [
+  { value: 0, label: 'ABOUT' },
+  { value: 6, label: 'PROJECT PROPOSAL' },
+  { value: 5, label: 'NEWS & EVENTS' },
+  { value: 2, label: 'PROTOTYPES' },
   { value: 3, label: 'PEOPLE' },
-  { value: 6, label: 'PROJECTS' },
-  { value: 4, label: 'CONTACT' },
 ]
 
 function choose(v) {
@@ -112,6 +114,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
+  background-color: var(--color-white); /* White background shows through transparent header */
 }
 
 /* ============================================
@@ -124,9 +127,9 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: var(--color-white);
+  background-color: transparent; /* Transparent so dropdown shows behind nav */
   padding: clamp(12px, 1.5vw, 24px) clamp(16px, 4vw, 64px);
-  z-index: 100; /* Header stays above dropdown */
+  z-index: 300; /* Above dropdown so nav stays clickable */
 }
 
 /* Home icon - PNG mask */
@@ -167,7 +170,7 @@ header nav {
   mask-position: center;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  z-index: 100;
+  z-index: 300; /* Above dropdown so it stays clickable */
 }
 
 .mask-contact.active {
@@ -185,11 +188,16 @@ header nav {
   mask-position: center;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  z-index: 100;
+  z-index: 300; /* Above dropdown so it stays clickable */
 }
 
 .mask-menu.active {
-  background-color: var(--color-red);
+  background-color: var(--color-red); /* White on black background */
+}
+
+.mask-menu.active:hover {
+  background-color: var(--color-white);
+  transform: scale(1.02);
 }
 
 .mask-contact:hover,
@@ -200,31 +208,35 @@ header nav {
 
 /* ============================================
    DROPDOWN MENU
-   Desktop: side panel, vertically centered
+   Desktop: side panel from top, covers header right section
    Mobile: full-width below header, auto height
    ============================================ */
 .dropdown-menu {
   position: fixed;
   right: 0;
-  top: 0;
-  width: 33.33vw;
+  top: 0; /* From the very top */
+  width: clamp(260px, 28vw, 480px); /* Match header nav area */
   height: 100vh;
   background-color: var(--color-black);
-  z-index: 200; /* Above header */
+  z-index: 200; /* Below header (300) so nav stays visible */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: var(--space-7) clamp(24px, 4vw, 64px);
-  gap: var(--space-6);
+  justify-content: flex-start;
+  padding-top: clamp(140px, 16vh, 220px); /* Space for header + gap to menu items */
+  padding-left: clamp(32px, 4vw, 64px);
+  padding-right: clamp(32px, 4vw, 64px);
+  gap: clamp(20px, 2.5vw, 40px); /* Responsive gap */
 }
 
 .dropdown-item {
   color: var(--color-white);
   font-family: var(--font-family);
-  font-size: var(--text-2xl);
-  font-weight: 400;
+  font-size: clamp(18px, 1.8vw, 28px); /* Responsive font size like header */
+  font-weight: 500;
   cursor: pointer;
   transition: color 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .dropdown-item:hover {
@@ -273,7 +285,7 @@ footer {
 .footer-more-info {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-2); /* Reduced from space-4 (16px) to space-2 (8px) */
 }
 
 .footer-heading {
@@ -297,7 +309,7 @@ footer {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-2); /* Reduced from space-3 (12px) to space-2 (8px) */
 }
 
 .footer-links li {
@@ -363,9 +375,6 @@ footer {
     gap: var(--space-5);
   }
 
-  .dropdown-menu {
-    width: 50vw;
-  }
 
   .footer-logos {
     padding-top: var(--space-7);
@@ -397,6 +406,7 @@ footer {
     padding: var(--space-5) var(--space-4);
     gap: var(--space-2);
     justify-content: flex-start;
+    border-radius: 0 0 var(--space-2) var(--space-2); /* Rounded bottom corners */
   }
 
   .dropdown-item {
@@ -404,10 +414,23 @@ footer {
     padding: var(--space-1) 0; /* Touch-friendly tap targets */
   }
 
+  /* Mobile footer adjustments */
+  footer {
+    padding: var(--space-5) var(--space-4); /* Reduced padding */
+  }
+
+  .footer-title {
+    margin-bottom: var(--space-5); /* Reduced margin */
+  }
+
   /* Stack footer vertically */
   .footer-contents {
     flex-direction: column;
-    gap: var(--space-7);
+    gap: var(--space-5); /* Reduced from space-7 (48px) to space-5 (24px) */
+  }
+
+  .footer-more-info hr {
+    max-width: 100%; /* Full width on mobile */
   }
 
   .footer-logos {
@@ -416,7 +439,11 @@ footer {
   }
 
   .footer-logo-haii {
-    width: clamp(100px, 40vw, 180px);
+    width: clamp(100px, 35vw, 160px);
+  }
+
+  .footer-learn-about {
+    font-size: var(--text-base); /* Slightly larger for touch */
   }
 }
 </style>
