@@ -9,10 +9,9 @@ const open = ref(false)
 const selection = ref(1)
 
 const options = [
-  // { value: 5, label: 'NEWS & EVENTS' },
-  // { value: 2, label: 'PROTOTYPES' },
   { value: 3, label: 'PEOPLE' },
   { value: 6, label: 'PROJECTS' },
+  { value: 4, label: 'CONTACT' },
 ]
 
 function choose(v) {
@@ -36,9 +35,7 @@ function choose(v) {
 }
 
 function toggle() {
-  console.log('open before toggle:', open.value)
   open.value = !open.value
-  console.log('open after toggle:', open.value)
 }
 
 function onDocClick(e) {
@@ -47,71 +44,68 @@ function onDocClick(e) {
 
 document.addEventListener('click', onDocClick)
 onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
-
 </script>
 
 <template>
-  <div class= "app-root">
+  <div class="app-root">
+    <!-- Header -->
     <header>
-      <!-- <img alt = "hai_lab_logo" class="logo" src="@/assets/icons/logo1.png" width="146" height="116" @click="choose(1)"/> -->
-      <div alt = "home_logo" class="home-icon" @click="choose(1)"></div>
-
-      <nav>
-        <div class="mask-contact" :class="{active: open}" @click="choose(4)"></div>
+      <div class="home-icon" @click="choose(1)"></div>
+      <nav class="dropdown">
+        <div class="mask-contact" :class="{ active: open }" @click="choose(4)"></div>
         <div class="mask-menu" :class="{ active: open }" @click.stop="toggle"></div>
-        <!-- <RouterLink to="/about"><div class="mask-menu"></div></RouterLink> -->
-      </nav>
-      
-    </header>
-    <div v-if="open" class ="dropdown-menu">
-      <div v-for="o in options" :key="o.value" class="dropdown-item" :class="{ active: o.value === selection }" @click="choose(o.value)">
-        {{ o.label }}
-      </div>
-    </div>
-    <RouterView/>
-    <footer>
-      <div class = "footer-title">
-        <img src="@/assets/special_fonts/footer content.png" alt=""></img>
-      </div>
-      <div class = "footer-contents">
-        <div class = "footer-more-info">
-          <img src="@/assets/special_fonts/More ways to explore.png" alt=""></img>
-          <hr> 
-          <img src="@/assets/special_fonts/about.png" alt="" @click="choose(0)"></img>
-          <img src="@/assets/special_fonts/project proposal.png" alt="" @click="choose(6)"></img>
-          <img src="@/assets/special_fonts/news+events.png" alt="" @click="choose(5)"></img>
-          <img src="@/assets/special_fonts/prototypes-go.png" alt="" @click="choose(2)"></img>
-          <img src="@/assets/special_fonts/people-go.png" alt="" @click="choose(3)"></img>
-          <img src="@/assets/special_fonts/contact-go.png" alt="" @click="choose(4)"></img>
-        </div>
-        <div class = "footer-logos">
-          <img src="@/assets/special_fonts/HAII LAB.png" alt="" class="footer-logo-haii"></img>
-          <div Class = "footer-learn-about">
-            <img class="footer-learn-more" src ="@/assets/special_fonts/Learn more.png" alt=""></img>
-            <div class="footer-about-the-lab" @click="choose(0)"></div>
+        <!-- Dropdown Menu - inside nav for proper positioning -->
+        <div v-if="open" class="dropdown-menu">
+          <div
+            v-for="o in options"
+            :key="o.value"
+            class="dropdown-item"
+            :class="{ active: o.value === selection }"
+            @click="choose(o.value)"
+          >
+            {{ o.label }}
           </div>
-          
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <RouterView />
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-title">
+        <img src="@/assets/special_fonts/footer content.png" alt="Brazil Research Lab" />
+      </div>
+      <div class="footer-contents">
+        <div class="footer-more-info">
+          <h3 class="footer-heading">More ways to explore</h3>
+          <hr />
+          <ul class="footer-links">
+            <li @click="choose(0)">About</li>
+            <li @click="choose(6)">Project Proposal</li>
+            <li @click="choose(5)">News + Events</li>
+            <li @click="choose(2)">Prototypes</li>
+            <li @click="choose(3)">People</li>
+            <li @click="choose(4)">Contact</li>
+          </ul>
+        </div>
+        <div class="footer-logos">
+          <img src="@/assets/special_fonts/HAII LAB.png" alt="HAII LAB" class="footer-logo-haii" />
+          <div class="footer-learn-about" @click="choose(0)">
+            <span>Learn more about the lab</span>
+            <span class="arrow">→</span>
+          </div>
         </div>
       </div>
     </footer>
-  </div>  
-  <!-- <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView /> -->
+  </div>
 </template>
 
 <style scoped>
+/* ============================================
+   APP LAYOUT
+   ============================================ */
 .app-root {
   display: flex;
   flex-direction: column;
@@ -119,235 +113,313 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
   width: 100%;
 }
 
+/* ============================================
+   HEADER
+   Desktop-first: default styles for large screens
+   ============================================ */
 header {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: #ffffff;
-  padding-right: 4vw ;
-  padding-left: 1.5vw ;
-  padding-top: 1.2vw ;
-  padding-bottom: 1.2vw ;
+  background-color: var(--color-white);
+  padding: clamp(12px, 1.5vw, 24px) clamp(16px, 4vw, 64px);
+  z-index: 100; /* Header stays above dropdown */
 }
 
-.logo {
-  cursor: pointer;
-  transition: transform 0.25s ease;
-}
-
-.logo:hover {
-  transform: scale(1.05) rotate(1deg);
-}
-
+/* Home icon - PNG mask */
 .home-icon {
-  width: 6.88vw;
-  height: 1.64vw;
-  background-color: #000000;
-  transition: background-color 0.3s ease;
+  width: clamp(60px, 6.88vw, 120px);
+  height: clamp(20px, 1.64vw, 28px);
+  background-color: var(--color-black);
   mask-image: url('@/assets/special_fonts/home.png');
   mask-repeat: no-repeat;
   mask-size: contain;
   mask-position: center;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   z-index: 100;
 }
 
 .home-icon:hover {
-  background-color: #DD3528;
+  background-color: var(--color-red);
   transform: scale(1.02);
 }
 
+/* Navigation */
+header nav {
+  position: relative; /* For dropdown positioning */
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 3vw, 50px);
+}
+
+/* Contact icon - PNG mask */
 .mask-contact {
-  width: 10.2vw;
-  height: 1.64vw;
-  background-color: #000000;
-  transition: background-color 0.3s ease;
+  width: clamp(100px, 10.2vw, 160px);
+  height: clamp(20px, 1.64vw, 28px);
+  background-color: var(--color-black);
   mask-image: url('@/assets/special_fonts/contact.png');
   mask-repeat: no-repeat;
   mask-size: contain;
   mask-position: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   z-index: 100;
 }
 
-.mask-contact.active{
-  background-color: #ffffff;
+.mask-contact.active {
+  background-color: var(--color-white);
 }
 
+/* Menu icon - PNG mask */
 .mask-menu {
-  width: 6.88vw;
-  height: 1.64vw;
-  background-color: #000000;
-  transition: background-color 0.3s ease;
+  width: clamp(60px, 6.88vw, 120px);
+  height: clamp(20px, 1.64vw, 28px);
+  background-color: var(--color-black);
   mask-image: url('@/assets/special_fonts/menu.png');
   mask-repeat: no-repeat;
   mask-size: contain;
   mask-position: center;
-  margin-left: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   z-index: 100;
 }
 
 .mask-menu.active {
-  background-color: #DD3528;
-}
-
-header nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 25vw;
+  background-color: var(--color-red);
 }
 
 .mask-contact:hover,
 .mask-menu:hover {
-  cursor: pointer;
-  background-color: #DD3528;
+  background-color: var(--color-red);
   transform: scale(1.02);
 }
 
-
+/* ============================================
+   DROPDOWN MENU
+   Desktop: side panel, vertically centered
+   Mobile: full-width below header, auto height
+   ============================================ */
 .dropdown-menu {
-  position: absolute;
-  right:0;
-  top:0;
+  position: fixed;
+  right: 0;
+  top: 0;
   width: 33.33vw;
   height: 100vh;
-  background-color: black;
-  z-index: 10;
+  background-color: var(--color-black);
+  z-index: 200; /* Above header */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 4vw;
-  gap: 3.2vw;
+  padding: var(--space-7) clamp(24px, 4vw, 64px);
+  gap: var(--space-6);
 }
-
-.dropdown-btn {
-  padding: 8px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.15);
-  background: white;
-  cursor: pointer;
-}
-
-
 
 .dropdown-item {
-  color: #ffffff;
-  font-family: 'Albert Sans';
-  font-weight: 20;
-  font-size: 2vw;
+  color: var(--color-white);
+  font-family: var(--font-family);
+  font-size: var(--text-2xl);
+  font-weight: 400;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.dropdown-item:hover { 
-  cursor: pointer;
-  color: #DD3528;
-  
+.dropdown-item:hover {
+  color: var(--color-red);
 }
 
 .dropdown-item.active {
-  
   font-weight: 600;
 }
 
-.chev { margin-left: 8px; }
-
-
+/* ============================================
+   FOOTER
+   ============================================ */
 footer {
   margin-top: auto;
-  background-color: #1a1a1a;
-  color: white;
-  padding: 4vw 8vw;
+  background-color: var(--color-black-soft);
+  color: var(--color-white);
+  padding: clamp(32px, 4vw, 64px) clamp(24px, 5.5vw, 88px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+}
+
+/* Footer title image */
+.footer-title {
+  width: 100%;
+  margin-bottom: clamp(32px, 4vw, 64px);
 }
 
 .footer-title img {
-  width: 90vw;
+  width: 100%;
+  max-width: 1400px;
   height: auto;
-  
 }
 
+/* Footer content - two columns */
 .footer-contents {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  width: 100vw;
-  padding: 5vw 5.5vw;
-  padding-bottom: 0.4vw;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1400px;
 }
 
-.footer-more-info{
+/* Left column - navigation links */
+.footer-more-info {
   display: flex;
   flex-direction: column;
-  align-items: start;
-  justify-content: center;
-  gap: 1.5vw;
+  gap: var(--space-4);
 }
 
-.footer-more-info img {
-  width: auto;
-  height: 1.129vw;
+.footer-heading {
+  font-family: var(--font-family);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--color-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.footer-more-info img:hover {
+.footer-more-info hr {
+  width: 100%;
+  max-width: 320px;
+  border: none;
+  border-top: 1px solid #555555;
+  margin: var(--space-2) 0;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.footer-links li {
+  font-family: var(--font-family);
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: var(--color-white);
   cursor: pointer;
-  filter: brightness(150%);
-  transform: scale(1.02);
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
-hr{
-  width: 320px;
-  border: 0.1vw solid #555555;
+.footer-links li:hover {
+  color: var(--color-red);
+  transform: translateX(4px);
 }
 
-.footer-logos{
-  padding-top: 13vw;
+/* Right column - logo */
+.footer-logos {
   display: flex;
   flex-direction: column;
-  align-items: start;
-  justify-content: center;
-  gap: 2vw;
+  align-items: flex-start;
+  gap: var(--space-5);
+  padding-top: clamp(48px, 8vw, 120px);
 }
 
 .footer-logo-haii {
-  width: 16vw;
+  width: clamp(120px, 16vw, 240px);
   height: auto;
 }
 
-.footer-learn-about{
+.footer-learn-about {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 0.3vw;
-}
-
-
-.footer-learn-more {
-  
-  width: auto;
-  height: 0.924vw;
-}
-
-.footer-about-the-lab {
-  background-color: #ffffff;
-  transition: background-color 0.3s ease;
-  mask-image: url("@/assets/special_fonts/about_the_lab.png");
-  width: 8vw;
-  height: 1.2vw;
-  margin-bottom: 0.1vw;
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  mask-position: center;
-}
-
-
-.footer-about-the-lab:hover{
-  background-color: #DD3528;
+  gap: var(--space-2);
+  font-family: var(--font-family);
+  font-size: var(--text-sm);
+  color: var(--color-white);
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
+.footer-learn-about:hover {
+  color: var(--color-red);
+}
+
+.footer-learn-about .arrow {
+  transition: transform 0.2s ease;
+}
+
+.footer-learn-about:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* ============================================
+   TABLET STYLES (max-width: 1024px)
+   ============================================ */
+@media (max-width: 1024px) {
+  header {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  header nav {
+    gap: var(--space-5);
+  }
+
+  .dropdown-menu {
+    width: 50vw;
+  }
+
+  .footer-logos {
+    padding-top: var(--space-7);
+  }
+}
+
+/* ============================================
+   MOBILE STYLES (max-width: 768px)
+   ============================================ */
+@media (max-width: 768px) {
+  header {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  /* Hide contact on mobile - accessible via dropdown menu */
+  .mask-contact {
+    display: none;
+  }
+
+  header nav {
+    gap: var(--space-4);
+  }
+
+  /* Mobile dropdown: full-width, below header, auto height */
+  .dropdown-menu {
+    position: fixed;
+    top: 56px; /* Below header (header height ~56px on mobile) */
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto; /* Auto height based on content */
+    padding: var(--space-5) var(--space-4);
+    gap: var(--space-4);
+    justify-content: flex-start;
+    z-index: 90;
+  }
+
+  .dropdown-item {
+    font-size: var(--text-lg);
+    padding: var(--space-2) 0; /* Touch-friendly tap targets */
+  }
+
+  /* Stack footer vertically */
+  .footer-contents {
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .footer-logos {
+    padding-top: 0;
+    width: 100%;
+  }
+
+  .footer-logo-haii {
+    width: clamp(100px, 40vw, 180px);
+  }
+}
 </style>

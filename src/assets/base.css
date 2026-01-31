@@ -1,86 +1,133 @@
-/* color palette from <https://github.com/vuejs/theme> */
+/* ============================================
+   DESIGN TOKENS - Brazil Research Lab
+
+   This file defines the global design system.
+   All views should reference these variables
+   for consistent styling across the site.
+   ============================================ */
+
 :root {
-  --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
+  /* ----- BREAKPOINTS (reference) -----
+     These cannot be used as CSS variables in media queries,
+     but are documented here for consistency across views.
 
-  --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
-  --vt-c-black-mute: #282828;
+     Use mobile-first approach: start with mobile styles,
+     then add @media (min-width: XXpx) for larger screens.
 
-  --vt-c-indigo: #2c3e50;
+     sm:  640px   - Large phones, small tablets
+     md:  768px   - Tablets in portrait mode
+     lg:  1024px  - Small desktops, tablets in landscape
+     xl:  1280px  - Large desktops
+  ---------------------------------------------------- */
 
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+  /* ----- COLORS -----
+     Brand color palette for the site.
+     Use these instead of hardcoded hex values.
+  ---------------------------------------------------- */
+  --color-black: #000000;       /* Primary text, headings */
+  --color-black-soft: #1a1a1a;  /* Secondary text, softer black */
+  --color-red: #DD3528;         /* Accent color, CTAs, highlights */
+  --color-gray-light: #f7f7f7;  /* Light backgrounds, cards */
+  --color-gray: #e5e5e5;        /* Borders, dividers */
+  --color-white: #ffffff;       /* Page background, light text */
 
-  --vt-c-text-light-1: var(--vt-c-indigo);
-  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+  /* ----- SPACING -----
+     8px base unit spacing scale.
+     Use for margins, paddings, and gaps.
+
+     Example usage:
+     - padding: var(--space-4);        // 16px
+     - margin-bottom: var(--space-6);  // 32px
+     - gap: var(--space-5);            // 24px
+  ---------------------------------------------------- */
+  --space-1: 4px;    /* Tiny - icon padding, tight gaps */
+  --space-2: 8px;    /* Small - inline spacing */
+  --space-3: 12px;   /* Small-medium - list item gaps */
+  --space-4: 16px;   /* Medium - default padding */
+  --space-5: 24px;   /* Medium-large - section padding */
+  --space-6: 32px;   /* Large - card padding */
+  --space-7: 48px;   /* XL - section gaps */
+  --space-8: 64px;   /* XXL - major section spacing */
+  --space-9: 96px;   /* Huge - page section dividers */
+
+  /* ----- TYPOGRAPHY -----
+     Fluid typography scale using clamp().
+
+     clamp(MIN, PREFERRED, MAX) ensures text:
+     - Never shrinks below MIN on small screens
+     - Scales fluidly with viewport (PREFERRED)
+     - Never grows beyond MAX on large screens
+
+     Example usage:
+     - font-size: var(--text-base);  // Body text
+     - font-size: var(--text-2xl);   // Section headings
+     - font-size: var(--text-4xl);   // Page titles
+  ---------------------------------------------------- */
+  --font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+
+  --text-xs: clamp(11px, 0.75vw + 6px, 12px);    /* Labels, captions, metadata */
+  --text-sm: clamp(13px, 0.5vw + 10px, 14px);    /* Small text, secondary info */
+  --text-base: clamp(15px, 0.5vw + 12px, 16px);  /* Body text, paragraphs */
+  --text-lg: clamp(17px, 0.5vw + 14px, 18px);    /* Lead text, emphasized body */
+  --text-xl: clamp(20px, 0.75vw + 16px, 24px);   /* Card titles, small headings */
+  --text-2xl: clamp(24px, 1vw + 18px, 32px);     /* Section headings */
+  --text-3xl: clamp(28px, 1.5vw + 20px, 40px);   /* Large headings */
+  --text-4xl: clamp(36px, 2vw + 24px, 56px);     /* Page titles, hero text */
+
+  /* ----- LAYOUT -----
+     Page-level layout variables.
+     Use for consistent page structure.
+
+     Example usage:
+     - padding: var(--page-padding-y) var(--page-padding-x);
+     - max-width: var(--content-max-width);
+     - gap: var(--gap);
+  ---------------------------------------------------- */
+  --page-padding-x: clamp(16px, 5vw, 64px);   /* Horizontal page margins */
+  --page-padding-y: clamp(24px, 4vw, 48px);   /* Vertical page margins */
+  --content-max-width: 1200px;                 /* Max width for content containers */
+  --gap: clamp(16px, 3vw, 32px);              /* Default gap for grids/flexbox */
 }
 
-/* semantic color variables for this project */
-:root {
-  --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
-
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
-
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
-
-  --section-gap: 160px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
-}
-
+/* ----- RESET -----
+   Minimal CSS reset for consistent cross-browser styling.
+   Removes default margins/paddings and sets box-sizing.
+---------------------------------------------------- */
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+  box-sizing: border-box;  /* Include padding/border in element width */
   margin: 0;
-  font-weight: normal;
+  padding: 0;
 }
 
+/* ----- BASE STYLES -----
+   Default styles applied to the entire page.
+---------------------------------------------------- */
 body {
-  min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
-  line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
-  font-size: 15px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;                    /* Full viewport height minimum */
+  font-family: var(--font-family);      /* Albert Sans as primary font */
+  font-size: var(--text-base);          /* Fluid base font size */
+  line-height: 1.6;                     /* Comfortable reading line height */
+  color: var(--color-black);            /* Default text color */
+  background: var(--color-white);       /* Page background */
+  -webkit-font-smoothing: antialiased;  /* Smoother font rendering on Mac */
+  -moz-osx-font-smoothing: grayscale;   /* Smoother font rendering on Firefox */
+}
+
+/* ----- IMAGE DEFAULTS -----
+   Responsive images that don't overflow containers.
+---------------------------------------------------- */
+img {
+  max-width: 100%;   /* Never exceed container width */
+  height: auto;      /* Maintain aspect ratio */
+  display: block;    /* Remove inline spacing */
+}
+
+/* ----- LINK DEFAULTS -----
+   Clean link styling - views can override as needed.
+---------------------------------------------------- */
+a {
+  color: inherit;           /* Inherit text color from parent */
+  text-decoration: none;    /* Remove underline by default */
 }
