@@ -54,20 +54,21 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
       <nav class="dropdown">
         <div class="mask-contact" :class="{ active: open }" @click="choose(4)"></div>
         <div class="mask-menu" :class="{ active: open }" @click.stop="toggle"></div>
-        <!-- Dropdown Menu - inside nav for proper positioning -->
-        <div v-if="open" class="dropdown-menu">
-          <div
-            v-for="o in options"
-            :key="o.value"
-            class="dropdown-item"
-            :class="{ active: o.value === selection }"
-            @click="choose(o.value)"
-          >
-            {{ o.label }}
-          </div>
-        </div>
       </nav>
     </header>
+
+    <!-- Dropdown Menu - outside header for mobile document flow -->
+    <div v-if="open" class="dropdown-menu dropdown">
+      <div
+        v-for="o in options"
+        :key="o.value"
+        class="dropdown-item"
+        :class="{ active: o.value === selection }"
+        @click="choose(o.value)"
+      >
+        {{ o.label }}
+      </div>
+    </div>
 
     <!-- Main Content -->
     <RouterView />
@@ -388,18 +389,14 @@ footer {
     gap: var(--space-4);
   }
 
-  /* Mobile dropdown: full-width, below header, auto height */
+  /* Mobile dropdown: part of document flow, pushes content down */
   .dropdown-menu {
-    position: fixed;
-    top: 56px; /* Below header (header height ~56px on mobile) */
-    left: 0;
-    right: 0;
+    position: static; /* Part of document flow */
     width: 100%;
-    height: auto; /* Auto height based on content */
+    height: auto;
     padding: var(--space-5) var(--space-4);
     gap: var(--space-4);
     justify-content: flex-start;
-    z-index: 90;
   }
 
   .dropdown-item {
