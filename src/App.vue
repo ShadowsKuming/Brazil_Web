@@ -131,7 +131,7 @@ header {
 
 /* Home icon - PNG mask */
 .home-icon {
-  width: clamp(60px, 6.88vw, 120px);
+  width: clamp(70px, 6.88vw, 120px);
   height: clamp(20px, 1.64vw, 28px);
   background-color: var(--color-black);
   mask-image: url('@/assets/special_fonts/home.png');
@@ -158,7 +158,7 @@ header nav {
 
 /* Contact icon - PNG mask */
 .mask-contact {
-  width: clamp(100px, 10.2vw, 160px);
+  width: clamp(110px, 10.2vw, 160px);
   height: clamp(20px, 1.64vw, 28px);
   background-color: var(--color-black);
   mask-image: url('@/assets/special_fonts/contact.png');
@@ -176,7 +176,7 @@ header nav {
 
 /* Menu icon - PNG mask */
 .mask-menu {
-  width: clamp(60px, 6.88vw, 120px);
+  width: clamp(70px, 6.88vw, 120px);
   height: clamp(20px, 1.64vw, 28px);
   background-color: var(--color-black);
   mask-image: url('@/assets/special_fonts/menu.png');
@@ -395,13 +395,13 @@ footer {
     width: 100%;
     height: auto;
     padding: var(--space-5) var(--space-4);
-    gap: var(--space-4);
+    gap: var(--space-2);
     justify-content: flex-start;
   }
 
   .dropdown-item {
     font-size: var(--text-lg);
-    padding: var(--space-2) 0; /* Touch-friendly tap targets */
+    padding: var(--space-1) 0; /* Touch-friendly tap targets */
   }
 
   /* Stack footer vertically */
