@@ -7,6 +7,18 @@ const router = useRouter()
 
 const open = ref(false)
 const selection = ref(1)
+const showBackToTop = ref(false)
+
+// Show/hide back to top button based on scroll position
+function handleScroll() {
+  showBackToTop.value = window.scrollY > 300
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+window.addEventListener('scroll', handleScroll)
 
 const options = [
   { value: 0, label: 'ABOUT' },
@@ -45,7 +57,10 @@ function onDocClick(e) {
 }
 
 document.addEventListener('click', onDocClick)
-onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
+onBeforeUnmount(() => {
+  document.removeEventListener('click', onDocClick)
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
@@ -59,7 +74,10 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
       </nav>
     </header>
 
-    <!-- Dropdown Menu - outside header for mobile document flow -->
+    <!-- Dark Overlay - click to close menu -->
+    <div v-if="open" class="overlay" @click="open = false"></div>
+
+    <!-- Dropdown Menu -->
     <div v-if="open" class="dropdown-menu dropdown">
       <div
         v-for="o in options"
@@ -101,7 +119,20 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
           </div>
         </div>
       </div>
+      <div class="footer-copyright">
+        © 2026 Brazil Research.
+      </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <button
+      v-show="showBackToTop"
+      class="back-to-top"
+      @click="scrollToTop"
+      aria-label="Back to top"
+    >
+      ↑
+    </button>
   </div>
 </template>
 
@@ -134,8 +165,8 @@ header {
 
 /* Home icon - PNG mask */
 .home-icon {
-  width: clamp(70px, 6.88vw, 120px);
-  height: clamp(20px, 1.64vw, 28px);
+  width: clamp(80px, 6.88vw, 120px);
+  height: clamp(30px, 1.64vw, 28px);
   background-color: var(--color-black);
   mask-image: url('@/assets/special_fonts/home.png');
   mask-repeat: no-repeat;
@@ -207,6 +238,20 @@ header nav {
 }
 
 /* ============================================
+   OVERLAY - Dark backdrop when menu is open
+   ============================================ */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark */
+  z-index: 150; /* Above content, below dropdown */
+  cursor: pointer;
+}
+
+/* ============================================
    DROPDOWN MENU
    Desktop: side panel from top, covers header right section
    Mobile: full-width below header, auto height
@@ -263,12 +308,11 @@ footer {
 /* Footer title image */
 .footer-title {
   width: 100%;
-  margin-bottom: clamp(32px, 4vw, 64px);
+  margin-bottom: clamp(24px, 3vw, 48px);
 }
 
 .footer-title img {
-  width: 100%;
-  max-width: 1400px;
+  width: clamp(280px, 80vw, 1200px); /* Responsive with min/max */
   height: auto;
 }
 
@@ -290,7 +334,7 @@ footer {
 
 .footer-heading {
   font-family: var(--font-family);
-  font-size: var(--text-sm);
+  font-size: clamp(12px, 1vw, 14px); /* Responsive like header */
   font-weight: 400;
   color: var(--color-gray);
   text-transform: uppercase;
@@ -314,7 +358,7 @@ footer {
 
 .footer-links li {
   font-family: var(--font-family);
-  font-size: var(--text-base);
+  font-size: clamp(14px, 1.2vw, 18px); /* Responsive like header */
   font-weight: 400;
   color: var(--color-white);
   cursor: pointer;
@@ -363,6 +407,43 @@ footer {
   transform: translateX(4px);
 }
 
+/* Copyright text */
+.footer-copyright {
+  margin-top: clamp(24px, 3vw, 48px);
+  font-family: var(--font-family);
+  font-size: clamp(12px, 0.9vw, 14px);
+  color: var(--color-gray);
+  text-align: center;
+}
+
+/* ============================================
+   BACK TO TOP BUTTON
+   ============================================ */
+.back-to-top {
+  position: fixed;
+  bottom: clamp(20px, 3vw, 40px);
+  right: clamp(20px, 3vw, 40px);
+  width: clamp(44px, 4vw, 56px);
+  height: clamp(44px, 4vw, 56px);
+  border: none;
+  border-radius: 50%;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-size: clamp(18px, 1.5vw, 24px);
+  cursor: pointer;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.back-to-top:hover {
+  background-color: var(--color-red);
+  transform: scale(1.1);
+}
+
 /* ============================================
    TABLET STYLES (max-width: 1024px)
    ============================================ */
@@ -398,15 +479,19 @@ footer {
     gap: var(--space-4);
   }
 
-  /* Mobile dropdown: part of document flow, pushes content down */
+  /* Mobile dropdown: overlay from top, below header */
   .dropdown-menu {
-    position: static; /* Part of document flow */
+    position: fixed;
+    top: 56px; /* Below header */
+    left: 0;
+    right: 0;
     width: 100%;
     height: auto;
     padding: var(--space-5) var(--space-4);
     gap: var(--space-2);
     justify-content: flex-start;
     border-radius: 0 0 var(--space-2) var(--space-2); /* Rounded bottom corners */
+    z-index: 200; /* Above overlay */
   }
 
   .dropdown-item {
@@ -423,14 +508,26 @@ footer {
     margin-bottom: var(--space-5); /* Reduced margin */
   }
 
-  /* Stack footer vertically */
+  /* Mobile: simplified footer */
   .footer-contents {
     flex-direction: column;
-    gap: var(--space-5); /* Reduced from space-7 (48px) to space-5 (24px) */
+    align-items: center;
+    gap: var(--space-4);
   }
 
-  .footer-more-info hr {
-    max-width: 100%; /* Full width on mobile */
+  /* Hide "More ways to explore" on mobile - links in hamburger menu */
+  .footer-more-info {
+    display: none;
+  }
+
+  /* Center HAII LAB and "Learn more" */
+  .footer-logos {
+    align-items: center;
+    padding-top: 0;
+  }
+
+  .footer-learn-about {
+    justify-content: center;
   }
 
   .footer-logos {
