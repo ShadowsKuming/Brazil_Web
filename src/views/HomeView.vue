@@ -5,16 +5,47 @@ const activeSection = ref(null)
 let observer = null
 let isScrolling = false // Flag to disable scroll spy during programmatic scroll
 
+// Smooth scroll with overshoot easing
+function smoothScrollTo(targetY, duration = 1000) {
+  const startY = window.scrollY
+  const distance = targetY - startY
+  let startTime = null
+
+  // Ease out back - overshoots then settles
+  function easeOutBack(t) {
+    const c1 = 1.70158
+    const c3 = c1 + 1
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2)
+  }
+
+  function step(currentTime) {
+    if (!startTime) startTime = currentTime
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    const eased = easeOutBack(progress)
+
+    window.scrollTo(0, startY + distance * eased)
+
+    if (progress < 1) {
+      requestAnimationFrame(step)
+    } else {
+      isScrolling = false
+    }
+  }
+
+  requestAnimationFrame(step)
+}
+
 // Navigate to section
 function go(id) {
   isScrolling = true // Disable scroll spy
   activeSection.value = id // Immediately expand the button
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
-  // Re-enable scroll spy after scroll animation completes
-  setTimeout(() => {
-    isScrolling = false
-  }, 800)
+  const el = document.getElementById(id)
+  if (el) {
+    const targetY = el.getBoundingClientRect().top + window.scrollY
+    smoothScrollTo(targetY, 900)
+  }
 }
 
 // Set up Intersection Observer to detect visible sections
