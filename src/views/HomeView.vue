@@ -1,34 +1,12 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-const activeBtn = ref(null)
+const activeSection = ref(null)
 let observer = null
 
+// Navigate to section
 function go(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
-
-// Handle touch: first tap expands, second tap navigates
-function handleTouch(id) {
-  if (activeBtn.value === id) {
-    // Already expanded - navigate
-    go(id)
-  } else {
-    // Not expanded - expand it
-    activeBtn.value = id
-  }
-}
-
-function expandBtn(id) {
-  activeBtn.value = id
-}
-
-function collapseBtn() {
-  // Only collapse if not being set by scroll observer
-  // Small delay to allow scroll observer to take over
-  setTimeout(() => {
-    if (!observer) activeBtn.value = null
-  }, 100)
 }
 
 // Set up Intersection Observer to detect visible sections
@@ -39,12 +17,11 @@ function setupScrollSpy() {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          activeBtn.value = entry.target.id
+          activeSection.value = entry.target.id
         }
       })
     },
     {
-      // Trigger when section is 30% visible
       threshold: 0.3,
       rootMargin: '-10% 0px -50% 0px'
     }
@@ -102,12 +79,10 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- Mobile Floating Nav (visible only on mobile) -->
-    <nav class="floating-nav" @mouseleave="collapseBtn">
+    <nav class="floating-nav">
       <button
         class="floating-nav-btn"
-        :class="{ expanded: activeBtn === 'purpose' }"
-        @mouseenter="expandBtn('purpose')"
-        @touchstart.prevent="handleTouch('purpose')"
+        :class="{ expanded: activeSection === 'purpose' }"
         @click="go('purpose')"
       >
         <span class="btn-letter">P</span>
@@ -115,9 +90,7 @@ onBeforeUnmount(() => {
       </button>
       <button
         class="floating-nav-btn"
-        :class="{ expanded: activeBtn === 'objectives' }"
-        @mouseenter="expandBtn('objectives')"
-        @touchstart.prevent="handleTouch('objectives')"
+        :class="{ expanded: activeSection === 'objectives' }"
         @click="go('objectives')"
       >
         <span class="btn-letter">O</span>
@@ -125,9 +98,7 @@ onBeforeUnmount(() => {
       </button>
       <button
         class="floating-nav-btn"
-        :class="{ expanded: activeBtn === 'sdg' }"
-        @mouseenter="expandBtn('sdg')"
-        @touchstart.prevent="handleTouch('sdg')"
+        :class="{ expanded: activeSection === 'sdg' }"
         @click="go('sdg')"
       >
         <span class="btn-letter">S</span>
@@ -135,9 +106,7 @@ onBeforeUnmount(() => {
       </button>
       <button
         class="floating-nav-btn"
-        :class="{ expanded: activeBtn === 'timeline' }"
-        @mouseenter="expandBtn('timeline')"
-        @touchstart.prevent="handleTouch('timeline')"
+        :class="{ expanded: activeSection === 'timeline' }"
         @click="go('timeline')"
       >
         <span class="btn-letter">T</span>
