@@ -4,7 +4,7 @@
 // - Loads each project's markdown file via fetch() and caches it
 // - Supports GitHub Pages base path via import.meta.env.BASE_URL
 
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import MarkdownIt from 'markdown-it'
 
 const md = new MarkdownIt({ html: false, linkify: true, breaks: true })
@@ -16,6 +16,9 @@ const loading = ref(true)
 const errorMsg = ref('')
 const viewportRef = ref(null)
 const isScrolling = ref(false)
+const isPaused = ref(false)
+let autoScrollInterval = null
+const AUTO_SCROLL_DELAY = 5000 // 5 seconds per project
 
 // IMPORTANT: supports subpath deploy (e.g., GitHub Pages /repo-name/)
 const BASE = import.meta.env.BASE_URL || '/'
@@ -99,6 +102,32 @@ function onScroll() {
   }
 }
 
+// Auto-scroll functions
+function startAutoScroll() {
+  if (autoScrollInterval) return
+  autoScrollInterval = setInterval(() => {
+    if (!isPaused.value && projects.value.length > 0) {
+      const nextIndex = (index.value + 1) % projects.value.length
+      go(nextIndex)
+    }
+  }, AUTO_SCROLL_DELAY)
+}
+
+function stopAutoScroll() {
+  if (autoScrollInterval) {
+    clearInterval(autoScrollInterval)
+    autoScrollInterval = null
+  }
+}
+
+function pauseAutoScroll() {
+  isPaused.value = true
+}
+
+function resumeAutoScroll() {
+  isPaused.value = false
+}
+
 onMounted(async () => {
   try {
     loading.value = true
@@ -111,11 +140,18 @@ onMounted(async () => {
     // 2) Render first project
     index.value = 0
     await renderCurrent()
+
+    // 3) Start auto-scroll
+    startAutoScroll()
   } catch (e) {
     errorMsg.value = e?.message || String(e)
   } finally {
     loading.value = false
   }
+})
+
+onBeforeUnmount(() => {
+  stopAutoScroll()
 })
 
 // when index changes, load+render the new project's markdown
@@ -144,7 +180,14 @@ watch(index, async () => {
     <div v-if="loading" class="state">Loading…</div>
     <div v-else-if="errorMsg" class="state error">{{ errorMsg }}</div>
 
-    <div v-else class="slider">
+    <div
+      v-else
+      class="slider"
+      @mouseenter="pauseAutoScroll"
+      @mouseleave="resumeAutoScroll"
+      @touchstart="pauseAutoScroll"
+      @touchend="resumeAutoScroll"
+    >
       <div class="viewport" ref="viewportRef" @scroll="onScroll">
         <div class="track">
           <section v-for="p in projects" :key="p.id" class="panel">
