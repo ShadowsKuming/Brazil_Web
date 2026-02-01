@@ -158,19 +158,74 @@ onBeforeUnmount(() => {
             <div class="objective-item">
               <span class="objective-num">01</span>
               <h3 class="objective-title">Capacity-Building</h3>
-              <p class="objective-desc">Train 25+ graduate researchers from PhD in AI, education, and HCI from UK and Brazil in inclusive, participatory AI co-design methods through workshops, mentoring, and co-creation activities.</p>
+              <p class="objective-desc">Train 20 gender-balanced PhDs (5 UK, 15 Brazil, 50% women) in child-focused inclusive AI co-design methodologies.</p>
             </div>
             <hr class="objective-line">
             <div class="objective-item">
               <span class="objective-num">02</span>
               <h3 class="objective-title">Prototyping</h3>
-              <p class="objective-desc">Develop AI-based educational prototypes with marginalised children and communities, ensuring design processes address real-world needs and contexts.</p>
+              <p class="objective-desc">Develop 5 child-centred AI prototypes tailored to Brazilian rural/urban and neurodiverse learners.</p>
             </div>
             <hr class="objective-line">
             <div class="objective-item">
               <span class="objective-num">03</span>
               <h3 class="objective-title">Co-Design</h3>
-              <p class="objective-desc">Engage marginalised communities in participatory design processes, addressing STEM gender gaps, equity for marginalised groups, and cross-national collaboration.</p>
+              <p class="objective-desc">Co-design educational materials integrating child-AI interaction frameworks.</p>
+            </div>
+            <hr class="objective-line">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: SDG Contributions -->
+    <section id="sdg" class="sdg-section">
+      <div class="sdg-content">
+        <div class="section-number-wrapper">
+          <span class="section-number sdg-number">03</span>
+        </div>
+        <div class="section-main">
+          <div class="section-header">
+            <h2 class="section-title sdg-title">SDG CONTRIBUTIONS</h2>
+            <div class="section-line sdg-line"></div>
+          </div>
+
+          <!-- SDG items -->
+          <div class="sdg-list">
+            <div class="sdg-item">
+              <div class="sdg-item-header">
+                <span class="sdg-bullet">•</span>
+                <h3 class="sdg-item-title">Inclusive Educational Tools</h3>
+                <span class="sdg-tag">SDG 4</span>
+              </div>
+              <p class="sdg-item-desc">Prototypes and training enhance access to quality, age-appropriate learning tools for rural/neurodiverse children.</p>
+            </div>
+
+            <div class="sdg-item">
+              <div class="sdg-item-header">
+                <span class="sdg-bullet">•</span>
+                <h3 class="sdg-item-title">Gender Equity in STEM</h3>
+                <span class="sdg-tag">SDG 5</span>
+              </div>
+              <p class="sdg-item-desc">50% female participation and girl-focused co-design address STEM gender gaps.</p>
+            </div>
+
+            <div class="sdg-item">
+              <div class="sdg-item-header">
+                <span class="sdg-bullet">•</span>
+                <h3 class="sdg-item-title">Equity for Marginalised Groups</h3>
+                <span class="sdg-tag">SDG 10</span>
+              </div>
+              <p class="sdg-item-desc">Focus on underserved Brazilian communities ensures reduced inequalities in educational technology access.</p>
+            </div>
+
+            <div class="sdg-item">
+              <div class="sdg-item-header">
+                <span class="sdg-bullet">•</span>
+                <h3 class="sdg-item-title">UK-Brazil Research Partnership</h3>
+                <span class="sdg-tag">SDG 17</span>
+              </div>
+              <p class="sdg-item-desc">BiIDS and multi-HEI South-UK Brazil research collaboration.</p>
             </div>
           </div>
         </div>
@@ -178,7 +233,6 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- Remaining sections (temporary - still using images) -->
-    <img id="sdg" class="section-image section-image--dark" alt="03 SDG Contributions" src="@/assets/layouts/homepages/04 SDG CONTRIBUTIONS.png">
     <img id="timeline" class="section-image" alt="04 Timeline" src="@/assets/layouts/homepages/TIMELINE.png">
 
   </div>
@@ -400,7 +454,7 @@ onBeforeUnmount(() => {
    ============================================ */
 .objectives-section {
   width: 100%;
-  padding: 0 clamp(40px, 8vw, 200px);
+  padding: clamp(30px,6vw,100px) clamp(40px, 8vw, 200px);
   background-color: var(--color-white);
 }
 
@@ -459,6 +513,88 @@ onBeforeUnmount(() => {
   border-top: 1px solid var(--color-black);
   margin: 0;
   width: 100%;
+}
+
+/* ============================================
+   SECTION 4: SDG CONTRIBUTIONS
+   ============================================ */
+.sdg-section {
+  width: 100%;
+  padding: clamp(30px, 6vw, 100px) clamp(40px, 8vw, 200px);
+  background-color: var(--color-black);
+}
+
+.sdg-content {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Override colors for dark background */
+.sdg-number {
+  color: #DD352833; /* Lighter semi-transparent red for dark bg */
+}
+
+.sdg-title {
+  color: var(--color-white);
+}
+
+.sdg-line {
+  background-color: var(--color-white);
+}
+
+/* SDG list */
+.sdg-list {
+  max-width: 1500px;
+  margin: clamp(46px, 6vw, 70px) auto;
+  padding: 0 clamp(40px, 5vw, 80px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 36px);
+}
+
+.sdg-item {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1vw, 12px);
+}
+
+.sdg-item-header {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(8px, 1vw, 16px);
+}
+
+.sdg-bullet {
+  font-size: clamp(18px, 2vw, 24px);
+  color: var(--color-white);
+  line-height: 1;
+}
+
+.sdg-item-title {
+  font-family: var(--font-family);
+  font-size: clamp(18px, 1.8vw, 26px);
+  font-weight: 600;
+  color: var(--color-white);
+  flex: 1;
+}
+
+.sdg-tag {
+  font-family: var(--font-family);
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 600;
+  color: var(--color-red);
+  white-space: nowrap;
+}
+
+.sdg-item-desc {
+  font-family: var(--font-family);
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 400;
+  color: var(--color-white);
+  line-height: 1.5;
+  /* padding-left: clamp(26px, 3vw, 40px);  */
+  /* Align with title after bullet */
 }
 
 /* ============================================
@@ -585,6 +721,33 @@ onBeforeUnmount(() => {
     grid-column: 1 / -1;
     font-size: clamp(16px, 4.2vw, 18px);
     text-align: left;
+  }
+
+  /* SDG section mobile */
+  .sdg-section {
+    padding: var(--space-7) var(--space-5);
+  }
+
+  .sdg-list {
+    padding: clamp(5px, 2vw, 40px);
+    gap: var(--space-5);
+  }
+
+  .sdg-item-header {
+    flex-wrap: wrap;
+  }
+
+  .sdg-item-title {
+    font-size: clamp(16px, 4.5vw, 20px);
+  }
+
+  .sdg-tag {
+    font-size: clamp(14px, 4vw, 16px);
+  }
+
+  .sdg-item-desc {
+    font-size: clamp(14px, 4vw, 16px);
+    padding-left: clamp(15px, 2.8vw, 30px);
   }
 
   .hero-nav {
