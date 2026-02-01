@@ -114,8 +114,34 @@ onBeforeUnmount(() => {
       </button>
     </nav>
 
+    <!-- Section 2: Purpose -->
+    <section id="purpose" class="purpose-section">
+      <div class="purpose-content">
+        <div class="section-number-wrapper">
+          <span class="section-number">01</span>
+        </div>
+        <div class="section-main">
+          <div class="section-header">
+            <h2 class="section-title">PURPOSE</h2>
+            <div class="section-line"></div>
+          </div>
+          <p class="section-text">
+            Funded by the British Council, this project aims to tackle educational
+            inequalities by enhancing Brazilian postgraduate researchers' capacity
+            in inclusive AI design. It further seeks to cultivate cross-national
+            collaboration between UK and Brazilian PhD researchers, co-develop
+            ethics (fairness, equity, inclusion), and establish sustained partnerships
+            to drive progress toward equitable education systems.
+          </p>
+          <div class="purpose-logos">
+            <img src="@/assets/logos/newcastle.png" alt="Newcastle University" class="logo-newcastle">
+            <img src="@/assets/logos/ufrgs.png" alt="UFRGS" class="logo-ufrgs">
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Remaining sections (temporary - still using images) -->
-    <img id="purpose" class="section-image" alt="01 Purpose" src="@/assets/layouts/homepages/02 PURPOSE.png">
     <img id="objectives" class="section-image" alt="02 Objectives" src="@/assets/layouts/homepages/03 OBJECTIVES.png">
     <img id="sdg" class="section-image section-image--dark" alt="03 SDG Contributions" src="@/assets/layouts/homepages/04 SDG CONTRIBUTIONS.png">
     <img id="timeline" class="section-image" alt="04 Timeline" src="@/assets/layouts/homepages/TIMELINE.png">
@@ -239,6 +265,102 @@ onBeforeUnmount(() => {
 }
 
 /* ============================================
+   SECTION 2: PURPOSE
+   ============================================ */
+.purpose-section {
+  width: 100%;
+  padding: 0 clamp(40px, 8vw, 200px);
+  background-color: var(--color-white);
+}
+
+.purpose-content {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* 01 number - large, semi-transparent red, positioned behind */
+.section-number-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.section-number {
+  font-family: var(--font-family);
+  font-size: clamp(85px, 12vw, 200px);
+  font-weight: 400;
+  font-style: italic;
+  color: #DD35284D; /* Semi-transparent red */
+  line-height: 1;
+}
+
+/* Main content sits on top of 01 */
+.section-main {
+  position: relative;
+  z-index: 2;
+  padding-left: clamp(20px, 2.5vw, 100px); /* Offset to align with 01 */
+  padding-top: clamp(75px, 8vw, 120px); /* Push down to overlap nicely */
+}
+
+
+/* PURPOSE title with horizontal line */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2vw, 32px);
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+.section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(28px, 3.5vw, 50px);
+  font-weight: 600;
+  color: var(--color-black);
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-black);
+}
+
+.section-text {
+  font-family: var(--font-family);
+  font-size: clamp(18px, 2.8vw, 40px);
+  font-weight: 400;
+  color: var(--color-black);
+  line-height: 1.4;
+  max-width: 1500px;
+  margin: clamp(46px, 6vw, 70px) auto;
+  padding: 0 clamp(40px, 5vw, 80px);
+}
+
+.purpose-logos {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 clamp(40px, 5vw, 80px);
+}
+
+.logo-newcastle {
+  height: clamp(50px, 6vw, 80px);
+  width: auto;
+}
+
+.logo-ufrgs {
+  height: clamp(80px, 9vw, 120px);
+  width: auto;
+}
+
+/* ============================================
    TABLET STYLES (max-width: 1024px)
    ============================================ */
 @media (max-width: 1024px) {
@@ -297,6 +419,40 @@ onBeforeUnmount(() => {
   .desktop-break {
     display: none;
   }
+
+  /* PURPOSE section mobile */
+  .purpose-section {
+    padding: var(--space-7) var(--space-5);
+  }
+
+  .section-number {
+    font-size: clamp(80px, 25vw, 120px);
+  }
+
+  .section-main {
+    padding-left: var(--space-4);
+  }
+
+  .section-header {
+    margin-bottom: var(--space-4);
+  }
+
+  .section-title {
+    font-size: clamp(24px, 6vw, 32px);
+  }
+
+  .section-text {
+    font-size: clamp(16px, 4.5vw, 20px);
+    line-height: 1.5;
+  }
+
+  .purpose-logos {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
 
   .hero-nav {
     flex-direction: row;
