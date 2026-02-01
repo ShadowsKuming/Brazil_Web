@@ -1,7 +1,71 @@
 <script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
+const activeBtn = ref(null)
+let observer = null
+
 function go(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
+
+// Handle touch: first tap expands, second tap navigates
+function handleTouch(id) {
+  if (activeBtn.value === id) {
+    // Already expanded - navigate
+    go(id)
+  } else {
+    // Not expanded - expand it
+    activeBtn.value = id
+  }
+}
+
+function expandBtn(id) {
+  activeBtn.value = id
+}
+
+function collapseBtn() {
+  // Only collapse if not being set by scroll observer
+  // Small delay to allow scroll observer to take over
+  setTimeout(() => {
+    if (!observer) activeBtn.value = null
+  }, 100)
+}
+
+// Set up Intersection Observer to detect visible sections
+function setupScrollSpy() {
+  const sections = ['purpose', 'objectives', 'sdg', 'timeline']
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activeBtn.value = entry.target.id
+        }
+      })
+    },
+    {
+      // Trigger when section is 30% visible
+      threshold: 0.3,
+      rootMargin: '-10% 0px -50% 0px'
+    }
+  )
+
+  sections.forEach((id) => {
+    const el = document.getElementById(id)
+    if (el) observer.observe(el)
+  })
+}
+
+onMounted(() => {
+  setupScrollSpy()
+})
+
+onBeforeUnmount(() => {
+  if (observer) {
+    observer.disconnect()
+    observer = null
+  }
+})
 </script>
 
 <template>
@@ -38,20 +102,44 @@ function go(id) {
     </section>
 
     <!-- Mobile Floating Nav (visible only on mobile) -->
-    <nav class="floating-nav">
-      <button class="floating-nav-btn" @click="go('purpose')">
+    <nav class="floating-nav" @mouseleave="collapseBtn">
+      <button
+        class="floating-nav-btn"
+        :class="{ expanded: activeBtn === 'purpose' }"
+        @mouseenter="expandBtn('purpose')"
+        @touchstart.prevent="handleTouch('purpose')"
+        @click="go('purpose')"
+      >
         <span class="btn-letter">P</span>
         <span class="btn-text">PURPOSE</span>
       </button>
-      <button class="floating-nav-btn" @click="go('objectives')">
+      <button
+        class="floating-nav-btn"
+        :class="{ expanded: activeBtn === 'objectives' }"
+        @mouseenter="expandBtn('objectives')"
+        @touchstart.prevent="handleTouch('objectives')"
+        @click="go('objectives')"
+      >
         <span class="btn-letter">O</span>
         <span class="btn-text">OBJECTIVES</span>
       </button>
-      <button class="floating-nav-btn" @click="go('sdg')">
+      <button
+        class="floating-nav-btn"
+        :class="{ expanded: activeBtn === 'sdg' }"
+        @mouseenter="expandBtn('sdg')"
+        @touchstart.prevent="handleTouch('sdg')"
+        @click="go('sdg')"
+      >
         <span class="btn-letter">S</span>
         <span class="btn-text">SDG</span>
       </button>
-      <button class="floating-nav-btn" @click="go('timeline')">
+      <button
+        class="floating-nav-btn"
+        :class="{ expanded: activeBtn === 'timeline' }"
+        @mouseenter="expandBtn('timeline')"
+        @touchstart.prevent="handleTouch('timeline')"
+        @click="go('timeline')"
+      >
         <span class="btn-letter">T</span>
         <span class="btn-text">TIMELINE</span>
       </button>
@@ -336,17 +424,13 @@ function go(id) {
     transition: opacity 0.2s ease, max-width 0.3s ease, padding-right 0.3s ease;
   }
 
-  /* Expand on hover/touch */
-  .floating-nav-btn:hover,
-  .floating-nav-btn:focus,
-  .floating-nav-btn:active {
+  /* Expand when active (controlled by JS) */
+  .floating-nav-btn.expanded {
     width: auto;
     background-color: var(--color-red);
   }
 
-  .floating-nav-btn:hover .btn-text,
-  .floating-nav-btn:focus .btn-text,
-  .floating-nav-btn:active .btn-text {
+  .floating-nav-btn.expanded .btn-text {
     opacity: 1;
     max-width: 120px;
     padding-right: 16px;
