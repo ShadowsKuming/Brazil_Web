@@ -141,8 +141,43 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
+    <!-- Section 3: Objectives -->
+    <section id="objectives" class="objectives-section">
+      <div class="objectives-content">
+        <div class="section-number-wrapper">
+          <span class="section-number">02</span>
+        </div>
+        <div class="section-main">
+          <div class="section-header">
+            <h2 class="section-title">OBJECTIVES</h2>
+            <div class="section-line"></div>
+          </div>
+
+          <!-- Objective items - 3 column layout with separator lines -->
+          <div class="objectives-list">
+            <div class="objective-item">
+              <span class="objective-num">01</span>
+              <h3 class="objective-title">Capacity-Building</h3>
+              <p class="objective-desc">Train 25+ graduate researchers from PhD in AI, education, and HCI from UK and Brazil in inclusive, participatory AI co-design methods through workshops, mentoring, and co-creation activities.</p>
+            </div>
+            <hr class="objective-line">
+            <div class="objective-item">
+              <span class="objective-num">02</span>
+              <h3 class="objective-title">Prototyping</h3>
+              <p class="objective-desc">Develop AI-based educational prototypes with marginalised children and communities, ensuring design processes address real-world needs and contexts.</p>
+            </div>
+            <hr class="objective-line">
+            <div class="objective-item">
+              <span class="objective-num">03</span>
+              <h3 class="objective-title">Co-Design</h3>
+              <p class="objective-desc">Engage marginalised communities in participatory design processes, addressing STEM gender gaps, equity for marginalised groups, and cross-national collaboration.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Remaining sections (temporary - still using images) -->
-    <img id="objectives" class="section-image" alt="02 Objectives" src="@/assets/layouts/homepages/03 OBJECTIVES.png">
     <img id="sdg" class="section-image section-image--dark" alt="03 SDG Contributions" src="@/assets/layouts/homepages/04 SDG CONTRIBUTIONS.png">
     <img id="timeline" class="section-image" alt="04 Timeline" src="@/assets/layouts/homepages/TIMELINE.png">
 
@@ -361,6 +396,72 @@ onBeforeUnmount(() => {
 }
 
 /* ============================================
+   SECTION 3: OBJECTIVES
+   ============================================ */
+.objectives-section {
+  width: 100%;
+  padding: 0 clamp(40px, 8vw, 200px);
+  background-color: var(--color-white);
+}
+
+.objectives-content {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Objectives list - 3 column grid */
+.objectives-list {
+  max-width: 1500px;
+  margin: clamp(46px, 6vw, 70px) auto;
+  padding: 0 clamp(40px, 5vw, 80px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 36px);
+}
+
+.objective-item {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: baseline;
+  gap: clamp(104px, 12vw, 192px)
+}
+
+.objective-num {
+  font-family: var(--font-family);
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 400;
+  color: var(--color-black);
+  font-weight: 500;
+  color: #DD3528;
+}
+
+.objective-title {
+  font-family: var(--font-family);
+  font-size: clamp(16px, 1.6vw, 22px);
+  font-weight: 600;
+  color: var(--color-black);
+  white-space: nowrap;
+  width: clamp(140px,14vw,185px);
+}
+
+.objective-desc {
+  font-family: var(--font-family);
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 400;
+  color: var(--color-black);
+  line-height: 1.5;
+  text-align: left;
+}
+
+.objective-line {
+  border: none;
+  border-top: 1px solid var(--color-black);
+  margin: 0;
+  width: 100%;
+}
+
+/* ============================================
    TABLET STYLES (max-width: 1024px)
    ============================================ */
 @media (max-width: 1024px) {
@@ -454,6 +555,37 @@ onBeforeUnmount(() => {
     padding:  clamp(5px,2vw,40px);
   }
 
+  /* OBJECTIVES section mobile */
+  .objectives-section {
+    padding: var(--space-7) var(--space-5);
+  }
+
+  .objectives-list {
+    padding: clamp(5px, 2vw, 40px);
+    gap: var(--space-5);
+  }
+
+  .objective-item {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: var(--space-2) var(--space-3);
+  }
+
+  .objective-num {
+    font-size: clamp(18px, 4.3vw, 20px);
+  }
+
+  .objective-title {
+    font-size: clamp(16px, 4.5vw, 20px);
+    white-space: normal;
+    width: auto;
+  }
+
+  .objective-desc {
+    grid-column: 1 / -1;
+    font-size: clamp(16px, 4.2vw, 18px);
+    text-align: left;
+  }
 
   .hero-nav {
     flex-direction: row;
