@@ -1,37 +1,63 @@
 [
   {
     "id": "p1",
-    "provisionalTitle": "Proposal Title Proposal Title Proposal Title Proposal Title",
-    "name": "Fadel Adib",
-    "keywords": ["HCI", "GAMIFIED EDUCATION", "INCLUSIVE AI", "CHILD-CENTRED DESIGN"],
+    "provisionalTitle": "FreireVoice: Co-designing a Freirean WhatsApp AI Teaching Assistant to Mitigate Educational Inequities for Marginalised Children in Brazil",
+    "name": "Xin Shu",
+    "keywords": [
+      "Freirean Problem-Posing Education",
+      "WhatsApp AI Assistant",
+      "Asynchronous Voice Interaction",
+      "Seamful Design & Communication Repair",
+      "Teacher-in-the-Loop Governance"
+    ],
     "detailsMdPath": "content/projects/p1.md"
   },
   {
     "id": "p2",
-    "provisionalTitle": "Proposal Title 2",
-    "name": "Person 2",
-    "keywords": ["AI", "INTERACTION"],
+    "provisionalTitle": "Interaction-Aware Educational Tools for Inclusive AI Design",
+    "name": "Eldar Jalilzade",
+    "keywords": [
+      "Interaction Analysis",
+      "Inclusive AI Design",
+      "Adaptive Learning"
+    ],
     "detailsMdPath": "content/projects/p2.md"
   },
   {
     "id": "p3",
-    "provisionalTitle": "Proposal Title 3",
-    "name": "Person 3",
-    "keywords": ["SYSTEMS", "UX"],
+    "provisionalTitle": "Pedagogical Restructuring: Balancing Thematic Thinking and Expressive Exploration in Creative Photography Learning with AI-Supported Tools",
+    "name": "Jiacheng Cheng",
+    "keywords": [
+      "Pedagogical Restructuring",
+      "Creative Learning Structures",
+      "Reflective Practice",
+      "Human-Centred AI in Education"
+    ],
     "detailsMdPath": "content/projects/p3.md"
   },
   {
     "id": "p4",
-    "provisionalTitle": "Proposal Title 4",
-    "name": "Person 4",
-    "keywords": ["DATA", "EDUCATION"],
+    "provisionalTitle": "Exploring Text-Based Interaction in Inclusive AI-Assisted Educational Games",
+    "name": "Yunfei Wang",
+    "keywords": [
+      "Text-Based Interaction",
+      "AI-Assisted Educational Games",
+      "Natural Language Understanding",
+      "Cognitive Engagement"
+    ],
     "detailsMdPath": "content/projects/p4.md"
   },
-  {
+    {
     "id": "p5",
-    "provisionalTitle": "Proposal Title 5",
-    "name": "Person 5",
-    "keywords": ["AGENTS", "ROBOTICS"],
+    "provisionalTitle": "Plot & Palette: Inclusive Tangible Storytelling for Art Appreciation in Resource-Constrained Learning Environments",
+    "name": "Marci Ma",
+    "keywords": [
+      "Art Appreciation",
+      "Tangible User Interfaces",
+      "Narrative-Based Interaction & Story Hypotheses",
+      "Generative AI for Education",
+      "Educational Equity & Cross-Cultural Co-design"
+    ],
     "detailsMdPath": "content/projects/p5.md"
   }
 ]

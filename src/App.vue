@@ -8,6 +8,19 @@ const router = useRouter()
 const open = ref(false)
 const selection = ref(1)
 const showBackToTop = ref(false)
+const showComingSoon = ref(false)
+const comingSoonPage = ref('')
+
+// Show coming soon dialog for unavailable pages
+function showUnavailable(pageName) {
+  comingSoonPage.value = pageName
+  showComingSoon.value = true
+  open.value = false
+}
+
+function closeComingSoon() {
+  showComingSoon.value = false
+}
 
 // Show/hide back to top button based on scroll position
 function handleScroll() {
@@ -45,13 +58,13 @@ function choose(v) {
   if (v === 1) {
     router.push('/')
   } else if (v === 2) {
-    router.push('/prototypes')
+    showUnavailable('Prototypes')
   } else if (v === 3) {
     router.push('/people')
   } else if (v === 4) {
-    router.push('/contact')
+    showUnavailable('Contact')
   } else if (v === 5) {
-    router.push('/news')
+    showUnavailable('News & Events')
   } else if (v === 6) {
     router.push('/projects')
   } else if (v === 0) {
@@ -144,6 +157,22 @@ onBeforeUnmount(() => {
     >
       ↑
     </button>
+
+    <!-- Coming Soon Dialog -->
+    <div v-if="showComingSoon" class="dialog-overlay" @click="closeComingSoon">
+      <div class="dialog-box" @click.stop>
+        <button class="dialog-close" @click="closeComingSoon">×</button>
+        <div class="dialog-content">
+          <h2 class="dialog-title">Coming Soon</h2>
+          <div class="dialog-line"></div>
+          <p class="dialog-message">
+            <strong>{{ comingSoonPage }}</strong> will be available shortly.
+          </p>
+          <p class="dialog-submessage">We're working on something exciting. Stay tuned!</p>
+          <button class="dialog-btn" @click="closeComingSoon">Got it</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -453,6 +482,124 @@ footer {
 .back-to-top:hover {
   background-color: var(--color-red);
   transform: scale(1.1);
+}
+
+/* ============================================
+   COMING SOON DIALOG
+   ============================================ */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.dialog-box {
+  position: relative;
+  background-color: var(--color-white);
+  border-radius: clamp(16px, 4vw, 24px);
+  max-width: 480px;
+  width: 100%;
+  padding: clamp(32px, 5vw, 48px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: dialogSlideIn 0.3s ease;
+}
+
+@keyframes dialogSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dialog-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  color: var(--color-black);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.dialog-close:hover {
+  color: var(--color-red);
+}
+
+.dialog-content {
+  text-align: center;
+}
+
+.dialog-title {
+  font-family: var(--font-family);
+  font-size: clamp(28px, 5vw, 36px);
+  font-weight: 600;
+  color: var(--color-black);
+  margin-bottom: var(--space-3);
+}
+
+.dialog-line {
+  width: 60px;
+  height: 3px;
+  background-color: var(--color-red);
+  margin: 0 auto var(--space-5);
+}
+
+.dialog-message {
+  font-family: var(--font-family);
+  font-size: clamp(16px, 2vw, 18px);
+  font-weight: 400;
+  color: var(--color-black);
+  line-height: 1.6;
+  margin-bottom: var(--space-2);
+}
+
+.dialog-message strong {
+  font-weight: 600;
+}
+
+.dialog-submessage {
+  font-family: var(--font-family);
+  font-size: clamp(14px, 1.5vw, 16px);
+  font-weight: 400;
+  color: #666;
+  margin-bottom: var(--space-6);
+}
+
+.dialog-btn {
+  font-family: var(--font-family);
+  font-size: clamp(14px, 1.5vw, 16px);
+  font-weight: 600;
+  color: var(--color-white);
+  background-color: var(--color-black);
+  border: none;
+  border-radius: 50px;
+  padding: var(--space-3) var(--space-7);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dialog-btn:hover {
+  background-color: var(--color-red);
+  transform: scale(1.02);
 }
 
 /* ============================================

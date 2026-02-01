@@ -11,7 +11,7 @@ function go(id) {
 
 // Set up Intersection Observer to detect visible sections
 function setupScrollSpy() {
-  const sections = ['purpose', 'objectives', 'sdg', 'timeline']
+  const sections = ['purpose', 'objectives', 'sdg', 'timeline', 'callphd']
 
   observer = new IntersectionObserver(
     (entries) => {
@@ -111,6 +111,14 @@ onBeforeUnmount(() => {
       >
         <span class="btn-letter">T</span>
         <span class="btn-text">TIMELINE</span>
+      </button>
+      <button
+        class="floating-nav-btn"
+        :class="{ expanded: activeSection === 'callphd' }"
+        @click="go('callphd')"
+      >
+        <span class="btn-letter">C</span>
+        <span class="btn-text">CALL FOR PHD</span>
       </button>
     </nav>
 
@@ -250,30 +258,97 @@ onBeforeUnmount(() => {
 
           <div class="timeline-steps">
             <div class="timeline-step-mobile">
-              <span class="step-label">Step 1</span>
-              <h3 class="step-title">Project Initiation & Capacity Building</h3>
-              <p class="step-desc">Recruit and assemble an interdisciplinary, gender-balanced cohort of 20 PhD researchers. Conduct training workshops on child-focused inclusive AI co-design methodologies.</p>
+              <span class="step-label">Phase 1</span>
+              <h3 class="step-title">Programme Inauguration & Team Establishment</h3>
+              <p class="step-desc">Recruit 20 gender-balanced PhD researchers (5 UK, 15 Brazil; 50% female). Establish 5 cross-national teams aligned with thematic projects. Deliver training on Brazilian child psychology and ethical research protocols.</p>
             </div>
             <div class="timeline-step-mobile">
-              <span class="step-label">Step 2</span>
-              <h3 class="step-title">Field Research & Co-Design</h3>
-              <p class="step-desc">Initiate participatory co-design in field research with children in rural, urban, and neurodiverse settings in Brazil.</p>
+              <span class="step-label">Phase 2</span>
+              <h3 class="step-title">Field Investigation & Prototype Blueprint</h3>
+              <p class="step-desc">Conduct user-centric field research with marginalised children in Rio Grande do Sul. Develop 5 preliminary prototype blueprints with contextual research reports.</p>
             </div>
             <div class="timeline-step-mobile">
-              <span class="step-label">Step 3</span>
-              <h3 class="step-title">International Collaboration & Prototype</h3>
-              <p class="step-desc">Facilitate international exchanges (UK-Brazil visits). Develop 5 AI-driven educational prototypes tailored to underserved Brazilian learners.</p>
+              <span class="step-label">Phase 3</span>
+              <h3 class="step-title">UK-Brazil Exchange & Prototype Refinement</h3>
+              <p class="step-desc">Facilitate academic exchange at UFRGS, Porto Alegre. Organise workshops on inclusive co-design and adaptive AI. Host hybrid prototype showcase at Newcastle University and UFRGS.</p>
             </div>
             <div class="timeline-step-mobile">
-              <span class="step-label">Step 4</span>
-              <h3 class="step-title">Prototype Showcases & Evaluation</h3>
-              <p class="step-desc">Host community showcases in Brazil to present prototypes to educators, families, and policymakers.</p>
+              <span class="step-label">Phase 4</span>
+              <h3 class="step-title">Evaluation & Prioritisation</h3>
+              <p class="step-desc">Conduct multi-stakeholder evaluation with educators, policymakers, and children. Prioritise top 3 prototypes for full-scale development.</p>
             </div>
             <div class="timeline-step-mobile">
-              <span class="step-label">Step 5</span>
-              <h3 class="step-title">Knowledge Dissemination & Resource Sharing</h3>
-              <p class="step-desc">Publish open-access research outputs and toolkits for inclusive AI co-design.</p>
+              <span class="step-label">Phase 5</span>
+              <h3 class="step-title">Development & Empirical Validation</h3>
+              <p class="step-desc">Develop functional prototypes for resource-constrained contexts. Conduct empirical validation with marginalised Brazilian children to measure usability and educational efficacy.</p>
             </div>
+            <div class="timeline-step-mobile">
+              <span class="step-label">Phase 6</span>
+              <h3 class="step-title">Knowledge Dissemination & Curriculum Co-Development</h3>
+              <p class="step-desc">Submit findings to peer-reviewed journals. Co-develop educational materials with Brazilian educators. Launch open-access digital repository for programme resources.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Call for PhD -->
+    <section id="callphd" class="callphd-section">
+      <div class="callphd-content">
+        <div class="section-number-wrapper">
+          <span class="section-number">05</span>
+        </div>
+        <div class="section-main">
+          <div class="section-header">
+            <h2 class="section-title">CALL FOR PHD</h2>
+            <div class="section-line"></div>
+          </div>
+
+          <!-- Intro -->
+          <div class="callphd-intro">
+            <h3 class="callphd-subtitle">Join Our Brazilian PhD Cohort</h3>
+            <p class="callphd-text">
+              We are seeking <strong>15 Brazilian PhD students</strong> to join five collaborative research projects
+              (3 students per project). Our goal is to assemble diverse cross-national teams that drive innovative,
+              inclusive AI co-design, supporting marginalised children in Brazil and advancing educational equity.
+            </p>
+          </div>
+
+          <!-- Why Join Us -->
+          <div class="callphd-reasons">
+            <h3 class="reasons-title">Why Join Us?</h3>
+            <div class="reasons-grid">
+              <div class="reason-item">
+                <h4 class="reason-name">Cross-National Collaboration</h4>
+                <p class="reason-desc">Work with UK researchers and leading experts in inclusive AI design. Build interdisciplinary and cross-cultural research skills.</p>
+              </div>
+              <div class="reason-item">
+                <h4 class="reason-name">Hands-On AI Research</h4>
+                <p class="reason-desc">Co-design AI educational tools for marginalised children. Gain practical skills in user-centric design and field research.</p>
+              </div>
+              <div class="reason-item">
+                <h4 class="reason-name">Shape Research Directions</h4>
+                <p class="reason-desc">Lead theme-specific research using your local insights. Refine project goals that match your interests and expertise.</p>
+              </div>
+              <div class="reason-item">
+                <h4 class="reason-name">International Networks</h4>
+                <p class="reason-desc">Access academic exchanges, workshops, and partnerships with UFRGS and Newcastle University.</p>
+              </div>
+              <div class="reason-item">
+                <h4 class="reason-name">Real Impact</h4>
+                <p class="reason-desc">Contribute to SDGs 4, 5, and 10. Create life-changing solutions for educational equity.</p>
+              </div>
+              <div class="reason-item">
+                <h4 class="reason-name">Professional Skills</h4>
+                <p class="reason-desc">Training in child psychology, ethical research practices, and inclusive AI co-design methodologies.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="callphd-cta">
+            <p class="cta-text">Interested? Contact the project sponsor for details before applying.</p>
+            <button class="cta-btn">Get in Touch</button>
           </div>
         </div>
       </div>
@@ -740,6 +815,125 @@ onBeforeUnmount(() => {
 }
 
 /* ============================================
+   SECTION 6: CALL FOR PHD
+   ============================================ */
+.callphd-section {
+  width: 100%;
+  padding: clamp(30px, 6vw, 100px) clamp(40px, 8vw, 200px);
+  background-color: var(--color-white);
+}
+
+.callphd-content {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Intro */
+.callphd-intro {
+  max-width: 1500px;
+  margin: clamp(46px, 6vw, 70px) auto clamp(32px, 4vw, 48px);
+  padding: 0 clamp(40px, 5vw, 80px);
+}
+
+.callphd-subtitle {
+  font-family: var(--font-family);
+  font-size: clamp(24px, 2.5vw, 36px);
+  font-weight: 600;
+  color: var(--color-black);
+  margin-bottom: clamp(12px, 1.5vw, 20px);
+}
+
+.callphd-text {
+  font-family: var(--font-family);
+  font-size: clamp(16px, 1.6vw, 22px);
+  font-weight: 400;
+  color: var(--color-black);
+  line-height: 1.6;
+}
+
+/* Why Join Us */
+.callphd-reasons {
+  max-width: 1500px;
+  margin: 0 auto clamp(40px, 5vw, 60px);
+  padding: 0 clamp(40px, 5vw, 80px);
+}
+
+.reasons-title {
+  font-family: var(--font-family);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 600;
+  color: var(--color-black);
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 3vw, 40px);
+}
+
+.reason-item {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1vw, 12px);
+}
+
+.reason-name {
+  font-family: var(--font-family);
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.reason-desc {
+  font-family: var(--font-family);
+  font-size: clamp(14px, 1.3vw, 16px);
+  font-weight: 400;
+  color: var(--color-black);
+  line-height: 1.5;
+}
+
+/* CTA */
+.callphd-cta {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: clamp(32px, 4vw, 48px) clamp(40px, 5vw, 80px);
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(16px, 2vw, 32px);
+}
+
+.cta-text {
+  font-family: var(--font-family);
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 400;
+  color: var(--color-black);
+}
+
+.cta-btn {
+  font-family: var(--font-family);
+  font-size: clamp(14px, 1.4vw, 16px);
+  font-weight: 600;
+  color: var(--color-white);
+  background-color: var(--color-black);
+  border: none;
+  border-radius: 50px;
+  padding: clamp(12px, 1.5vw, 16px) clamp(24px, 3vw, 40px);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cta-btn:hover {
+  background-color: var(--color-red);
+  transform: scale(1.02);
+}
+
+/* ============================================
    TABLET STYLES (max-width: 1024px)
    ============================================ */
 @media (max-width: 1024px) {
@@ -902,6 +1096,42 @@ onBeforeUnmount(() => {
     width: 100%;
     padding: var(--space-7) var(--space-5);
     background-color: var(--color-white);
+  }
+
+  /* CALL FOR PHD section mobile */
+  .callphd-section {
+    padding: var(--space-7) var(--space-5);
+  }
+
+  .callphd-intro,
+  .callphd-reasons {
+    padding: 0 var(--space-3);
+  }
+
+  .reasons-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .reason-name {
+    font-size: clamp(16px, 4.5vw, 18px);
+  }
+
+  .reason-desc {
+    font-size: clamp(14px, 4vw, 16px);
+  }
+
+  .callphd-cta {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    margin-left: var(--space-3);
+    margin-right: var(--space-3);
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .cta-btn {
+    width: 100%;
   }
 
   .hero-nav {
