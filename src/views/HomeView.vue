@@ -232,8 +232,52 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <!-- Remaining sections (temporary - still using images) -->
-    <img id="timeline" class="section-image" alt="04 Timeline" src="@/assets/layouts/homepages/TIMELINE.png">
+    <!-- Section 5: Timeline -->
+    <!-- Desktop: Use image -->
+    <img id="timeline" class="section-image timeline-desktop" alt="04 Timeline" src="@/assets/layouts/homepages/TIMELINE.png">
+
+    <!-- Mobile: Simplified timeline (to be designed) -->
+    <section class="timeline-mobile">
+      <div class="timeline-content">
+        <div class="section-number-wrapper">
+          <span class="section-number">04</span>
+        </div>
+        <div class="section-main">
+          <div class="section-header">
+            <h2 class="section-title">TIMELINE</h2>
+            <div class="section-line"></div>
+          </div>
+
+          <div class="timeline-steps">
+            <div class="timeline-step-mobile">
+              <span class="step-label">Step 1</span>
+              <h3 class="step-title">Project Initiation & Capacity Building</h3>
+              <p class="step-desc">Recruit and assemble an interdisciplinary, gender-balanced cohort of 20 PhD researchers. Conduct training workshops on child-focused inclusive AI co-design methodologies.</p>
+            </div>
+            <div class="timeline-step-mobile">
+              <span class="step-label">Step 2</span>
+              <h3 class="step-title">Field Research & Co-Design</h3>
+              <p class="step-desc">Initiate participatory co-design in field research with children in rural, urban, and neurodiverse settings in Brazil.</p>
+            </div>
+            <div class="timeline-step-mobile">
+              <span class="step-label">Step 3</span>
+              <h3 class="step-title">International Collaboration & Prototype</h3>
+              <p class="step-desc">Facilitate international exchanges (UK-Brazil visits). Develop 5 AI-driven educational prototypes tailored to underserved Brazilian learners.</p>
+            </div>
+            <div class="timeline-step-mobile">
+              <span class="step-label">Step 4</span>
+              <h3 class="step-title">Prototype Showcases & Evaluation</h3>
+              <p class="step-desc">Host community showcases in Brazil to present prototypes to educators, families, and policymakers.</p>
+            </div>
+            <div class="timeline-step-mobile">
+              <span class="step-label">Step 5</span>
+              <h3 class="step-title">Knowledge Dissemination & Resource Sharing</h3>
+              <p class="step-desc">Publish open-access research outputs and toolkits for inclusive AI co-design.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </div>
 </template>
@@ -598,6 +642,104 @@ onBeforeUnmount(() => {
 }
 
 /* ============================================
+   SECTION 5: TIMELINE
+   ============================================ */
+/* Desktop: show image, hide mobile version */
+.timeline-desktop {
+  display: block;
+}
+
+.timeline-mobile {
+  display: none;
+}
+
+/* Mobile timeline styles */
+.timeline-mobile .timeline-content {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.timeline-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-4) var(--space-4);
+  margin-top: var(--space-5);
+  margin-left: var(--space-4);
+  position: relative;
+  border-left: 2px solid var(--color-black);
+}
+
+/* Filled dot at the top of timeline */
+.timeline-steps::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-black);
+  border-radius: 50%;
+}
+
+/* Filled dot at the bottom of timeline */
+.timeline-steps::after {
+  content: '';
+  position: absolute;
+  left: -6px;
+  bottom: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-black);
+  border-radius: 50%;
+}
+
+.timeline-step-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-left: var(--space-4);
+  position: relative;
+}
+
+/* Empty dot (circle outline) */
+.timeline-step-mobile::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 22px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-white);
+  border: 2px solid var(--color-black);
+  border-radius: 50%;
+}
+
+.step-label {
+  font-family: var(--font-family);
+  font-size: clamp(28px, 8vw, 32px);
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.step-title {
+  font-family: var(--font-family);
+  font-size: clamp(16px, 4.5vw, 20px);
+  font-weight: 600;
+  color: var(--color-black);
+  line-height: 1.3;
+}
+
+.step-desc {
+  font-family: var(--font-family);
+  font-size: clamp(14px, 4vw, 16px);
+  font-weight: 400;
+  color: var(--color-black);
+  line-height: 1.5;
+}
+
+/* ============================================
    TABLET STYLES (max-width: 1024px)
    ============================================ */
 @media (max-width: 1024px) {
@@ -748,6 +890,18 @@ onBeforeUnmount(() => {
   .sdg-item-desc {
     font-size: clamp(14px, 4vw, 16px);
     padding-left: clamp(15px, 2.8vw, 30px);
+  }
+
+  /* TIMELINE section mobile - swap visibility */
+  .timeline-desktop {
+    display: none;
+  }
+
+  .timeline-mobile {
+    display: block;
+    width: 100%;
+    padding: var(--space-7) var(--space-5);
+    background-color: var(--color-white);
   }
 
   .hero-nav {
