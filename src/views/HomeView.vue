@@ -289,7 +289,7 @@ onBeforeUnmount(() => {
 
 .section-number {
   font-family: var(--font-family);
-  font-size: clamp(85px, 12vw, 200px);
+  font-size: clamp(85px, 10vw, 160px);
   font-weight: 400;
   font-style: italic;
   color: #DD35284D; /* Semi-transparent red */
@@ -301,7 +301,7 @@ onBeforeUnmount(() => {
   position: relative;
   z-index: 2;
   padding-left: clamp(20px, 2.5vw, 100px); /* Offset to align with 01 */
-  padding-top: clamp(75px, 8vw, 120px); /* Push down to overlap nicely */
+  padding-top: clamp(70px, 7vw, 120px); /* Push down to overlap nicely */
 }
 
 
@@ -315,7 +315,7 @@ onBeforeUnmount(() => {
 
 .section-title {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(28px, 3.5vw, 50px);
+  font-size: clamp(22px, 3.2vw, 35px);
   font-weight: 600;
   color: var(--color-black);
   text-transform: uppercase;
@@ -332,7 +332,7 @@ onBeforeUnmount(() => {
 
 .section-text {
   font-family: var(--font-family);
-  font-size: clamp(18px, 2.8vw, 40px);
+  font-size: clamp(16px, 1.8vw, 24px);
   font-weight: 400;
   color: var(--color-black);
   line-height: 1.4;
@@ -356,7 +356,7 @@ onBeforeUnmount(() => {
 }
 
 .logo-ufrgs {
-  height: clamp(80px, 9vw, 120px);
+  height: clamp(100px, 11vw, 160px);
   width: auto;
 }
 
