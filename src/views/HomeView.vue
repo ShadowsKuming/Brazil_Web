@@ -385,7 +385,7 @@ onBeforeUnmount(() => {
    TEMPORARY: Image sections (to be replaced)
    ============================================ */
 .section-image {
-  width: 100%;
+  width: clamp(1200px,90vw,1500px);
   height: auto;
   display: block;
   background-color: var(--color-white);
