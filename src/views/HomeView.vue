@@ -348,7 +348,7 @@ onBeforeUnmount(() => {
           <!-- CTA -->
           <div class="callphd-cta">
             <p class="cta-text">Interested? Contact the project sponsor for details before applying.</p>
-            <button class="cta-btn">Get in Touch</button>
+            <a href="mailto:Lei.Shi@newcastle.ac.uk" class="cta-btn">Get in Touch</a>
           </div>
         </div>
       </div>
@@ -915,6 +915,7 @@ onBeforeUnmount(() => {
 }
 
 .cta-btn {
+  display: inline-block;
   font-family: var(--font-family);
   font-size: clamp(14px, 1.4vw, 16px);
   font-weight: 600;
@@ -925,6 +926,8 @@ onBeforeUnmount(() => {
   padding: clamp(12px, 1.5vw, 16px) clamp(24px, 3vw, 40px);
   cursor: pointer;
   white-space: nowrap;
+  text-decoration: none;
+  text-align: center;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
