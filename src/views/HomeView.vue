@@ -3,10 +3,18 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const activeSection = ref(null)
 let observer = null
+let isScrolling = false // Flag to disable scroll spy during programmatic scroll
 
 // Navigate to section
 function go(id) {
+  isScrolling = true // Disable scroll spy
+  activeSection.value = id // Immediately expand the button
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
+  // Re-enable scroll spy after scroll animation completes
+  setTimeout(() => {
+    isScrolling = false
+  }, 800)
 }
 
 // Set up Intersection Observer to detect visible sections
@@ -15,6 +23,8 @@ function setupScrollSpy() {
 
   observer = new IntersectionObserver(
     (entries) => {
+      if (isScrolling) return // Skip updates during programmatic scroll
+
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           activeSection.value = entry.target.id
@@ -22,8 +32,8 @@ function setupScrollSpy() {
       })
     },
     {
-      threshold: 0.3,
-      rootMargin: '-10% 0px -50% 0px'
+      threshold: 0.1,
+      rootMargin: '-20% 0px -40% 0px'
     }
   )
 
@@ -241,51 +251,53 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- Section 5: Timeline -->
-    <!-- Desktop: Use image -->
-    <img id="timeline" class="section-image timeline-desktop" alt="04 Timeline" src="@/assets/layouts/homepages/TIMELINE.png">
+    <section id="timeline" class="timeline-section">
+      <!-- Desktop: Use image -->
+      <img class="section-image timeline-desktop" alt="04 Timeline" src="@/assets/layouts/homepages/TIMELINE.png">
 
-    <!-- Mobile: Simplified timeline (to be designed) -->
-    <section class="timeline-mobile">
-      <div class="timeline-content">
-        <div class="section-number-wrapper">
-          <span class="section-number">04</span>
-        </div>
-        <div class="section-main">
-          <div class="section-header">
-            <h2 class="section-title">TIMELINE</h2>
-            <div class="section-line"></div>
+      <!-- Mobile: Simplified timeline -->
+      <div class="timeline-mobile">
+        <div class="timeline-content">
+          <div class="section-number-wrapper">
+            <span class="section-number">04</span>
           </div>
+          <div class="section-main">
+            <div class="section-header">
+              <h2 class="section-title">TIMELINE</h2>
+              <div class="section-line"></div>
+            </div>
 
-          <div class="timeline-steps">
-            <div class="timeline-step-mobile">
-              <span class="step-label">Phase 1</span>
-              <h3 class="step-title">Programme Inauguration & Team Establishment</h3>
-              <p class="step-desc">Recruit 20 gender-balanced PhD researchers (5 UK, 15 Brazil; 50% female). Establish 5 cross-national teams aligned with thematic projects. Deliver training on Brazilian child psychology and ethical research protocols.</p>
-            </div>
-            <div class="timeline-step-mobile">
-              <span class="step-label">Phase 2</span>
-              <h3 class="step-title">Field Investigation & Prototype Blueprint</h3>
-              <p class="step-desc">Conduct user-centric field research with marginalised children in Rio Grande do Sul. Develop 5 preliminary prototype blueprints with contextual research reports.</p>
-            </div>
-            <div class="timeline-step-mobile">
-              <span class="step-label">Phase 3</span>
-              <h3 class="step-title">UK-Brazil Exchange & Prototype Refinement</h3>
-              <p class="step-desc">Facilitate academic exchange at UFRGS, Porto Alegre. Organise workshops on inclusive co-design and adaptive AI. Host hybrid prototype showcase at Newcastle University and UFRGS.</p>
-            </div>
-            <div class="timeline-step-mobile">
-              <span class="step-label">Phase 4</span>
-              <h3 class="step-title">Evaluation & Prioritisation</h3>
-              <p class="step-desc">Conduct multi-stakeholder evaluation with educators, policymakers, and children. Prioritise top 3 prototypes for full-scale development.</p>
-            </div>
-            <div class="timeline-step-mobile">
-              <span class="step-label">Phase 5</span>
-              <h3 class="step-title">Development & Empirical Validation</h3>
-              <p class="step-desc">Develop functional prototypes for resource-constrained contexts. Conduct empirical validation with marginalised Brazilian children to measure usability and educational efficacy.</p>
-            </div>
-            <div class="timeline-step-mobile">
-              <span class="step-label">Phase 6</span>
-              <h3 class="step-title">Knowledge Dissemination & Curriculum Co-Development</h3>
-              <p class="step-desc">Submit findings to peer-reviewed journals. Co-develop educational materials with Brazilian educators. Launch open-access digital repository for programme resources.</p>
+            <div class="timeline-steps">
+              <div class="timeline-step-mobile">
+                <span class="step-label">Phase 1</span>
+                <h3 class="step-title">Programme Inauguration & Team Establishment</h3>
+                <p class="step-desc">Recruit 20 gender-balanced PhD researchers (5 UK, 15 Brazil; 50% female). Establish 5 cross-national teams aligned with thematic projects. Deliver training on Brazilian child psychology and ethical research protocols.</p>
+              </div>
+              <div class="timeline-step-mobile">
+                <span class="step-label">Phase 2</span>
+                <h3 class="step-title">Field Investigation & Prototype Blueprint</h3>
+                <p class="step-desc">Conduct user-centric field research with marginalised children in Rio Grande do Sul. Develop 5 preliminary prototype blueprints with contextual research reports.</p>
+              </div>
+              <div class="timeline-step-mobile">
+                <span class="step-label">Phase 3</span>
+                <h3 class="step-title">UK-Brazil Exchange & Prototype Refinement</h3>
+                <p class="step-desc">Facilitate academic exchange at UFRGS, Porto Alegre. Organise workshops on inclusive co-design and adaptive AI. Host hybrid prototype showcase at Newcastle University and UFRGS.</p>
+              </div>
+              <div class="timeline-step-mobile">
+                <span class="step-label">Phase 4</span>
+                <h3 class="step-title">Evaluation & Prioritisation</h3>
+                <p class="step-desc">Conduct multi-stakeholder evaluation with educators, policymakers, and children. Prioritise top 3 prototypes for full-scale development.</p>
+              </div>
+              <div class="timeline-step-mobile">
+                <span class="step-label">Phase 5</span>
+                <h3 class="step-title">Development & Empirical Validation</h3>
+                <p class="step-desc">Develop functional prototypes for resource-constrained contexts. Conduct empirical validation with marginalised Brazilian children to measure usability and educational efficacy.</p>
+              </div>
+              <div class="timeline-step-mobile">
+                <span class="step-label">Phase 6</span>
+                <h3 class="step-title">Knowledge Dissemination & Curriculum Co-Development</h3>
+                <p class="step-desc">Submit findings to peer-reviewed journals. Co-develop educational materials with Brazilian educators. Launch open-access digital repository for programme resources.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -719,6 +731,11 @@ onBeforeUnmount(() => {
 /* ============================================
    SECTION 5: TIMELINE
    ============================================ */
+.timeline-section {
+  width: 100%;
+  background-color: var(--color-white);
+}
+
 /* Desktop: show image, hide mobile version */
 .timeline-desktop {
   display: block;
