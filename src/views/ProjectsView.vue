@@ -162,7 +162,14 @@ watch(index, async () => {
               <div class="row small keywords">
                 <div class="label">Key Words:</div>
                 <div class="pills">
-                  <span v-for="k in (p.keywords || [])" :key="k" class="pill">{{ k }}</span>
+                  <a
+                    v-for="k in (p.keywords || [])"
+                    :key="k"
+                    :href="`https://www.google.com/search?q=${encodeURIComponent(k)}`"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="pill"
+                  >{{ k }}</a>
                 </div>
               </div>
 
@@ -358,6 +365,15 @@ watch(index, async () => {
   font-size: clamp(11px, 0.9vw, 13px);
   color: var(--color-black);
   letter-spacing: 0.3px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill:hover {
+  background: var(--color-black);
+  color: var(--color-white);
+  transform: translateY(-1px);
 }
 
 /* ============================================
