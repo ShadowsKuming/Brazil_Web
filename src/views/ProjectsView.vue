@@ -23,6 +23,15 @@ const AUTO_SCROLL_DELAY = 5000 // 5 seconds per project
 // IMPORTANT: supports subpath deploy (e.g., GitHub Pages /repo-name/)
 const BASE = import.meta.env.BASE_URL || '/'
 
+const isMobile = ref(false)
+
+function checkIsMobile() {
+  const mobile = window.matchMedia('(max-width: 768px)').matches
+  if (mobile && autoScrollInterval) stopAutoScroll()
+  if (!mobile && !autoScrollInterval) startAutoScroll()
+  isMobile.value = mobile
+}
+
 function withBase(path) {
   // Accept both "content/xx" and "/content/xx"
   const cleaned = String(path || '').replace(/^\//, '')
@@ -73,19 +82,16 @@ function go(i) {
 
   index.value = i
 
-  // Scroll to the panel
-  if (viewportRef.value) {
-    isScrolling.value = true
-    const panelWidth = viewportRef.value.offsetWidth
-    viewportRef.value.scrollTo({
-      left: i * panelWidth,
-      behavior: 'smooth'
-    })
-    // Reset scrolling flag after animation
-    setTimeout(() => {
-      isScrolling.value = false
-    }, 600)
-  }
+  const viewport = viewportRef.value
+  if (!viewport) return
+
+  const panels = viewport.querySelectorAll('.panel')
+  const target = panels[i]
+  if (!target) return
+
+  isScrolling.value = true
+  viewport.scrollTo({ left: target.offsetLeft, behavior: 'smooth' })
+  setTimeout(() => (isScrolling.value = false), 600)
 }
 
 // Handle scroll to update index based on scroll position
@@ -93,13 +99,23 @@ function onScroll() {
   if (isScrolling.value || !viewportRef.value) return
 
   const viewport = viewportRef.value
-  const panelWidth = viewport.offsetWidth
-  const scrollLeft = viewport.scrollLeft
-  const newIndex = Math.round(scrollLeft / panelWidth)
+  const panels = viewport.querySelectorAll('.panel')
+  if (!panels.length) return
 
-  if (newIndex !== index.value && newIndex >= 0 && newIndex < projects.value.length) {
-    index.value = newIndex
-  }
+  const left = viewport.scrollLeft
+
+  let best = 0
+  let bestDist = Infinity
+
+  panels.forEach((el, i) => {
+    const dist = Math.abs(el.offsetLeft - left)
+    if (dist < bestDist) {
+      bestDist = dist
+      best = i
+    }
+  })
+
+  if (best !== index.value) index.value = best
 }
 
 // Auto-scroll functions
@@ -133,16 +149,14 @@ onMounted(async () => {
     loading.value = true
     errorMsg.value = ''
 
-    // 1) Load JSON metadata
     const data = await fetchJson('content/projects.json')
     projects.value = Array.isArray(data) ? data : []
 
-    // 2) Render first project
     index.value = 0
     await renderCurrent()
 
-    // 3) Start auto-scroll
-    startAutoScroll()
+    checkIsMobile()
+    if (!isMobile.value) startAutoScroll()
   } catch (e) {
     errorMsg.value = e?.message || String(e)
   } finally {
@@ -150,9 +164,15 @@ onMounted(async () => {
   }
 })
 
+onMounted(() => {
+  window.addEventListener('resize', checkIsMobile)
+})
+
 onBeforeUnmount(() => {
+  window.removeEventListener('resize', checkIsMobile)
   stopAutoScroll()
 })
+
 
 // when index changes, load+render the new project's markdown
 watch(index, async () => {
@@ -320,6 +340,7 @@ watch(index, async () => {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+  scroll-snap-stop: always;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
