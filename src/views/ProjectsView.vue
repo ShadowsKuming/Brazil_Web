@@ -353,6 +353,7 @@ watch(index, async () => {
 .track {
   display: flex;
   width: 100%;
+  flex: 0 0 auto;
 }
 
 .panel {
