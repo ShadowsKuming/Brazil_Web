@@ -351,12 +351,12 @@ onBeforeUnmount(() => {
 }
 
 .logo-newcastle {
-  height: clamp(50px, 6vw, 80px);
+  height: clamp(40px, 6vw, 80px);
   width: auto;
 }
 
 .logo-ufrgs {
-  height: clamp(100px, 11vw, 160px);
+  height: clamp(70px, 11vw, 160px);
   width: auto;
 }
 
@@ -444,13 +444,14 @@ onBeforeUnmount(() => {
   .section-text {
     font-size: clamp(16px, 4.5vw, 20px);
     line-height: 1.5;
+    padding:  clamp(5px,2vw,40px);
   }
 
   .purpose-logos {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-5);
+    padding:  clamp(5px,2vw,40px);
   }
 
 
