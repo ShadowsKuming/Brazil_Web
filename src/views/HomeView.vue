@@ -11,10 +11,21 @@ function go(id) {
     <section class="hero">
       <div class="hero-content">
         <h1 class="hero-title">
-          <span class="text-semibold-italic">/Bridging</span> <span class="text-regular">Contexts:</span><br>
-          <span class="text-extralight">Inclusive AI Co-Design and<br>
-          PhD Research Exchange<br>
-          Between </span><span class="text-semibold-italic">the UK</span><span class="text-extralight"> and </span><span class="text-semibold-italic brazil">Brazil</span><span class="text-extralight">.</span>
+          <!-- Line 1: /Bridging Contexts: (large on mobile) -->
+          <span class="title-line-1">
+            <span class="text-semibold-italic">/Bridging</span> <span class="text-regular">Contexts:</span>
+          </span>
+          <br class="desktop-break">
+          <!-- Middle: description (normal size, flows naturally on mobile) -->
+          <span class="title-middle">
+            <span class="text-extralight">Inclusive AI Co-Design and<br class="desktop-break">
+            PhD Research Exchange<br class="desktop-break">
+            Between </span>
+          </span>
+          <!-- Line 3: the UK and Brazil. (large on mobile) -->
+          <span class="title-line-3">
+            <span class="text-semibold-italic">the UK</span><span class="text-extralight"> and </span><span class="text-semibold-italic brazil">Brazil</span><span class="text-extralight">.</span>
+          </span>
         </h1>
 
         <nav class="hero-nav">
@@ -120,6 +131,13 @@ function go(id) {
   text-decoration-thickness: 3px;
 }
 
+/* Title line wrappers - inline by default (desktop) */
+.title-line-1,
+.title-middle,
+.title-line-3 {
+  display: inline;
+}
+
 /* Nav Pills */
 .hero-nav {
   display: flex;
@@ -177,11 +195,50 @@ function go(id) {
    ============================================ */
 @media (max-width: 768px) {
   .hero {
-    padding: var(--space-6) var(--space-4);
+    padding: var(--space-8) var(--space-7); /* More horizontal padding */
+    align-items: flex-start;
+  }
+
+  .hero-content {
+    max-width: 100%;
   }
 
   .hero-title {
     font-size: clamp(24px, 6vw, 32px);
+    line-height: 1.4;
+    margin-bottom: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  /* Line 1: /Bridging Contexts: - LARGE */
+  .title-line-1 {
+    display: block;
+    font-size: clamp(32px, 8vw, 52px);
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  /* Middle: description - flows naturally */
+  .title-middle {
+    display: block;
+    font-size: clamp(24px, 6vw, 32px);
+    line-height: 1.5;
+    padding: 0 clamp(8px,0.5vw,4px);
+  }
+
+  /* Line 3: the UK and Brazil. - LARGE */
+  .title-line-3 {
+    display: block;
+    font-size: clamp(32px, 8vw, 52px);
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  /* Hide hard line breaks on mobile - let middle text flow naturally */
+  .desktop-break {
+    display: none;
   }
 
   .hero-nav {
