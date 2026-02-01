@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import { ref, onBeforeUnmount } from 'vue'
+import { ref, watch, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -19,6 +19,17 @@ function scrollToTop() {
 }
 
 window.addEventListener('scroll', handleScroll)
+
+// Lock/unlock body scroll when menu opens/closes
+watch(open, (isOpen) => {
+  if (isOpen) {
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+    document.documentElement.style.overflow = ''
+  }
+})
 
 const options = [
   { value: 0, label: 'ABOUT' },
