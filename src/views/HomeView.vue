@@ -765,6 +765,8 @@ onBeforeUnmount(() => {
 .timeline-section {
   width: 100%;
   background-color: var(--color-white);
+  display: flex;
+  justify-content: center;
 }
 
 /* Desktop: show image, hide mobile version */

@@ -362,7 +362,7 @@ footer {
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  max-width: 1400px;
+  /* max-width: 1400px; */
 }
 
 /* Left column - navigation links */
