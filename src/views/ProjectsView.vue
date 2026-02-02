@@ -209,40 +209,37 @@ watch(index, async () => {
       @touchend="resumeAutoScroll"
     >
       <div class="viewport" ref="viewportRef" @scroll="onScroll">
-        <div class="track">
-          <section v-for="p in projects" :key="p.id" class="panel">
-            <div class="card">
-              <div class="row">
-                <div class="label">Provisional Title:</div>
-                <div class="title">{{ p.provisionalTitle }}</div>
-              </div>
-
-              <div class="row small">
-                <div class="label">Name:</div>
-                <div class="value">{{ p.name }}</div>
-              </div>
-
-              <div class="row small keywords">
-                <div class="label">Key Words:</div>
-                <div class="pills">
-                  <a
-                    v-for="k in (p.keywords || [])"
-                    :key="k"
-                    :href="`https://www.google.com/search?q=${encodeURIComponent(k)}`"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="pill"
-                  >{{ k }}</a>
-                </div>
-              </div>
-
-              <!-- Only the current panel uses v-html to avoid rendering 5 markdown blocks at once -->
-              <div v-if="current && current.id === p.id" class="content markdown" v-html="currentHtml"></div>
-              <div v-else class="content placeholder"> </div>
+        <section v-for="p in projects" :key="p.id" class="panel">
+          <div class="card">
+            <div class="row">
+              <div class="label">Provisional Title:</div>
+              <div class="title">{{ p.provisionalTitle }}</div>
             </div>
-          </section>
-        </div>
-        
+
+            <div class="row small">
+              <div class="label">Name:</div>
+              <div class="value">{{ p.name }}</div>
+            </div>
+
+            <div class="row small keywords">
+              <div class="label">Key Words:</div>
+              <div class="pills">
+                <a
+                  v-for="k in (p.keywords || [])"
+                  :key="k"
+                  :href="`https://www.google.com/search?q=${encodeURIComponent(k)}`"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="pill"
+                >{{ k }}</a>
+              </div>
+            </div>
+
+            <!-- Only the current panel uses v-html to avoid rendering 5 markdown blocks at once -->
+            <div v-if="current && current.id === p.id" class="content markdown" v-html="currentHtml"></div>
+            <div v-else class="content placeholder"> </div>
+          </div>
+        </section>
       </div>
     </div>
 
@@ -340,28 +337,25 @@ watch(index, async () => {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  scroll-snap-stop: always;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
+  overscroll-behavior-x: contain;
 }
 
 .viewport::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
 }
 
-.track {
-  display: flex;
-  width: 100%;
-  flex: 0 0 auto;
-}
-
 .panel {
   flex: 0 0 100%;
+  min-width: 100%;
   display: flex;
   justify-content: center;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
+  box-sizing: border-box;
+  padding: 0 var(--space-2);
 }
 
 /* ============================================
