@@ -275,7 +275,7 @@ watch(index, async () => {
    PAGE HEADER
    ============================================ */
 .page-header {
-  max-width: 1400px;
+  max-width: 1100px;
   margin: 0 auto clamp(40px, 5vw, 80px);
 }
 
@@ -360,7 +360,7 @@ watch(index, async () => {
 .panel {
   flex: 0 0 100%;
   display: flex;
-  /* justify-content: center; */
+  justify-content: center;
   scroll-snap-align: start;
 }
 
