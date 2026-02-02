@@ -360,7 +360,7 @@ watch(index, async () => {
 .panel {
   flex: 0 0 100%;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   scroll-snap-align: start;
 }
 
