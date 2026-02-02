@@ -209,8 +209,7 @@ watch(index, async () => {
       @touchend="resumeAutoScroll"
     >
       <div class="viewport" ref="viewportRef" @scroll="onScroll">
-        <div class="track">
-          <section v-for="p in projects" :key="p.id" class="panel">
+        <section v-for="p in projects" :key="p.id" class="panel">
             <div class="card">
               <div class="row">
                 <div class="label">Provisional Title:</div>
@@ -240,8 +239,7 @@ watch(index, async () => {
               <div v-if="current && current.id === p.id" class="content markdown" v-html="currentHtml"></div>
               <div v-else class="content placeholder"> </div>
             </div>
-          </section>
-        </div>
+        </section>
       </div>
     </div>
 
@@ -339,22 +337,16 @@ watch(index, async () => {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
   scroll-snap-stop: always;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .viewport::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
 }
 
-.track {
-  display: flex;
-  width: 100%;
-  flex: 0 0 auto;
-}
 
 .panel {
   flex: 0 0 100%;
