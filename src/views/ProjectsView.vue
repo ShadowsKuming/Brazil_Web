@@ -25,33 +25,6 @@ const BASE = import.meta.env.BASE_URL || '/'
 
 const isMobile = ref(false)
 
-let snapTimer = null
-
-function snapToNearest() {
-  const viewport = viewportRef.value
-  if (!viewport) return
-
-  const panels = viewport.querySelectorAll('.panel')
-  if (!panels.length) return
-
-  const left = viewport.scrollLeft
-
-  let best = 0
-  let bestDist = Infinity
-  panels.forEach((el, i) => {
-    const dist = Math.abs(el.offsetLeft - left)
-    if (dist < bestDist) {
-      bestDist = dist
-      best = i
-    }
-  })
-
-  isScrolling.value = true
-  viewport.scrollTo({ left: panels[best].offsetLeft, behavior: 'auto' })
-  index.value = best
-  setTimeout(() => (isScrolling.value = false), 50)
-}
-
 function checkIsMobile() {
   const mobile = window.matchMedia('(max-width: 768px)').matches
   if (mobile && autoScrollInterval) stopAutoScroll()
@@ -122,54 +95,27 @@ function go(i) {
 }
 
 // Handle scroll to update index based on scroll position
-// function onScroll() {
-//   if (isScrolling.value || !viewportRef.value) return
-
-//   const viewport = viewportRef.value
-//   const panels = viewport.querySelectorAll('.panel')
-//   if (!panels.length) return
-
-//   const left = viewport.scrollLeft
-
-//   let best = 0
-//   let bestDist = Infinity
-
-//   panels.forEach((el, i) => {
-//     const dist = Math.abs(el.offsetLeft - left)
-//     if (dist < bestDist) {
-//       bestDist = dist
-//       best = i
-//     }
-//   })
-
-//   if (best !== index.value) index.value = best
-// }
-
 function onScroll() {
-  if (!viewportRef.value) return
+  if (isScrolling.value || !viewportRef.value) return
 
-  if (!isScrolling.value) {
-    const viewport = viewportRef.value
-    const panels = viewport.querySelectorAll('.panel')
-    if (panels.length) {
-      const left = viewport.scrollLeft
-      let best = 0
-      let bestDist = Infinity
-      panels.forEach((el, i) => {
-        const dist = Math.abs(el.offsetLeft - left)
-        if (dist < bestDist) {
-          bestDist = dist
-          best = i
-        }
-      })
-      if (best !== index.value) index.value = best
+  const viewport = viewportRef.value
+  const panels = viewport.querySelectorAll('.panel')
+  if (!panels.length) return
+
+  const left = viewport.scrollLeft
+
+  let best = 0
+  let bestDist = Infinity
+
+  panels.forEach((el, i) => {
+    const dist = Math.abs(el.offsetLeft - left)
+    if (dist < bestDist) {
+      bestDist = dist
+      best = i
     }
-  }
+  })
 
-  clearTimeout(snapTimer)
-  snapTimer = setTimeout(() => {
-    if (!isScrolling.value) snapToNearest()
-  }, 120)
+  if (best !== index.value) index.value = best
 }
 
 // Auto-scroll functions
@@ -263,7 +209,8 @@ watch(index, async () => {
       @touchend="resumeAutoScroll"
     >
       <div class="viewport" ref="viewportRef" @scroll="onScroll">
-        <section v-for="p in projects" :key="p.id" class="panel">
+        <div class="track">
+          <section v-for="p in projects" :key="p.id" class="panel">
             <div class="card">
               <div class="row">
                 <div class="label">Provisional Title:</div>
@@ -293,7 +240,9 @@ watch(index, async () => {
               <div v-if="current && current.id === p.id" class="content markdown" v-html="currentHtml"></div>
               <div v-else class="content placeholder"> </div>
             </div>
-        </section>
+          </section>
+        </div>
+        
       </div>
     </div>
 
@@ -387,46 +336,32 @@ watch(index, async () => {
   margin: 0 auto;
 }
 
-/* .viewport {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-snap-stop: always;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-} */
-
 .viewport {
-  width: 100%;
-  overflow-x: auto;
   display: flex;
+  overflow-x: auto;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   scroll-snap-stop: always;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  overscroll-behavior-x: contain;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
 }
 
 .viewport::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
 }
 
+.track {
+  display: flex;
+  width: 100%;
+  flex: 0 0 auto;
+}
 
-/* .panel {
+.panel {
   flex: 0 0 100%;
   display: flex;
   justify-content: center;
   scroll-snap-align: start;
-} */
-
-.panel {
-  flex: 0 0 100vw;         
-  scroll-snap-align: start;
-  display: flex;
-  justify-content: center;
-  box-sizing: border-box;
 }
 
 /* ============================================
