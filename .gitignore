@@ -17,6 +17,7 @@ coverage
 # Project-specific
 CLAUDE.md
 design/
+.claude/
 
 # Editor directories and files
 .vscode/*

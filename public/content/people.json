@@ -15,7 +15,7 @@
   },
   {
     "id": "phd-1",
-    "name": "Jiacheng",
+    "name": "Xin Shu",
     "group": "PhD Student",
     "title": "PhD Student",
     "affiliation": "Newcastle University",
@@ -24,7 +24,63 @@
     "links": {
       "website": "",
       "linkedin": "",
-      "email": "lei.shi@newcastle.ac.uk"
+      "email": ""
+    }
+  },
+  {
+    "id": "phd-2",
+    "name": "Eldar Jalilzade",
+    "group": "PhD Student",
+    "title": "PhD Student",
+    "affiliation": "Newcastle University",
+    "image": "md-assets/people/sample_name.png",
+    "bioMdPath": "content/people/phd-2.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": ""
+    }
+  },
+  {
+    "id": "phd-3",
+    "name": "Jiacheng Cheng",
+    "group": "PhD Student",
+    "title": "PhD Student",
+    "affiliation": "Newcastle University",
+    "image": "md-assets/people/sample_name.png",
+    "bioMdPath": "content/people/phd-3.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": ""
+    }
+  },
+  {
+    "id": "phd-4",
+    "name": "Yunfei Wang",
+    "group": "PhD Student",
+    "title": "PhD Student",
+    "affiliation": "Newcastle University",
+    "image": "md-assets/people/sample_name.png",
+    "bioMdPath": "content/people/phd-4.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": ""
+    }
+  },
+  {
+    "id": "phd-5",
+    "name": "Marci Ma",
+    "group": "PhD Student",
+    "title": "PhD Student",
+    "affiliation": "Newcastle University",
+    "image": "md-assets/people/sample_name.png",
+    "bioMdPath": "content/people/phd-5.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": ""
     }
   }
 ]

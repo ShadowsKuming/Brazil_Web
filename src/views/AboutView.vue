@@ -6,6 +6,7 @@
 // - dist/md-assets/people/*.png
 
 import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import MarkdownIt from 'markdown-it'
 
 const md = new MarkdownIt({
@@ -28,6 +29,8 @@ const bioHtml = ref('')
 
 // cache markdown by path
 const mdCache = ref(new Map())
+
+const route = useRoute()
 
 // base path (supports GitHub Pages subpath)
 const BASE = import.meta.env.BASE_URL || '/'
@@ -108,6 +111,17 @@ onMounted(async () => {
 
     const data = await fetchJson('content/people.json')
     people.value = Array.isArray(data) ? data : []
+
+    // Deep link: if ?id=phd-3 is in URL, open that person directly
+    const targetId = route.query.id
+    if (targetId) {
+      const person = people.value.find((p) => p.id === targetId)
+      if (person) {
+        // Switch to the correct group tab
+        selection.value = person.group === 'Project Lead' ? 1 : 2
+        await openPerson(person)
+      }
+    }
   } catch (e) {
     errorMsg.value = e?.message || String(e)
   } finally {

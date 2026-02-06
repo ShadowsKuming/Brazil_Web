@@ -46,9 +46,8 @@ watch(open, (isOpen) => {
 
 const options = [
   { value: 0, label: 'ABOUT' },
-  { value: 6, label: 'PROJECT PROPOSAL' },
+  { value: 6, label: 'PROJECTS' },
   { value: 5, label: 'NEWS & EVENTS' },
-  { value: 2, label: 'PROTOTYPES' },
   { value: 3, label: 'PEOPLE' },
 ]
 
@@ -128,9 +127,8 @@ onBeforeUnmount(() => {
           <hr />
           <ul class="footer-links">
             <li @click="choose(0)">About</li>
-            <li @click="choose(6)">Project Proposal</li>
+            <li @click="choose(6)">Projects</li>
             <li @click="choose(5)">News + Events</li>
-            <li @click="choose(2)">Prototypes</li>
             <li @click="choose(3)">People</li>
             <li @click="choose(4)">Contact</li>
           </ul>

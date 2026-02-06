@@ -186,6 +186,9 @@ onBeforeUnmount(() => {
             <img src="@/assets/logos/newcastle.png" alt="Newcastle University" class="logo-newcastle">
             <img src="@/assets/logos/ufrgs.png" alt="UFRGS" class="logo-ufrgs">
           </div>
+          <div class="purpose-cta">
+            <router-link to="/projects" class="purpose-btn">Our Projects <span class="purpose-btn-arrow">→</span></router-link>
+          </div>
         </div>
       </div>
     </section>
@@ -599,6 +602,44 @@ onBeforeUnmount(() => {
   max-width: 1500px;
   margin: 0 auto;
   padding: 0 clamp(40px, 5vw, 80px);
+}
+
+/* Projects CTA button */
+.purpose-cta {
+  max-width: 1500px;
+  margin: clamp(32px, 4vw, 56px) auto 0;
+  padding: 0 clamp(40px, 5vw, 80px);
+  text-align: center;
+}
+
+.purpose-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(8px, 1vw, 12px);
+  font-family: var(--font-family);
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 600;
+  color: var(--color-white);
+  background-color: var(--color-black);
+  border: none;
+  border-radius: 50px;
+  padding: clamp(12px, 1.5vw, 16px) clamp(28px, 3vw, 44px);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.purpose-btn:hover {
+  background-color: var(--color-red);
+  transform: scale(1.02);
+}
+
+.purpose-btn-arrow {
+  transition: transform 0.2s ease;
+}
+
+.purpose-btn:hover .purpose-btn-arrow {
+  transform: translateX(4px);
 }
 
 .logo-newcastle {
@@ -1071,6 +1112,11 @@ onBeforeUnmount(() => {
     font-size: clamp(16px, 4.5vw, 20px);
     line-height: 1.5;
     padding:  clamp(5px,2vw,40px);
+  }
+
+  .purpose-cta {
+    padding: 0 clamp(5px, 2vw, 40px);
+    margin-bottom: var(--space-4);
   }
 
   .purpose-logos {

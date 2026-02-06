@@ -3,6 +3,8 @@
     "id": "p1",
     "provisionalTitle": "FreireVoice: Co-designing a Freirean WhatsApp AI Teaching Assistant to Mitigate Educational Inequities for Marginalised Children in Brazil",
     "name": "Xin Shu",
+    "personId": "phd-1",
+    "coverImage": "md-assets/prototypes/Images.png",
     "keywords": [
       "Freirean Problem-Posing Education",
       "WhatsApp AI Assistant",
@@ -16,6 +18,8 @@
     "id": "p2",
     "provisionalTitle": "Interaction-Aware Educational Tools for Inclusive AI Design",
     "name": "Eldar Jalilzade",
+    "personId": "phd-2",
+    "coverImage": "md-assets/prototypes/Images.png",
     "keywords": [
       "Interaction Analysis",
       "Inclusive AI Design",
@@ -27,6 +31,8 @@
     "id": "p3",
     "provisionalTitle": "Pedagogical Restructuring: Balancing Thematic Thinking and Expressive Exploration in Creative Photography Learning with AI-Supported Tools",
     "name": "Jiacheng Cheng",
+    "personId": "phd-3",
+    "coverImage": "md-assets/prototypes/Images.png",
     "keywords": [
       "Pedagogical Restructuring",
       "Creative Learning Structures",
@@ -39,6 +45,8 @@
     "id": "p4",
     "provisionalTitle": "Exploring Text-Based Interaction in Inclusive AI-Assisted Educational Games",
     "name": "Yunfei Wang",
+    "personId": "phd-4",
+    "coverImage": "md-assets/prototypes/Images.png",
     "keywords": [
       "Text-Based Interaction",
       "AI-Assisted Educational Games",
@@ -47,10 +55,12 @@
     ],
     "detailsMdPath": "content/projects/p4.md"
   },
-    {
+  {
     "id": "p5",
     "provisionalTitle": "Plot & Palette: Inclusive Tangible Storytelling for Art Appreciation in Resource-Constrained Learning Environments",
     "name": "Marci Ma",
+    "personId": "phd-5",
+    "coverImage": "md-assets/prototypes/Images.png",
     "keywords": [
       "Art Appreciation",
       "Tangible User Interfaces",
