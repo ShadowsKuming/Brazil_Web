@@ -15,7 +15,7 @@ const md = new MarkdownIt({
   breaks: true,
 })
 
-// 1 = Project Leads, 2 = PhD Students
+// 1 = Project Leads, 2 = PhD Students, 3 = Volunteers
 const selection = ref(1)
 
 // data
@@ -65,8 +65,10 @@ async function fetchText(path) {
   return await res.text()
 }
 
+const groupMap = { 1: 'Project Lead', 2: 'PhD Student', 3: 'Volunteer' }
+
 const filteredPeople = computed(() => {
-  const group = selection.value === 1 ? 'Project Lead' : 'PhD Student'
+  const group = groupMap[selection.value]
   return people.value.filter((p) => p.group === group)
 })
 
@@ -118,7 +120,8 @@ onMounted(async () => {
       const person = people.value.find((p) => p.id === targetId)
       if (person) {
         // Switch to the correct group tab
-        selection.value = person.group === 'Project Lead' ? 1 : 2
+        const groupToTab = { 'Project Lead': 1, 'PhD Student': 2, 'Volunteer': 3 }
+        selection.value = groupToTab[person.group] || 1
         await openPerson(person)
       }
     }
@@ -134,25 +137,36 @@ onMounted(async () => {
   <div class="people-page">
     <!-- LEFT NAV -->
     <aside class="people-nav">
-      <img class="people-title" src="@/assets/special_fonts/people/people.png" alt="People" />
+      <h1 class="people-title">PEOPLE</h1>
 
       <div
-        class="people-menu menu-leads"
+        class="people-menu"
         :class="{ active: selection === 1 }"
         @click="switchGroup(1)"
-      ></div>
+      >Project Leads</div>
 
       <div
-        class="people-menu menu-phd"
+        class="people-menu"
         :class="{ active: selection === 2 }"
         @click="switchGroup(2)"
-      ></div>
+      >PhD Students</div>
+
+      <div
+        class="people-menu"
+        :class="{ active: selection === 3 }"
+        @click="switchGroup(3)"
+      >Volunteers</div>
     </aside>
 
     <!-- RIGHT CONTENT -->
     <main class="people-content">
       <div v-if="loading" class="state">Loading…</div>
       <div v-else-if="errorMsg" class="state error">{{ errorMsg }}</div>
+
+      <!-- EMPTY STATE -->
+      <div v-else-if="!selected && filteredPeople.length === 0" class="state empty">
+        Coming soon.
+      </div>
 
       <!-- LIST VIEW -->
       <section v-else-if="!selected" class="people-grid">
@@ -251,40 +265,35 @@ onMounted(async () => {
 }
 
 .people-title {
-  width: clamp(140px, 15.8vw, 220px);
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   padding-bottom: clamp(16px, 4vw, 32px);
-  display: block;
+  margin: 0;
 }
 
 .people-menu {
-  width: clamp(180px, 14.7vw, 240px);
-  padding: clamp(14px, 1.8vw, 20px) 0;
-  background-color: #000;
-  transition: background-color 0.25s ease, transform 0.2s ease;
-}
-
-.menu-leads {
-  mask-image: url('@/assets/special_fonts/people/Project Leads.png');
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  mask-position: left center;
-}
-
-.menu-phd {
-  mask-image: url('@/assets/special_fonts/people/PHD students.png');
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  mask-position: left center;
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: clamp(18px, 1.8vw, 24px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #000;
+  padding: clamp(4px, 0.5vw, 6px) 0;
+  cursor: pointer;
+  transition: color 0.25s ease, transform 0.2s ease;
 }
 
 .people-menu:hover {
-  cursor: pointer;
-  background-color: #dd3528;
+  color: #dd3528;
   transform: scale(1.01);
 }
 
 .people-menu.active {
-  background-color: #dd3528;
+  color: #dd3528;
 }
 
 /* ===== Right content ===== */
@@ -299,6 +308,11 @@ onMounted(async () => {
 }
 .state.error {
   color: #dd3528;
+}
+.state.empty {
+  font-size: clamp(16px, 1.4vw, 20px);
+  color: rgba(0, 0, 0, 0.4);
+  padding: clamp(40px, 5vw, 80px) 0;
 }
 
 /* ===== Grid cards ===== */

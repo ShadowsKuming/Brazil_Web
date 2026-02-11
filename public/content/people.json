@@ -1,14 +1,14 @@
 [
   {
     "id": "lead-1",
-    "name": "Dr. John Doe",
+    "name": "Dr Lei Shi",
     "group": "Project Lead",
-    "title": "Project Lead",
+    "title": "Director of Haii Lab, Associate Professor",
     "affiliation": "Newcastle University",
-    "image": "md-assets/people/sample_name.png",
+    "image": "md-assets/people/lei_shi.jpg",
     "bioMdPath": "content/people/lead-1.md",
     "links": {
-      "website": "",
+      "website": "https://shilei.me",
       "linkedin": "",
       "email": "lei.shi@newcastle.ac.uk"
     }
@@ -19,10 +19,10 @@
     "group": "PhD Student",
     "title": "PhD Student",
     "affiliation": "Newcastle University",
-    "image": "md-assets/people/sample_name.png",
+    "image": "md-assets/people/xinshu.jpeg",
     "bioMdPath": "content/people/phd-1.md",
     "links": {
-      "website": "",
+      "website": "https://xinshu.info",
       "linkedin": "",
       "email": ""
     }
@@ -47,10 +47,10 @@
     "group": "PhD Student",
     "title": "PhD Student",
     "affiliation": "Newcastle University",
-    "image": "md-assets/people/sample_name.png",
+    "image": "md-assets/people/jiacheng.JPG",
     "bioMdPath": "content/people/phd-3.md",
     "links": {
-      "website": "",
+      "website": "https://shadowscheng.com",
       "linkedin": "",
       "email": ""
     }
@@ -61,7 +61,7 @@
     "group": "PhD Student",
     "title": "PhD Student",
     "affiliation": "Newcastle University",
-    "image": "md-assets/people/sample_name.png",
+    "image": "md-assets/people/yunfei.png",
     "bioMdPath": "content/people/phd-4.md",
     "links": {
       "website": "",

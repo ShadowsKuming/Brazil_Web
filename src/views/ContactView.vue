@@ -1,57 +1,56 @@
 <template>
   <div class="contactview">
     <div class="contactview-content">
-      <img
-        alt="contactus"
-        src="@/assets/special_fonts/contacts/Address.png"
-        class="contactview-content-title"
-      />
+      <h1 class="contactview-title">CONTACT</h1>
 
-      
-      <!-- <div class="address-block">...</div> -->
+      <!-- Address -->
+      <section class="contact-block">
+        <h2 class="block-title">Address</h2>
+        <address class="address-text">
+          Open Lab, Floor 1<br>
+          Urban Sciences Building<br>
+          Newcastle Helix<br>
+          Newcastle upon Tyne<br>
+          NE4 5TG
+        </address>
+      </section>
 
-      <section class="email-block">
-        <h2 class="email-title">Email us</h2>
-        <p class="email-hint">
-          Contact us via info below. Email addresses are formatted
-          <span class="muted">@newcastle.ac.uk</span>
-        </p>
+      <!-- Contact Person -->
+      <section class="contact-block">
+        <h2 class="block-title">Project Lead</h2>
+        <p class="contact-name">Dr Lei Shi</p>
+        <p class="contact-role">Director of Haii Lab, Associate Professor</p>
+        <div class="contact-details">
+          <div class="contact-row">
+            <span class="contact-label">E:</span>
+            <a class="contact-link" href="mailto:lei.shi@newcastle.ac.uk">lei.shi@newcastle.ac.uk</a>
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">P:</span>
+            <a class="contact-link" href="tel:+441912084630">+44 (0) 191 20 84630</a>
+          </div>
+        </div>
+      </section>
 
-        <ul class="email-list">
-          <li>
-            <span class="email-label">Graduate admissions, freshman-year program, and other academic inquiries:</span>
-            <a class="email-link" href="mailto:lei.shi@newcastle.ac.uk">lei.shi@newcastle.ac.uk</a>
-          </li>
-          <li>
-            <span class="email-label">Diversity questions:</span>
-            <a class="email-link" href="mailto:lei.shi@newcastle.ac.uk">lei.shi@newcastle.ac.uk</a>
-          </li>
-          <li>
-            <span class="email-label">Event space inquiries:</span>
-            <a class="email-link" href="mailto:lei.shi@newcastle.ac.uk">lei.shi@newcastle.ac.uk</a>
-          </li>
-          <li>
-            <span class="email-label">Membership inquiries:</span>
-            <a class="email-link" href="mailto:lei.shi@newcastle.ac.uk">lei.shi@newcastle.ac.uk</a>
-          </li>
-          <li>
-            <span class="email-label">Press:</span>
-            <a class="email-link" href="mailto:lei.shi@newcastle.ac.uk">lei.shi@newcastle.ac.uk</a>
-          </li>
-          <li>
-            <span class="email-label">Intellectual property:</span>
-            <a class="email-link" href="mailto:lei.shi@newcastle.ac.uk">lei.shi@newcastle.ac.uk</a>
-          </li>
-          <li>
-            <span class="email-label">General / other questions:</span>
-            <a class="email-link" href="mailto:lei.shi@newcastle.ac.uk">lei.shi@newcastle.ac.uk</a>
-          </li>
-        </ul>
+      <!-- Links -->
+      <section class="contact-block">
+        <h2 class="block-title">Find Us</h2>
+        <div class="contact-links">
+          <a class="ext-link" href="https://scholar.google.com/citations?user=t6vecXsAAAAJ&hl=en" target="_blank" rel="noreferrer">Google Scholar ↗</a>
+          <a class="ext-link" href="https://www.linkedin.com/in/lsncl/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+          <a class="ext-link" href="https://shilei.me" target="_blank" rel="noreferrer">Personal Website ↗</a>
+        </div>
       </section>
     </div>
 
     <div class="contactview-map">
-      <img alt="map" src="@/assets/layouts/map 1.png" class="contactview-map-address" />
+      <iframe
+        class="contactview-map-embed"
+        src="https://www.google.com/maps?q=Urban+Sciences+Building,+1+Science+Square,+Newcastle+upon+Tyne,+NE4+5TG&output=embed"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
     </div>
   </div>
 </template>
@@ -62,7 +61,7 @@
   width: 100%;
   min-height: 100svh;
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 默认左右两栏 */
+  grid-template-columns: 1fr 1fr;
   background: #000;
 }
 
@@ -71,73 +70,108 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-
-  /* 自适应 padding：小屏更小，大屏更大 */
   padding: clamp(24px, 4vw, 100px);
-  gap: clamp(18px, 2.2vw, 32px);
-
-  /* 左侧内容如果太多，让左侧滚动，不影响右侧 */
+  gap: clamp(28px, 3.5vw, 48px);
   overflow: auto;
 }
 
-.contactview-content-title {
-  width: clamp(160px, 18vw, 220px);
-  height: auto;
-  display: block;
+.contactview-title {
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
 }
 
-/* email block */
-.email-block {
+/* Shared block styles */
+.contact-block {
   max-width: 560px;
-  font-family: "Albert Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 400;
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
 }
 
-/* 标题字号做流体 */
-.email-title {
-  margin: 0 0 10px 0;
-  font-size: clamp(20px, 2vw, 28px);
+.block-title {
+  margin: 0 0 clamp(10px, 1.2vw, 16px) 0;
+  font-size: clamp(18px, 1.8vw, 24px);
   font-weight: 600;
   color: #fff;
 }
 
-.email-hint {
-  margin: 0 0 18px 0;
-  font-size: clamp(12px, 1.1vw, 14px);
-  line-height: 1.6;
-  color: rgba(255,255,255,0.7);
+/* Address */
+.address-text {
+  font-style: normal;
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.75);
 }
 
-.muted {
-  color: rgba(255,255,255,0.55);
+/* Contact person */
+.contact-name {
+  margin: 0 0 4px 0;
+  font-size: clamp(16px, 1.4vw, 20px);
+  font-weight: 600;
+  color: #fff;
 }
 
-.email-list {
-  margin: 0;
-  padding-left: 18px;
+.contact-role {
+  margin: 0 0 clamp(12px, 1.5vw, 18px) 0;
+  font-size: clamp(13px, 1.1vw, 15px);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.contact-details {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
   gap: 10px;
+  font-size: clamp(13px, 1.1vw, 15px);
 }
 
-.email-list li {
-  color: rgba(255,255,255,0.85);
-  font-size: clamp(12px, 1.1vw, 14px);
-  line-height: 1.7;
-
-  /* 防止长邮箱/长句把布局撑爆 */
-  overflow-wrap: anywhere;
+.contact-label {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  flex-shrink: 0;
 }
 
-.email-link {
-  margin-left: 6px;
-  color: rgba(255,255,255,0.95);
+.contact-link {
+  color: rgba(255, 255, 255, 0.9);
   text-decoration: none;
-  border-bottom: 1px solid rgba(255,255,255,0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: border-color 0.2s ease;
 }
 
-.email-link:hover {
-  border-bottom-color: rgba(255,255,255,0.8);
+.contact-link:hover {
+  border-bottom-color: rgba(255, 255, 255, 0.8);
+}
+
+/* External links */
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(12px, 1.5vw, 20px);
+}
+
+.ext-link {
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: clamp(13px, 1.1vw, 15px);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  padding: clamp(8px, 1vw, 12px) clamp(16px, 1.5vw, 24px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50px;
+  transition: all 0.2s ease;
+}
+
+.ext-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
 /* right */
@@ -146,35 +180,38 @@
   min-height: 100svh;
 }
 
-.contactview-map-address {
+.contactview-map-embed {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 更像设计稿：铺满 */
+  border: none;
   display: block;
+  filter: grayscale(1) invert(1) contrast(1.2) brightness(0.6);
 }
 
-/* ===== Responsive breakpoint：窄屏改上下布局 ===== */
+/* Responsive */
 @media (max-width: 900px) {
   .contactview {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 48svh; /* 上面内容，下面地图 */
+    grid-template-rows: auto 48svh;
   }
 
   .contactview-map {
-    min-height: 48svh; /* 地图给一个可见高度 */
+    min-height: 48svh;
   }
 
-  .email-block {
+  .contact-block {
     max-width: 100%;
   }
 }
 
-/* 更小屏（手机）再紧凑一点 */
 @media (max-width: 480px) {
-  .email-list {
-    padding-left: 14px;
-    gap: 8px;
+  .contact-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ext-link {
+    text-align: center;
   }
 }
-
 </style>

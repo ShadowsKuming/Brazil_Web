@@ -101,13 +101,13 @@ onMounted(async () => {
         class="card"
         @click="openProject(p)"
       >
-        <div class="card-image">
-          <img :src="withBase(p.coverImage)" :alt="p.provisionalTitle" />
-        </div>
         <div class="card-body">
           <h2 class="card-title">{{ p.provisionalTitle }}</h2>
-          <p class="card-name">
-            <span class="name-link" @click.stop="goToPerson(p.personId)">{{ p.name }}</span>
+          <p class="card-lead">
+            by <span class="name-link" @click.stop="goToPerson(p.personId)">{{ p.name }}</span>
+          </p>
+          <p v-if="p.participants && p.participants.length" class="card-participants">
+            with {{ p.participants.join(', ') }}
           </p>
           <div class="card-pills">
             <span v-for="k in (p.keywords || [])" :key="k" class="pill">{{ k }}</span>
@@ -121,9 +121,6 @@ onMounted(async () => {
       <button class="back-btn" @click="goBack">← Back to Projects</button>
 
       <div class="detail-header">
-        <div class="detail-image">
-          <img :src="withBase(selected.coverImage)" :alt="selected.provisionalTitle" />
-        </div>
         <div class="detail-info">
           <h2 class="detail-title">{{ selected.provisionalTitle }}</h2>
           <p class="detail-name">
@@ -226,60 +223,52 @@ onMounted(async () => {
 }
 
 .card {
-  background: var(--color-gray-light);
-  border-radius: 8px;
+  background: #fff;
+  border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 4px solid #ccc;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-.card-image {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  background-color: #e8e8e8;
-}
-
-.card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.card:hover .card-image img {
-  transform: scale(1.03);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .card-body {
-  padding: clamp(16px, 2vw, 28px);
+  padding: clamp(24px, 2.5vw, 36px);
   display: flex;
   flex-direction: column;
-  gap: clamp(8px, 1vw, 12px);
+  gap: clamp(10px, 1.2vw, 16px);
 }
 
 .card-title {
   font-family: var(--font-family);
-  font-size: clamp(15px, 1.3vw, 20px);
+  font-size: clamp(16px, 1.4vw, 21px);
   font-weight: 600;
   color: var(--color-black);
-  line-height: 1.3;
+  line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.card-name {
+.card-lead {
   font-family: var(--font-family);
   font-size: clamp(13px, 1vw, 16px);
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.card-participants {
+  font-family: var(--font-family);
+  font-size: clamp(12px, 0.9vw, 14px);
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.35);
+  font-style: italic;
 }
 
 /* Clickable name link */
@@ -360,21 +349,6 @@ onMounted(async () => {
   display: flex;
   gap: clamp(24px, 3vw, 48px);
   margin-bottom: clamp(32px, 4vw, 56px);
-}
-
-.detail-image {
-  flex-shrink: 0;
-  width: clamp(240px, 30vw, 400px);
-  aspect-ratio: 16 / 10;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: #e8e8e8;
-}
-
-.detail-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .detail-info {
@@ -523,10 +497,6 @@ onMounted(async () => {
   .detail-header {
     flex-direction: column;
     gap: var(--space-4);
-  }
-
-  .detail-image {
-    width: 100%;
   }
 
   .detail-title {

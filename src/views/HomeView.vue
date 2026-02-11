@@ -1,5 +1,28 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const BASE = import.meta.env.BASE_URL || '/'
+
+function withBase(path) {
+  const cleaned = String(path || '').replace(/^\//, '')
+  return BASE.replace(/\/?$/, '/') + cleaned
+}
+
+const projects = ref([])
+
+async function loadProjects() {
+  try {
+    const res = await fetch(withBase('content/projects.json'))
+    if (res.ok) {
+      const data = await res.json()
+      projects.value = Array.isArray(data) ? data : []
+    }
+  } catch (e) {
+    // silently fail — preview is supplementary
+  }
+}
 
 const activeSection = ref(null)
 let observer = null
@@ -50,7 +73,7 @@ function go(id) {
 
 // Set up Intersection Observer to detect visible sections
 function setupScrollSpy() {
-  const sections = ['purpose', 'objectives', 'sdg', 'timeline', 'callphd']
+  const sections = ['purpose', 'projects', 'objectives', 'sdg', 'timeline', 'callphd']
 
   observer = new IntersectionObserver(
     (entries) => {
@@ -76,6 +99,7 @@ function setupScrollSpy() {
 
 onMounted(() => {
   setupScrollSpy()
+  loadProjects()
 })
 
 onBeforeUnmount(() => {
@@ -186,8 +210,30 @@ onBeforeUnmount(() => {
             <img src="@/assets/logos/newcastle.png" alt="Newcastle University" class="logo-newcastle">
             <img src="@/assets/logos/ufrgs.png" alt="UFRGS" class="logo-ufrgs">
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Projects -->
+    <section id="projects" class="projects-home-section">
+      <div class="purpose-content">
+        <div class="section-number-wrapper">
+          <span class="section-number">02</span>
+        </div>
+        <div class="section-main">
+          <div class="section-header">
+            <h2 class="section-title">RESEARCH PROJECTS</h2>
+            <div class="section-line"></div>
+          </div>
+          <p class="section-text">
+            To achieve these objectives, five research projects have been developed, spanning
+            conversational AI tutoring, interaction-aware learning tools, visual learning systems,
+            AI-assisted educational game design, and tangible art appreciation tools. All projects
+            are grounded in inclusive design principles, centring co-creation with local stakeholders
+            and ethical deployment in resource-constrained contexts.
+          </p>
           <div class="purpose-cta">
-            <router-link to="/projects" class="purpose-btn">Our Projects <span class="purpose-btn-arrow">→</span></router-link>
+            <router-link to="/projects" class="purpose-btn">View All Projects <span class="purpose-btn-arrow">→</span></router-link>
           </div>
         </div>
       </div>
@@ -197,7 +243,7 @@ onBeforeUnmount(() => {
     <section id="objectives" class="objectives-section">
       <div class="objectives-content">
         <div class="section-number-wrapper">
-          <span class="section-number">02</span>
+          <span class="section-number">03</span>
         </div>
         <div class="section-main">
           <div class="section-header">
@@ -234,7 +280,7 @@ onBeforeUnmount(() => {
     <section id="sdg" class="sdg-section">
       <div class="sdg-content">
         <div class="section-number-wrapper">
-          <span class="section-number sdg-number">03</span>
+          <span class="section-number sdg-number">04</span>
         </div>
         <div class="section-main">
           <div class="section-header">
@@ -287,13 +333,13 @@ onBeforeUnmount(() => {
     <!-- Section 5: Timeline -->
     <section id="timeline" class="timeline-section">
       <!-- Desktop: Use image -->
-      <img class="section-image timeline-desktop" alt="04 Timeline" src="@/assets/layouts/homepages/TIMELINE.png">
+      <img class="section-image timeline-desktop" alt="05 Timeline" src="@/assets/layouts/homepages/TIMELINE.png">
 
       <!-- Mobile: Simplified timeline -->
       <div class="timeline-mobile">
         <div class="timeline-content">
           <div class="section-number-wrapper">
-            <span class="section-number">04</span>
+            <span class="section-number">05</span>
           </div>
           <div class="section-main">
             <div class="section-header">
@@ -342,7 +388,7 @@ onBeforeUnmount(() => {
     <section id="callphd" class="callphd-section">
       <div class="callphd-content">
         <div class="section-number-wrapper">
-          <span class="section-number">05</span>
+          <span class="section-number">06</span>
         </div>
         <div class="section-main">
           <div class="section-header">
@@ -650,6 +696,15 @@ onBeforeUnmount(() => {
 .logo-ufrgs {
   height: clamp(70px, 11vw, 160px);
   width: auto;
+}
+
+/* ============================================
+   SECTION 2: RESEARCH PROJECTS
+   ============================================ */
+.projects-home-section {
+  width: 100%;
+  padding: clamp(60px, 8vw, 120px) clamp(40px, 8vw, 200px) 0;
+  background-color: var(--color-white);
 }
 
 /* ============================================
@@ -1034,6 +1089,7 @@ onBeforeUnmount(() => {
   .hero {
     padding: var(--space-7) var(--space-6);
   }
+
 }
 
 /* ============================================
@@ -1124,6 +1180,11 @@ onBeforeUnmount(() => {
     flex-wrap: wrap;
     align-items: center;
     padding:  clamp(5px,2vw,40px);
+  }
+
+  /* PROJECTS section mobile */
+  .projects-home-section {
+    padding: var(--space-7) var(--space-5);
   }
 
   /* OBJECTIVES section mobile */
