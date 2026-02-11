@@ -136,9 +136,11 @@ onBeforeUnmount(() => {
 
         <nav class="hero-nav">
           <button class="nav-pill" @click="go('purpose')">PURPOSE</button>
+          <button class="nav-pill" @click="go('projects')">PROJECTS</button>
           <button class="nav-pill" @click="go('objectives')">OBJECTIVES</button>
           <button class="nav-pill" @click="go('sdg')">SDG CONTRIBUTIONS</button>
           <button class="nav-pill" @click="go('timeline')">TIMELINE</button>
+          <button class="nav-pill" @click="go('callphd')">CALL FOR PHD</button>
         </nav>
       </div>
     </section>
@@ -152,6 +154,14 @@ onBeforeUnmount(() => {
       >
         <span class="btn-letter">P</span>
         <span class="btn-text">PURPOSE</span>
+      </button>
+      <button
+        class="floating-nav-btn"
+        :class="{ expanded: activeSection === 'projects' }"
+        @click="go('projects')"
+      >
+        <span class="btn-letter">R</span>
+        <span class="btn-text">PROJECTS</span>
       </button>
       <button
         class="floating-nav-btn"
@@ -523,10 +533,10 @@ onBeforeUnmount(() => {
 
 /* Nav Pills */
 .hero-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; /* Spread: first aligns left, last aligns right */
-  width: 100%; /* Takes full width of parent (same as title) */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(10px, 1.2vw, 16px);
+  width: 100%;
 }
 
 .nav-pill {
@@ -537,9 +547,11 @@ onBeforeUnmount(() => {
   background: transparent;
   border: 1.5px solid var(--color-black);
   border-radius: 50px;
-  padding: clamp(6px, 0.5vw, 10px) clamp(16px, 1.5vw, 24px);
+  padding: clamp(8px, 0.8vw, 12px) clamp(12px, 1vw, 20px);
   cursor: pointer;
   transition: all 0.3s ease;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .nav-pill:hover {

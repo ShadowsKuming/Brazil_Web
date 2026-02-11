@@ -227,7 +227,6 @@ onMounted(async () => {
   border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
-  border-left: 4px solid #ccc;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }

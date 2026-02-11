@@ -626,11 +626,6 @@ footer {
     padding: var(--space-3) var(--space-4);
   }
 
-  /* Hide contact on mobile - accessible via dropdown menu */
-  .mask-contact {
-    display: none;
-  }
-
   header nav {
     gap: var(--space-4);
   }
