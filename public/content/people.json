@@ -33,11 +33,11 @@
     "group": "PhD Student",
     "title": "PhD Student",
     "affiliation": "Newcastle University",
-    "image": "md-assets/people/sample_name.png",
+    "image": "md-assets/people/eldar.jpg",
     "bioMdPath": "content/people/phd-2.md",
     "links": {
       "website": "",
-      "linkedin": "",
+      "linkedin": "https://www.linkedin.com/in/eldarj/",
       "email": ""
     }
   },

@@ -1,8 +1,8 @@
 ## Bio
 
-Short bio paragraph here. You can write in Markdown freely.
+I work on identifying non-legitimate behaviour in digital systems by analysing how users actually interact with them. My focus is on detecting anomalous, abusive, or malicious activity using behaviour-based machine learning models. The aim is to build security systems that don't rely on assumptions or static rules, but on real, measurable user behaviour.
 
-### Research interests
-- Interaction Analysis
-- Inclusive AI Design
-- Adaptive Learning
+### Research Interests
+- Cybersecurity
+- iOS Development
+- Web Development
