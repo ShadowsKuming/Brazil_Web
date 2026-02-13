@@ -27,6 +27,40 @@ const people = ref([])
 const selected = ref(null)
 const bioHtml = ref('')
 
+// contact dialog
+const showContactDialog = ref(false)
+const contactForm = ref({
+  senderName: '',
+  senderPronouns: '',
+  subject: '',
+  message: '',
+})
+
+function openContactDialog() {
+  contactForm.value = { senderName: '', senderPronouns: '', subject: '', message: '' }
+  showContactDialog.value = true
+}
+
+function closeContactDialog() {
+  showContactDialog.value = false
+}
+
+function sendContactEmail() {
+  const f = contactForm.value
+  if (!f.senderName.trim() || !f.message.trim()) return
+
+  const pronouns = f.senderPronouns.trim() ? ` (${f.senderPronouns.trim()})` : ''
+  const subject = f.subject.trim() || `Message from ${f.senderName.trim()}`
+  const body = `${f.message.trim()}\n\n—\n${f.senderName.trim()}${pronouns}`
+
+  const mailto = `mailto:${selected.value.links.email}`
+    + `?subject=${encodeURIComponent(subject)}`
+    + `&body=${encodeURIComponent(body)}`
+
+  window.open(mailto, '_blank')
+  closeContactDialog()
+}
+
 // cache markdown by path
 const mdCache = ref(new Map())
 
@@ -204,6 +238,13 @@ onMounted(async () => {
               <div class="details-role">{{ selected.title }}</div>
               <div class="details-aff">{{ selected.affiliation }}</div>
             </div>
+            <button
+              v-if="selected.links?.email"
+              class="contact-btn"
+              @click="openContactDialog"
+            >
+              CONTACT
+            </button>
           </div>
         </div>
 
@@ -232,16 +273,78 @@ onMounted(async () => {
             </a>
           </div>
 
-          <a
-            v-if="selected.links?.email"
-            class="details-email"
-            :href="`mailto:${selected.links.email}`"
-          >
-            {{ selected.links.email }}
-          </a>
         </div>
       </section>
     </main>
+
+    <!-- Contact Dialog -->
+    <div v-if="showContactDialog" class="contact-overlay" @click="closeContactDialog">
+      <div class="contact-dialog" @click.stop>
+        <button class="contact-dialog-close" @click="closeContactDialog">&times;</button>
+
+        <div class="contact-dialog-content">
+          <h2 class="contact-dialog-title">Get in Touch</h2>
+          <div class="contact-dialog-line"></div>
+          <p class="contact-dialog-recipient">
+            To: <strong>{{ selected.name }}</strong>
+            <span class="contact-dialog-recipient-email">{{ selected.links.email }}</span>
+          </p>
+
+          <form class="contact-form" @submit.prevent="sendContactEmail">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="sender-name">Your Name *</label>
+                <input
+                  id="sender-name"
+                  v-model="contactForm.senderName"
+                  class="form-input"
+                  type="text"
+                  placeholder="Full name"
+                  required
+                />
+              </div>
+              <div class="form-group form-group-small">
+                <label class="form-label" for="sender-pronouns">Pronouns</label>
+                <input
+                  id="sender-pronouns"
+                  v-model="contactForm.senderPronouns"
+                  class="form-input"
+                  type="text"
+                  placeholder="e.g. he/him"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-subject">Subject</label>
+              <input
+                id="contact-subject"
+                v-model="contactForm.subject"
+                class="form-input"
+                type="text"
+                placeholder="What is this about?"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-message">Message *</label>
+              <textarea
+                id="contact-message"
+                v-model="contactForm.message"
+                class="form-textarea"
+                placeholder="Write your message here..."
+                rows="5"
+                required
+              ></textarea>
+            </div>
+
+            <button class="contact-dialog-btn" type="submit">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -394,7 +497,7 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: 180px 1fr;
   gap: 18px;
-  align-items: start;
+  align-items: stretch;
   padding-bottom: 16px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   margin-bottom: 18px;
@@ -406,6 +509,11 @@ onMounted(async () => {
   object-fit: cover;
   display: block;
   background: #eee;
+}
+
+.details-titleblock {
+  display: flex;
+  flex-direction: column;
 }
 
 .details-name {
@@ -481,15 +589,208 @@ onMounted(async () => {
   text-underline-offset: 3px;
 }
 
-.details-email {
+/* Contact Button */
+.contact-btn {
   font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   font-size: 12px;
-  color: rgba(0, 0, 0, 0.65);
-  text-decoration: none;
+  font-weight: 600;
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 50px;
+  padding: 8px 24px;
+  margin-top: auto;
+  align-self: flex-start;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
-.details-email:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.contact-btn:hover {
+  background-color: #dd3528;
+  transform: scale(1.02);
+}
+
+/* Contact Dialog */
+.contact-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.contact-dialog {
+  position: relative;
+  background-color: #fff;
+  border-radius: clamp(16px, 4vw, 24px);
+  max-width: 520px;
+  width: 100%;
+  padding: clamp(28px, 4vw, 40px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: contactDialogIn 0.3s ease;
+  margin: auto;
+}
+
+@keyframes contactDialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-dialog-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+.contact-dialog-close:hover {
+  color: #dd3528;
+}
+
+.contact-dialog-content {
+  text-align: center;
+}
+
+.contact-dialog-title {
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: clamp(22px, 3.5vw, 28px);
+  font-weight: 600;
+  color: #000;
+  margin: 0 0 12px;
+}
+
+.contact-dialog-line {
+  width: 60px;
+  height: 3px;
+  background-color: #dd3528;
+  margin: 0 auto 16px;
+}
+
+.contact-dialog-recipient {
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  margin: 0 0 20px;
+}
+
+.contact-dialog-recipient-email {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+}
+
+/* Form */
+.contact-form {
+  text-align: left;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+  flex: 1;
+}
+
+.form-group-small {
+  flex: 0 0 120px;
+}
+
+.form-label {
+  display: block;
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 6px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 14px;
+  color: #111;
+  background: #f7f7f7;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #000;
+  background: #fff;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #bbb;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.contact-dialog-btn {
+  display: inline-block;
+  font-family: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 32px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 4px;
+}
+.contact-dialog-btn:hover {
+  background-color: #dd3528;
+  transform: scale(1.02);
+}
+/* Center the send button */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.contact-form .contact-dialog-btn {
+  align-self: center;
 }
 
 /* Responsive */
@@ -504,7 +805,7 @@ onMounted(async () => {
     grid-template-columns: 1fr;
   }
   .details-top {
-    grid-template-columns: 1fr;
+    grid-template-columns: 220px 1fr;
   }
   .details-photo {
     width: 220px;
@@ -513,6 +814,9 @@ onMounted(async () => {
   .details-footer {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .contact-btn {
+    align-self: flex-start;
   }
 }
 </style>

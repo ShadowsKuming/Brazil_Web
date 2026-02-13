@@ -120,6 +120,10 @@ onBeforeUnmount(() => {
     <footer>
       <div class="footer-title">
         <img src="@/assets/special_fonts/footer content.png" alt="Brazil Research Lab" />
+        <div class="footer-sponsor">
+          <span class="footer-sponsor-label">Sponsored by</span>
+          <img src="@/assets/special_fonts/british-council.svg" alt="British Council" class="footer-logo-bc" />
+        </div>
       </div>
       <div class="footer-contents">
         <div class="footer-more-info">
@@ -347,10 +351,13 @@ footer {
 .footer-title {
   width: 100%;
   margin-bottom: clamp(24px, 3vw, 48px);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
-.footer-title img {
-  width: clamp(240px, 55vw, 800px); /* Smaller on desktop/tablet */
+.footer-title > img {
+  width: clamp(240px, 55vw, 800px);
   height: auto;
 }
 
@@ -420,6 +427,26 @@ footer {
 .footer-logo-haii {
   width: clamp(120px, 16vw, 240px);
   height: auto;
+}
+
+.footer-sponsor {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-sponsor-label {
+  font-family: var(--font-family);
+  font-size: clamp(11px, 0.9vw, 13px);
+  color: var(--color-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.footer-logo-bc {
+  width: clamp(100px, 13vw, 200px);
+  height: auto;
+  filter: brightness(0) invert(1);
 }
 
 .footer-learn-about {
@@ -656,9 +683,10 @@ footer {
   }
 
   .footer-title {
-    margin-bottom: var(--space-5); /* Reduced margin */
-    display: flex;
-    justify-content: center; /* Center only on mobile */
+    margin-bottom: var(--space-5);
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
   }
 
   /* Mobile: simplified footer */
@@ -686,6 +714,14 @@ footer {
   .footer-logos {
     padding-top: 0;
     width: 100%;
+  }
+
+  .footer-sponsor-label {
+    font-size: var(--text-sm);
+  }
+
+  .footer-logo-bc {
+    width: clamp(100px, 30vw, 160px);
   }
 
   .footer-logo-haii {
