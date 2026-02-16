@@ -75,12 +75,26 @@
     "group": "PhD Student",
     "title": "PhD Student",
     "affiliation": "Newcastle University",
-    "image": "md-assets/people/sample_name.png",
+    "image": "md-assets/people/marci.jpg",
     "bioMdPath": "content/people/phd-5.md",
     "links": {
       "website": "",
-      "linkedin": "",
+      "linkedin": "https://www.linkedin.com/in/marci-ma",
       "email": ""
+    }
+  },
+  {
+    "id": "vol-1",
+    "name": "Hanwen Li",
+    "group": "Volunteer",
+    "title": "Volunteer",
+    "affiliation": "",
+    "image": "md-assets/people/hanwen_li.jpg",
+    "bioMdPath": "content/people/vol-1.md",
+    "links": {
+      "website": "https://kevinalyst.uk/",
+      "linkedin": "",
+      "email": "lihanwen066@gmail.com"
     }
   }
 ]
