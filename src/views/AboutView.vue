@@ -11,7 +11,7 @@ import MarkdownIt from 'markdown-it'
 
 const md = new MarkdownIt({
   html: false,
-  linkify: true,
+  linkify: false,
   breaks: true,
 })
 

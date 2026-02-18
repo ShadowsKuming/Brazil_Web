@@ -14,6 +14,34 @@
     }
   },
   {
+    "id": "lead-2",
+    "name": "Prof. Dante Augusto Couto Barone",
+    "group": "Project Lead",
+    "title": "Full Professor, Director of CINTED",
+    "affiliation": "Federal University of Rio Grande do Sul (UFRGS), Brazil",
+    "image": "md-assets/people/dante.jpg",
+    "bioMdPath": "content/people/lead-2.md",
+    "links": {
+      "website": "https://www.ufrgs.br/ppgie/dante-augusto-couto-barone/",
+      "linkedin": "",
+      "email": ""
+    }
+  },
+  {
+    "id": "lead-3",
+    "name": "Dr. Wilk Oliveira",
+    "group": "Project Lead",
+    "title": "Researcher, Gamification Group",
+    "affiliation": "Tampere University, Finland",
+    "image": "md-assets/people/wilk.jpg",
+    "bioMdPath": "content/people/lead-3.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "wilk.oliveira@tuni.fi"
+    }
+  },
+  {
     "id": "phd-1",
     "name": "Xin Shu",
     "group": "PhD Student",
