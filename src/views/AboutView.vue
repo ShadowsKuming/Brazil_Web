@@ -154,7 +154,7 @@ onMounted(async () => {
       const person = people.value.find((p) => p.id === targetId)
       if (person) {
         // Switch to the correct group tab
-        const groupToTab = { 'Project Lead': 1, 'PhD Student': 2, 'Volunteer': 3 }
+        const groupToTab = { 'Project Lead': 1, 'PhD Student': 2, 'Research Assistant': 3 }
         selection.value = groupToTab[person.group] || 1
         await openPerson(person)
       }
@@ -189,7 +189,7 @@ onMounted(async () => {
         class="people-menu"
         :class="{ active: selection === 3 }"
         @click="switchGroup(3)"
-      >Volunteers</div>
+      >Research Assistants</div>
     </aside>
 
     <!-- RIGHT CONTENT -->

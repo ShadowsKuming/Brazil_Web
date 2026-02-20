@@ -108,14 +108,14 @@
     "links": {
       "website": "",
       "linkedin": "https://www.linkedin.com/in/marci-ma",
-      "email": ""
+      "email": "C.Ma20@newcastle.ac.uk"
     }
   },
   {
     "id": "vol-1",
     "name": "Hanwen Li",
-    "group": "Volunteer",
-    "title": "Volunteer",
+    "group": "Research Assistant",
+    "title": "Research Assistant",
     "affiliation": "",
     "image": "md-assets/people/hanwen_li.jpg",
     "bioMdPath": "content/people/vol-1.md",
