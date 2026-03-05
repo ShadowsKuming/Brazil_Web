@@ -63,7 +63,7 @@ function choose(v) {
   } else if (v === 4) {
     router.push('/contact')
   } else if (v === 5) {
-    showUnavailable('News & Events')
+    router.push('/news')
   } else if (v === 6) {
     router.push('/projects')
   } else if (v === 0) {

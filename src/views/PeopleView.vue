@@ -99,7 +99,7 @@ async function fetchText(path) {
   return await res.text()
 }
 
-const groupMap = { 1: 'Project Lead', 2: 'PhD Student', 3: 'Volunteer' }
+const groupMap = { 1: 'Project Lead', 2: 'PhD Student', 3: 'Research Assistant', 4: 'Student' }
 
 const filteredPeople = computed(() => {
   const group = groupMap[selection.value]
@@ -154,7 +154,7 @@ onMounted(async () => {
       const person = people.value.find((p) => p.id === targetId)
       if (person) {
         // Switch to the correct group tab
-        const groupToTab = { 'Project Lead': 1, 'PhD Student': 2, 'Research Assistant': 3 }
+        const groupToTab = { 'Project Lead': 1, 'PhD Student': 2, 'Research Assistant': 3, 'Student': 4 }
         selection.value = groupToTab[person.group] || 1
         await openPerson(person)
       }
@@ -183,7 +183,13 @@ onMounted(async () => {
         class="people-menu"
         :class="{ active: selection === 2 }"
         @click="switchGroup(2)"
-      >PhD Students</div>
+      >UK Students</div>
+
+      <div
+        class="people-menu"
+        :class="{ active: selection === 4 }"
+        @click="switchGroup(4)"
+      >Brazilian Students</div>
 
       <div
         class="people-menu"
@@ -210,7 +216,7 @@ onMounted(async () => {
           class="person-card"
           @click="openPerson(p)"
         >
-          <img class="person-photo" :src="resolveAsset(p.image)" :alt="p.name" />
+          <img v-if="p.image" class="person-photo" :src="resolveAsset(p.image)" :alt="p.name" />
 
           <div class="person-meta">
             <div class="person-name">{{ p.name }}</div>
@@ -229,8 +235,8 @@ onMounted(async () => {
           <div class="details-back" @click="goBack">← Back</div>
         </div>
 
-        <div class="details-top">
-          <img class="details-photo" :src="resolveAsset(selected.image)" :alt="selected.name" />
+        <div class="details-top" :class="{ 'no-photo': !selected.image }">
+          <img v-if="selected.image" class="details-photo" :src="resolveAsset(selected.image)" :alt="selected.name" />
 
           <div class="details-titleblock">
             <div class="details-name">{{ selected.name }}</div>
@@ -509,6 +515,10 @@ onMounted(async () => {
   object-fit: cover;
   display: block;
   background: #eee;
+}
+
+.details-top.no-photo {
+  grid-template-columns: 1fr;
 }
 
 .details-titleblock {

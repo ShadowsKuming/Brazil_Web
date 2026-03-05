@@ -136,6 +136,18 @@ onMounted(async () => {
               class="pill pill-link"
             >{{ k }}</a>
           </div>
+
+          <div v-if="selected.members && selected.members.length" class="detail-team">
+            <div class="detail-team-label">Team</div>
+            <div class="detail-team-members">
+              <span
+                v-for="m in selected.members"
+                :key="m.id"
+                class="team-member"
+                @click="goToPerson(m.id)"
+              >{{ m.name }}</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -376,6 +388,47 @@ onMounted(async () => {
   display: flex;
   flex-wrap: wrap;
   gap: clamp(6px, 0.8vw, 10px);
+}
+
+/* ============================================
+   TEAM MEMBERS
+   ============================================ */
+.detail-team {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-team-label {
+  font-family: var(--font-family);
+  font-size: clamp(11px, 0.85vw, 13px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.detail-team-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.team-member {
+  font-family: var(--font-family);
+  font-size: clamp(12px, 0.9vw, 14px);
+  font-weight: 500;
+  color: var(--color-black);
+  background: #f0f0f0;
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.team-member:hover {
+  background: var(--color-black);
+  color: #fff;
 }
 
 /* ============================================

@@ -21,7 +21,7 @@ const router = createRouter({
     {
       path: '/people',
       name: 'people',
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/PeopleView.vue'),
       meta: {title: 'Brazil Research | People' },
     },
     {

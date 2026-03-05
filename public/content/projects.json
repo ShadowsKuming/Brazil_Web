@@ -12,6 +12,13 @@
       "Seamful Design & Communication Repair",
       "Teacher-in-the-Loop Governance"
     ],
+    "members": [
+      { "id": "phd-1", "name": "Xin Shu" },
+      { "id": "col-1", "name": "Rafael Rost da Rosa" },
+      { "id": "col-2", "name": "Isaac Bueno do Canto" },
+      { "id": "col-3", "name": "Erico Freitas" }
+    ],
+    "participants": ["Rafael Rost da Rosa", "Isaac Bueno do Canto", "Erico Freitas"],
     "detailsMdPath": "content/projects/p1.md"
   },
   {
@@ -25,6 +32,12 @@
       "Inclusive AI Design",
       "Adaptive Learning"
     ],
+    "members": [
+      { "id": "phd-2", "name": "Eldar Jalilzade" },
+      { "id": "col-4", "name": "Bruno Andrade Ramos" },
+      { "id": "col-5", "name": "Andriele Joras dos Santos" }
+    ],
+    "participants": ["Bruno Andrade Ramos", "Andriele Joras dos Santos"],
     "detailsMdPath": "content/projects/p2.md"
   },
   {
@@ -39,6 +52,12 @@
       "Reflective Practice",
       "Human-Centred AI in Education"
     ],
+    "members": [
+      { "id": "phd-3", "name": "Jiacheng Cheng" },
+      { "id": "col-6", "name": "Alexandre Ikeda Mucenic" },
+      { "id": "col-7", "name": "Gabriel Pillonetto" }
+    ],
+    "participants": ["Alexandre Ikeda Mucenic", "Gabriel Pillonetto"],
     "detailsMdPath": "content/projects/p3.md"
   },
   {
@@ -53,6 +72,14 @@
       "Natural Language Understanding",
       "Cognitive Engagement"
     ],
+    "members": [
+      { "id": "phd-4", "name": "Yunfei Wang" },
+      { "id": "col-8", "name": "Vivian Meurer Lameira" },
+      { "id": "col-9", "name": "Bruno Delgiovo" },
+      { "id": "col-10", "name": "Gustavo Zen Pretto" },
+      { "id": "col-11", "name": "Lucas Klein" }
+    ],
+    "participants": ["Vivian Meurer Lameira", "Bruno Delgiovo", "Gustavo Zen Pretto", "Lucas Klein"],
     "detailsMdPath": "content/projects/p4.md"
   },
   {
@@ -68,6 +95,13 @@
       "Generative AI for Education",
       "Educational Equity & Cross-Cultural Co-design"
     ],
+    "members": [
+      { "id": "phd-5", "name": "Marci Ma" },
+      { "id": "col-12", "name": "Arthur Marques de Oliveira" },
+      { "id": "col-13", "name": "Ana Caroline Neves" },
+      { "id": "col-14", "name": "João Vitor de Souza" }
+    ],
+    "participants": ["Arthur Marques de Oliveira", "Ana Caroline Neves", "João Vitor de Souza"],
     "detailsMdPath": "content/projects/p5.md"
   }
 ]

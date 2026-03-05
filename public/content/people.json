@@ -124,5 +124,215 @@
       "linkedin": "",
       "email": "lihanwen066@gmail.com"
     }
+  },
+  {
+    "id": "col-1",
+    "name": "Rafael Rost da Rosa",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-1.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "rafael.rost.rosa@gmail.com"
+    }
+  },
+  {
+    "id": "col-2",
+    "name": "Isaac Bueno do Canto",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-2.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "isaacbc42@gmail.com"
+    }
+  },
+  {
+    "id": "col-3",
+    "name": "Erico Freitas",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-3.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "erico.freitas@inf.ufrgs.br"
+    }
+  },
+  {
+    "id": "col-4",
+    "name": "Bruno Andrade Ramos",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-4.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "brunoandramos@gmail.com"
+    }
+  },
+  {
+    "id": "col-5",
+    "name": "Andriele Joras dos Santos",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-5.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "andriele.joras@ufrgs.br"
+    }
+  },
+  {
+    "id": "col-6",
+    "name": "Alexandre Ikeda Mucenic",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-6.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "alexikedamucenic@gmail.com"
+    }
+  },
+  {
+    "id": "col-7",
+    "name": "Gabriel Pillonetto",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-7.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "gabrielpillonetto@gmail.com"
+    }
+  },
+  {
+    "id": "col-8",
+    "name": "Vivian Meurer Lameira",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-8.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "vilameira@gmail.com"
+    }
+  },
+  {
+    "id": "col-9",
+    "name": "Bruno Delgiovo",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-9.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "brunodelgiovo@gmail.com"
+    }
+  },
+  {
+    "id": "col-10",
+    "name": "Gustavo Zen Pretto",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-10.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "gzpretto@gmail.com"
+    }
+  },
+  {
+    "id": "col-11",
+    "name": "Lucas Klein",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-11.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "lk.lucasklein@gmail.com"
+    }
+  },
+  {
+    "id": "col-12",
+    "name": "Arthur Marques de Oliveira",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-12.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "arthurbp2@gmail.com"
+    }
+  },
+  {
+    "id": "col-13",
+    "name": "Ana Caroline Neves",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-13.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "ana.carolinemms22@gmail.com"
+    }
+  },
+  {
+    "id": "col-14",
+    "name": "João Vitor de Souza",
+    "group": "Student",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/col-14.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "joaoovitordesouza@gmail.com"
+    }
+  },
+  {
+    "id": "prof-1",
+    "name": "Ana Eliza Pereira Bocorny",
+    "group": "Student",
+    "title": "Professor",
+    "affiliation": "UFRGS, Brazil",
+    "image": "",
+    "bioMdPath": "content/people/prof-1.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": "ana.bocorny@gmail.com"
+    }
   }
 ]
