@@ -44,7 +44,7 @@
   {
     "id": "phd-1",
     "name": "Xin Shu",
-    "group": "PhD Student",
+    "group": "UK Researcher",
     "title": "PhD Student",
     "affiliation": "Newcastle University",
     "image": "md-assets/people/xinshu.jpeg",
@@ -58,7 +58,7 @@
   {
     "id": "phd-2",
     "name": "Eldar Jalilzade",
-    "group": "PhD Student",
+    "group": "UK Researcher",
     "title": "PhD Student",
     "affiliation": "Newcastle University",
     "image": "md-assets/people/eldar.jpg",
@@ -72,7 +72,7 @@
   {
     "id": "phd-3",
     "name": "Jiacheng Cheng",
-    "group": "PhD Student",
+    "group": "UK Researcher",
     "title": "PhD Student",
     "affiliation": "Newcastle University",
     "image": "md-assets/people/jiacheng.JPG",
@@ -86,7 +86,7 @@
   {
     "id": "phd-4",
     "name": "Yunfei Wang",
-    "group": "PhD Student",
+    "group": "UK Researcher",
     "title": "PhD Student",
     "affiliation": "Newcastle University",
     "image": "md-assets/people/yunfei.png",
@@ -100,7 +100,7 @@
   {
     "id": "phd-5",
     "name": "Marci Ma",
-    "group": "PhD Student",
+    "group": "UK Researcher",
     "title": "PhD Student",
     "affiliation": "Newcastle University",
     "image": "md-assets/people/marci.jpg",
@@ -128,7 +128,7 @@
   {
     "id": "col-1",
     "name": "Rafael Rost da Rosa",
-    "group": "Student",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
     "image": "",
@@ -142,7 +142,7 @@
   {
     "id": "col-2",
     "name": "Isaac Bueno do Canto",
-    "group": "Student",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
     "image": "",
@@ -155,11 +155,11 @@
   },
   {
     "id": "col-3",
-    "name": "Erico Freitas",
-    "group": "Student",
+    "name": "Érico Breyer de Freitas",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
-    "image": "",
+    "image": "md-assets/people/erico.png",
     "bioMdPath": "content/people/col-3.md",
     "links": {
       "website": "",
@@ -170,7 +170,7 @@
   {
     "id": "col-4",
     "name": "Bruno Andrade Ramos",
-    "group": "Student",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
     "image": "",
@@ -184,7 +184,7 @@
   {
     "id": "col-5",
     "name": "Andriele Joras dos Santos",
-    "group": "Student",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
     "image": "",
@@ -198,7 +198,7 @@
   {
     "id": "col-6",
     "name": "Alexandre Ikeda Mucenic",
-    "group": "Student",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
     "image": "",
@@ -212,7 +212,7 @@
   {
     "id": "col-7",
     "name": "Gabriel Pillonetto",
-    "group": "Student",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
     "image": "",
@@ -226,9 +226,9 @@
   {
     "id": "col-8",
     "name": "Vivian Meurer Lameira",
-    "group": "Student",
-    "title": "Student",
-    "affiliation": "UFRGS, Brazil",
+    "group": "Brazilian Researcher",
+    "title": "Joint PhD Candidate",
+    "affiliation": "UFRGS & Concordia University",
     "image": "",
     "bioMdPath": "content/people/col-8.md",
     "links": {
@@ -240,7 +240,7 @@
   {
     "id": "col-9",
     "name": "Bruno Delgiovo",
-    "group": "Student",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
     "image": "",
@@ -254,7 +254,7 @@
   {
     "id": "col-10",
     "name": "Gustavo Zen Pretto",
-    "group": "Student",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
     "image": "",
@@ -268,7 +268,7 @@
   {
     "id": "col-11",
     "name": "Lucas Klein",
-    "group": "Student",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
     "image": "",
@@ -282,24 +282,24 @@
   {
     "id": "col-12",
     "name": "Arthur Marques de Oliveira",
-    "group": "Student",
-    "title": "Student",
-    "affiliation": "UFRGS, Brazil",
-    "image": "",
+    "group": "Brazilian Researcher",
+    "title": "PhD Student & Technology Professor",
+    "affiliation": "UFRGS & CESUCA, Brazil",
+    "image": "md-assets/people/arthur.png",
     "bioMdPath": "content/people/col-12.md",
     "links": {
-      "website": "",
+      "website": "http://buscatextual.cnpq.br/buscatextual/visualizacv.do?metodo=apresentar&id=K4302909U4",
       "linkedin": "",
       "email": "arthurbp2@gmail.com"
     }
   },
   {
     "id": "col-13",
-    "name": "Ana Caroline Neves",
-    "group": "Student",
+    "name": "Ana Caroline Rodrigues Neves",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
-    "image": "",
+    "image": "md-assets/people/ana_caroline.jpeg",
     "bioMdPath": "content/people/col-13.md",
     "links": {
       "website": "",
@@ -310,7 +310,7 @@
   {
     "id": "col-14",
     "name": "João Vitor de Souza",
-    "group": "Student",
+    "group": "Brazilian Researcher",
     "title": "Student",
     "affiliation": "UFRGS, Brazil",
     "image": "",
@@ -324,8 +324,8 @@
   {
     "id": "prof-1",
     "name": "Ana Eliza Pereira Bocorny",
-    "group": "Student",
-    "title": "Professor",
+    "group": "Brazilian Researcher",
+    "title": "Associate Professor of Applied Linguistics",
     "affiliation": "UFRGS, Brazil",
     "image": "",
     "bioMdPath": "content/people/prof-1.md",
@@ -333,6 +333,34 @@
       "website": "",
       "linkedin": "",
       "email": "ana.bocorny@gmail.com"
+    }
+  },
+  {
+    "id": "col-15",
+    "name": "João Gabriel Abreu Baumhardt da Silva",
+    "group": "Brazilian Researcher",
+    "title": "Software Engineer",
+    "affiliation": "UFRGS, Brazil",
+    "image": "md-assets/people/joao_gabriel.jpeg",
+    "bioMdPath": "content/people/col-15.md",
+    "links": {
+      "website": "",
+      "linkedin": "https://www.linkedin.com/in/joao-gabreu",
+      "email": "abrxu@yahoo.com"
+    }
+  },
+  {
+    "id": "col-16",
+    "name": "José Vitor Guilhem Garcia",
+    "group": "Brazilian Researcher",
+    "title": "Student",
+    "affiliation": "UFRGS, Brazil",
+    "image": "md-assets/people/jose_vitor.jpeg",
+    "bioMdPath": "content/people/col-16.md",
+    "links": {
+      "website": "",
+      "linkedin": "",
+      "email": ""
     }
   }
 ]

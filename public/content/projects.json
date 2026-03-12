@@ -16,9 +16,9 @@
       { "id": "phd-1", "name": "Xin Shu" },
       { "id": "col-1", "name": "Rafael Rost da Rosa" },
       { "id": "col-2", "name": "Isaac Bueno do Canto" },
-      { "id": "col-3", "name": "Erico Freitas" }
+      { "id": "col-3", "name": "Érico Breyer de Freitas" }
     ],
-    "participants": ["Rafael Rost da Rosa", "Isaac Bueno do Canto", "Erico Freitas"],
+    "participants": ["Rafael Rost da Rosa", "Isaac Bueno do Canto", "Érico Breyer de Freitas"],
     "detailsMdPath": "content/projects/p1.md"
   },
   {
@@ -98,10 +98,10 @@
     "members": [
       { "id": "phd-5", "name": "Marci Ma" },
       { "id": "col-12", "name": "Arthur Marques de Oliveira" },
-      { "id": "col-13", "name": "Ana Caroline Neves" },
+      { "id": "col-13", "name": "Ana Caroline Rodrigues Neves" },
       { "id": "col-14", "name": "João Vitor de Souza" }
     ],
-    "participants": ["Arthur Marques de Oliveira", "Ana Caroline Neves", "João Vitor de Souza"],
+    "participants": ["Arthur Marques de Oliveira", "Ana Caroline Rodrigues Neves", "João Vitor de Souza"],
     "detailsMdPath": "content/projects/p5.md"
   }
 ]

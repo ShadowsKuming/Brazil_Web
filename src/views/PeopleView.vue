@@ -99,7 +99,7 @@ async function fetchText(path) {
   return await res.text()
 }
 
-const groupMap = { 1: 'Project Lead', 2: 'PhD Student', 3: 'Research Assistant', 4: 'Student' }
+const groupMap = { 1: 'Project Lead', 2: 'UK Researcher', 3: 'Research Assistant', 4: 'Brazilian Researcher' }
 
 const filteredPeople = computed(() => {
   const group = groupMap[selection.value]
@@ -154,7 +154,7 @@ onMounted(async () => {
       const person = people.value.find((p) => p.id === targetId)
       if (person) {
         // Switch to the correct group tab
-        const groupToTab = { 'Project Lead': 1, 'PhD Student': 2, 'Research Assistant': 3, 'Student': 4 }
+        const groupToTab = { 'Project Lead': 1, 'UK Researcher': 2, 'Research Assistant': 3, 'Brazilian Researcher': 4 }
         selection.value = groupToTab[person.group] || 1
         await openPerson(person)
       }
@@ -183,13 +183,13 @@ onMounted(async () => {
         class="people-menu"
         :class="{ active: selection === 2 }"
         @click="switchGroup(2)"
-      >UK Students</div>
+      >UK Researchers</div>
 
       <div
         class="people-menu"
         :class="{ active: selection === 4 }"
         @click="switchGroup(4)"
-      >Brazilian Students</div>
+      >Brazilian Researchers</div>
 
       <div
         class="people-menu"
