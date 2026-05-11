@@ -7,7 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
   // ✅ GitHub Pages project site needs this base:
   // https://<user>.github.io/<repo>/
-  base: '/Brazil_Web/',
+  base: '/',
 
   plugins: [
     vue(),
